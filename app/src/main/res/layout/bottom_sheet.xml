@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_sheet123"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="128dp"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/little_desc"
+        android:layout_width="match_parent"
+        android:layout_height="128dp"
+        android:background="#ffffff">
+
+        <View
+            android:layout_width="48dp"
+            android:layout_height="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#FFEAEAEA"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/bottom_sheet_title"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center"
+            android:text="Футбол в 14:30"
+            android:textColor="#FF212121"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/bottom_sheet_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="72dp"
+            android:layout_marginStart="16dp"
+            android:ellipsize="none"
+            android:fontFamily="@font/roboto_regular"
+            android:text="Фрунзенская наб., вл50"
+            android:textColor="#FF9E9E9E"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/bottom_sheet_quantity"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_title" />
+
+        <ImageView
+            android:id="@+id/bottom_sheet_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_people" />
+
+        <TextView
+            android:id="@+id/bottom_sheet_quantity"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center"
+            android:text="3/10"
+            android:textColor="#FF9E9E9E"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_icon" />
+
+        <Button
+            android:id="@+id/bottom_sheet_connect_button"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="13dp"
+            android:background="#FFE4F3FE"
+            android:fontFamily="@font/roboto_medium"
+            android:text="ПРИСОЕДИНИТЬСЯ"
+            android:textColor="#FF259DFF"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_address" />
+    </android.support.constraint.ConstraintLayout>
+
+
+    <include
+        android:id="@+id/participant_map_concret_game"
+        layout="@layout/map_concret_participant_game"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <include
+        android:id="@+id/organizer_map_concret_game"
+        layout="@layout/map_concret_organizer_game"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent" />
+
+    <!--<android.support.constraint.ConstraintLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_marginBottom="128dp"-->
+    <!--android:background="#ffffff"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_quantity">-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/bottom_sheet_game_image"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="200dp"-->
+    <!--android:fitsSystemWindows="true"-->
+    <!--android:scaleType="centerCrop"-->
+    <!--android:src="@drawable/kachalin_football_center" />-->
+
+
+    <!--<TextView-->
+    <!--android:id="@+id/bottom_sheet_description"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginEnd="16dp"-->
+    <!--android:layout_marginStart="16dp"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:fontFamily="@font/roboto_regular"-->
+    <!--android:gravity="start"-->
+    <!--android:text="Есть вариант поиграть в субботу час-два на резинке. Думаю 5 на 5 будет оптимально, одеваться по погоде. Подходить удобнее со стороны набережной."-->
+    <!--android:textColor="#FF747474"-->
+    <!--android:textSize="14sp"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintHorizontal_bias="0.024"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_game_image" />-->
+
+    <!--<android.support.v7.widget.RecyclerView-->
+    <!--android:id="@+id/bottom_sheet_description_recycler"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_description" />-->
+
+    <!--<Button-->
+    <!--android:id="@+id/concret_game_connect_button"-->
+    <!--android:layout_width="164dp"-->
+    <!--android:layout_height="36dp"-->
+    <!--android:layout_marginBottom="20dp"-->
+    <!--android:layout_marginEnd="16dp"-->
+    <!--android:layout_marginTop="16dp"-->
+    <!--android:background="@color/colorUncheckedLetsPlayBtn"-->
+    <!--android:fontFamily="@font/roboto_medium"-->
+    <!--android:gravity="center"-->
+    <!--android:text="Присоединиться"-->
+    <!--android:textColor="#FFFFFF"-->
+    <!--android:textSize="14sp"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_description_recycler"-->
+    <!--app:layout_constraintVertical_bias="0.0" />-->
+
+    <!--</android.support.constraint.ConstraintLayout>-->
+
+</LinearLayout>

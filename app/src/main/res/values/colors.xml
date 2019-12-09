@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#FFF5F5F5</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorMenu">#259DFF</color>
+    <color name="colorCheckedMenuItem">#FFFFFF</color>
+    <color name="colorUncheckedMenuItem">#A7D7FF</color>
+    <color name="colorCheckedLetsPlayBtn">#FFB032</color>
+    <color name="colorUncheckedLetsPlayBtn">#44ABFF</color>
+    <color name="colorToolbar">#FFFFFF</color>
+    <color name="colorStatusBar">#F5F5F5</color>
+    <color name="colorMapParticipantText">#ffffff</color>
+    <color name="colorMapParticipantButton">#FFB032</color>
+    <color name="colorMapNotParticipantText">#FF259DFF</color>
+    <color name="colorMapNotParticipantButton">#FFE4F3FE</color>
+
+</resources>

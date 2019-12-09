@@ -1,0 +1,4 @@
+<resources>
+	<dimen name="first_categories_recycler_padding">16dp</dimen>
+	<dimen name="last_games_recycler_padding">50dp</dimen>
+</resources>

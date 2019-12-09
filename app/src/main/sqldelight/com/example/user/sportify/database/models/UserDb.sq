@@ -1,0 +1,27 @@
+import java.lang.Integer;
+
+CREATE TABLE user (
+    _ID INTEGER AS Integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER AS Integer NOT NULL,
+    token TEXT NOT NULL,
+    name TEXT NOT NULL,
+    phone INTEGER AS Integer NOT NULL,
+    password TEXT NOT NULL,
+    age INTEGER AS Integer NOT NULL,
+    show_phone INTEGER AS Boolean NOT NULL DEFAULT 0,
+    games_created INTEGER AS Integer NOT NULL,
+    games_played INTEGER AS Integer NOT NULL
+
+
+);
+
+insert_user:
+INSERT OR REPLACE INTO user(user_id, token, name, phone, password, age, show_phone, games_created, games_played)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+select_all:
+SELECT *
+FROM user;
+
+delete_table:
+DROP TABLE IF EXISTS user;

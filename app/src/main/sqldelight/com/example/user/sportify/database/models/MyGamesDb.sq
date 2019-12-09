@@ -1,0 +1,28 @@
+import java.sql.Time;
+import java.util.Date;
+
+CREATE TABLE my_games (
+    _ID INTEGER AS Integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+        game_id INTEGER AS Integer NOT NULL,
+        category_id INTEGER AS Integer NOT NULL,
+        creator_id INTEGER AS Integer NOT NULL,
+        description TEXT NOT NULL,
+        date INTEGER AS Date NOT NULL,
+        time INTEGER AS Time NOT NULL,
+        location TEXT NOT NULL,
+        location_photo_url TEXT NOT NULL,
+        max_people_quantity INTEGER AS Integer NOT NULL,
+        current_people_quantity INTEGER AS Integer NOT NULL
+);
+
+
+insert_game:
+INSERT OR REPLACE INTO my_games(game_id, category_id, creator_id, description, date, time, location, location_photo_url, max_people_quantity, current_people_quantity)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+select_all:
+SELECT *
+FROM my_games;
+
+delete_table:
+DROP TABLE IF EXISTS my_games;
