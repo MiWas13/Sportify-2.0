@@ -2,39 +2,39 @@ package com.example.user.sportify.ui.feed.data;
 
 public class CategoryData {
 	
-	private int id;
-	private int icon;
-	private String name;
+	private int mId;
+	private int mIcon;
+	private String mName;
 	
 	public int getIcon() {
-		return icon;
+		return mIcon;
 	}
 	
-	public void setIcon(int icon) {
-		this.icon = icon;
+	public void setIcon(final int icon) {
+		mIcon = icon;
 	}
 	
 	public String getName() {
-		return name;
+		return mName;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
+	public void setName(final String name) {
+		mName = name;
 	}
 	
 	public int getId() {
-		return id;
+		return mId;
 	}
 	
-	public void setId(int id) {
-		this.id = id;
+	public void setId(final int id) {
+		mId = id;
 	}
 	
 	
-	public CategoryData(int id, int icon, String name) {
-		this.id = id;
-		this.icon = icon;
-		this.name = name;
+	public CategoryData(final int id, final int icon, final String name) {
+		mIcon = id;
+		mIcon = icon;
+		mName = name;
 	}
 	
 }

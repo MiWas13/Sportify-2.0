@@ -26,104 +26,122 @@ import retrofit2.Response;
 
 public class FeedModel {
 	
-	private AuthSessionManager authSessionManager;
-	private SessionData sessionData;
-	private SessionComponent daggerSessionComponent;
+	private AuthSessionManager mAuthSessionManager;
+	private SessionData mSessionData;
+	private final SessionComponent mDaggerSessionComponent;
 	
 	
 	private void initDatabase() {
-		authSessionManager = daggerSessionComponent.getAuthSessionManager();
+		mAuthSessionManager = mDaggerSessionComponent.getAuthSessionManager();
 	}
 	
 	public void saveSessionData(
-		String authToken,
-		String phone,
-		String password,
-		String userId,
-		String name
+		final String authToken,
+		final String phone,
+		final String password,
+		final String userId,
+		final String name
 	) {
-		authSessionManager.saveSessionData(authToken, phone, password, userId, name);
+		mAuthSessionManager.saveSessionData(authToken, phone, password, userId, name);
 	}
 	
-	FeedModel(SessionComponent daggerSessionComponent) {
-		this.daggerSessionComponent = daggerSessionComponent;
+	FeedModel(final SessionComponent daggerSessionComponent) {
+		mDaggerSessionComponent = daggerSessionComponent;
 		initDatabase();
 	}
 	
 	public SessionData getSessionData() {
-		return authSessionManager.getSessionData();
+		return mAuthSessionManager.getSessionData();
 	}
 	
-	public void getGamesPerPage(GameDataCallback callback, int categoryId, int page) {
-		GetGamesPerPageTask getGamesPerPageTask = new GetGamesPerPageTask(
+	public static void getGamesPerPage(
+		final GameDataCallback callback,
+		final int categoryId,
+		final int page
+	) {
+		final GetGamesPerPageTask getGamesPerPageTask = new GetGamesPerPageTask(
 			callback,
 			categoryId,
 			page);
 		getGamesPerPageTask.execute();
 	}
 	
-	public void getGamesParticipant(GamesParticipantCallback callback, String token) {
-		GamesParticipantTask gamesParticipantTask = new GamesParticipantTask(callback, token);
+	public static void getGamesParticipant(
+		final GamesParticipantCallback callback,
+		final String token
+	) {
+		final GamesParticipantTask gamesParticipantTask = new GamesParticipantTask(callback, token);
 		gamesParticipantTask.execute();
 	}
 	
-	public void attachUserToGame(BaseCallback callback, String token, String gameId) {
-		AttachUserTask attachUserTask = new AttachUserTask(callback, token, gameId);
+	public static void attachUserToGame(
+		final BaseCallback callback,
+		final String token,
+		final String gameId
+	) {
+		final AttachUserTask attachUserTask = new AttachUserTask(callback, token, gameId);
 		attachUserTask.execute();
 	}
 	
-	public void unAttachUserFromGame(BaseCallback callback, String token, String gameId) {
-		UnAttachUserTask attachUserTask = new UnAttachUserTask(callback, token, gameId);
+	public void unAttachUserFromGame(final BaseCallback callback, final String token, final String gameId) {
+		final UnAttachUserTask attachUserTask = new UnAttachUserTask(callback, token, gameId);
 		attachUserTask.execute();
 	}
 	
-	public void cancelGame(BaseCallback callback, String token, int cancel, String gameId) {
-		CancelGameTask cancelGameTask = new CancelGameTask(callback, token, cancel, gameId);
+	public void cancelGame(final BaseCallback callback, final String token, final int cancel, final String gameId) {
+		final CancelGameTask cancelGameTask = new CancelGameTask(callback, token, cancel, gameId);
 		cancelGameTask.execute();
 	}
 	
-	private Call<BaseServerAnswer<MyGamesData>> callBaseDataGamesParticipantApi(String token) {
+	private static Call<BaseServerAnswer<MyGamesData>> callBaseDataGamesParticipantApi(final String token) {
 		return AppBase.getBaseService().getMyGames(token);
 	}
 	
-	private Call<BaseServerAnswer<BaseGameDataApi>> callBaseGameDataApi(int categoryId, int page) {
+	private static Call<BaseServerAnswer<BaseGameDataApi>> callBaseGameDataApi(
+		final int categoryId,
+		final int page
+	) {
 		return AppBase.getBaseService().getGames(categoryId, page);
 	}
 	
-	private Call<BaseServerAnswer<String>> callAttachToGameApi(String token, String gameId) {
+	private static Call<BaseServerAnswer<String>> callAttachToGameApi(
+		final String token,
+		final String gameId
+	) {
 		return AppBase.getBaseService().attachToGame(token, gameId);
 	}
 	
-	private Call<BaseServerAnswer<String>> callUnAttachToGameApi(String token, String gameId) {
+	private static Call<BaseServerAnswer<String>> callUnAttachToGameApi(
+		final String token,
+		final String gameId
+	) {
 		return AppBase.getBaseService().unAttachFromGame(token, gameId);
 	}
 	
-	private Call<BaseServerAnswer<String>> callCancelGameApi(
-		String token,
-		int cancel,
-		String gameId
+	private static Call<BaseServerAnswer<String>> callCancelGameApi(
+		final String token,
+		final int cancel,
+		final String gameId
 	) {
 		return AppBase.getBaseService().cancelGame(token, cancel, gameId);
 	}
 	
-	private List<GameDataApi> fetchResults(Response<BaseServerAnswer<BaseGameDataApi>> response) {
-		BaseServerAnswer<BaseGameDataApi> baseGameDataApi = response.body();
+	private static List<GameDataApi> fetchResults(final Response<BaseServerAnswer<BaseGameDataApi>> response) {
+		final BaseServerAnswer<BaseGameDataApi> baseGameDataApi = response.body();
 		assert baseGameDataApi != null;
 		return baseGameDataApi.getMessage().getPosts();
 	}
 	
-	private int fetchPagesQuantity(Response<BaseServerAnswer<BaseGameDataApi>> response) {
-		BaseServerAnswer<BaseGameDataApi> baseGameDataApi = response.body();
+	private static int fetchPagesQuantity(final Response<BaseServerAnswer<BaseGameDataApi>> response) {
+		final BaseServerAnswer<BaseGameDataApi> baseGameDataApi = response.body();
 		assert baseGameDataApi != null;
 		return baseGameDataApi.getMessage().getInfo().getPages();
 	}
 	
-	private List<GamesParticipantData> fetchDataGamesParticipantResults(Response<BaseServerAnswer<MyGamesData>> response) {
-		List<GamesParticipantData> gamesParticipantData;
-		BaseServerAnswer<MyGamesData> baseDataUserTokenApi = response.body();
+	private static List<GamesParticipantData> fetchDataGamesParticipantResults(final Response<BaseServerAnswer<MyGamesData>> response) {
+		final BaseServerAnswer<MyGamesData> baseDataUserTokenApi = response.body();
 		assert baseDataUserTokenApi != null;
-		gamesParticipantData = baseDataUserTokenApi.getMessage().getAttached();
-		return gamesParticipantData;
+		return baseDataUserTokenApi.getMessage().getAttached();
 	}
 	
 	interface GameDataCallback {
@@ -141,41 +159,43 @@ public class FeedModel {
 		void onSendResponse(Boolean response);
 	}
 	
-	class GetGamesPerPageTask extends AsyncTask<Void, Void, Void> {
+	static class GetGamesPerPageTask extends AsyncTask<Void, Void, Void> {
 		
-		private GameDataCallback callback;
-		private int categoryId;
-		private int page;
+		private final GameDataCallback mGameDataCallback;
+		private final int mCategoryId;
+		private final int mPage;
 		
-		GetGamesPerPageTask(GameDataCallback callback, int categoryId, int page) {
-			this.callback = callback;
-			this.categoryId = categoryId;
-			this.page = page;
+		private GetGamesPerPageTask(
+			final GameDataCallback callback,
+			final int categoryId,
+			final int page
+		) {
+			mGameDataCallback = callback;
+			mCategoryId = categoryId;
+			mPage = page;
 		}
 		
 		@Override
-		protected Void doInBackground(Void... voids) {
+		protected Void doInBackground(final Void... voids) {
 			
-			callBaseGameDataApi(
-				categoryId,
-				page).enqueue(new Callback<BaseServerAnswer<BaseGameDataApi>>() {
+			callBaseGameDataApi(mCategoryId, mPage).enqueue(new Callback<BaseServerAnswer<BaseGameDataApi>>() {
 				
 				@Override
 				public void onResponse(
-					@NonNull Call<BaseServerAnswer<BaseGameDataApi>> call,
-					@NonNull Response<BaseServerAnswer<BaseGameDataApi>> response
+					@NonNull final Call<BaseServerAnswer<BaseGameDataApi>> call,
+					@NonNull final Response<BaseServerAnswer<BaseGameDataApi>> response
 				) {
-					int pagesQuantity = fetchPagesQuantity(response);
-					List<GameDataApi> results = fetchResults(response);
-					if (callback != null) {
-						callback.onSendGamesData(results, pagesQuantity);
+					final int pagesQuantity = fetchPagesQuantity(response);
+					final List<GameDataApi> results = fetchResults(response);
+					if (mGameDataCallback != null) {
+						mGameDataCallback.onSendGamesData(results, pagesQuantity);
 					}
 				}
 				
 				@Override
 				public void onFailure(
-					@NonNull Call<BaseServerAnswer<BaseGameDataApi>> call,
-					@NonNull Throwable t
+					@NonNull final Call<BaseServerAnswer<BaseGameDataApi>> call,
+					@NonNull final Throwable t
 				) {
 				
 				}
@@ -185,92 +205,78 @@ public class FeedModel {
 		}
 	}
 	
-	class GamesParticipantTask extends AsyncTask<Void, Void, Void> {
+	static class GamesParticipantTask extends AsyncTask<Void, Void, Void> {
 		
-		private Boolean isSended = false;
-		private GamesParticipantCallback callback;
-		private String token;
-		private List<GamesParticipantData> gamesParticipantDataList;
+		private final GamesParticipantCallback mGamesParticipantCallback;
+		private final String mToken;
+		private List<GamesParticipantData> mGamesParticipantDataList;
 		
-		GamesParticipantTask(GamesParticipantCallback callback, String token) {
-			this.callback = callback;
-			this.token = token;
-			this.gamesParticipantDataList = new ArrayList<>();
+		private GamesParticipantTask(final GamesParticipantCallback callback, final String token) {
+			mGamesParticipantCallback = callback;
+			mToken = token;
+			mGamesParticipantDataList = new ArrayList<>();
 		}
 		
 		@Override
-		protected Void doInBackground(Void... voids) {
-			callBaseDataGamesParticipantApi(token).enqueue(new Callback<BaseServerAnswer<MyGamesData>>() {
+		protected Void doInBackground(final Void... voids) {
+			callBaseDataGamesParticipantApi(mToken).enqueue(new Callback<BaseServerAnswer<MyGamesData>>() {
 				
 				@Override
 				public void onResponse(
-					@NonNull Call<BaseServerAnswer<MyGamesData>> call,
-					@NonNull Response<BaseServerAnswer<MyGamesData>> response
+					@NonNull final Call<BaseServerAnswer<MyGamesData>> call,
+					@NonNull final Response<BaseServerAnswer<MyGamesData>> response
 				) {
 					try {
-						gamesParticipantDataList = fetchDataGamesParticipantResults(response);
-						callback.onSendPaticipantGames(gamesParticipantDataList);
-					} catch (Exception e) {
-						callback.onSendPaticipantGames(null);
+						mGamesParticipantDataList = fetchDataGamesParticipantResults(response);
+						mGamesParticipantCallback.onSendPaticipantGames(mGamesParticipantDataList);
+					} catch (final Exception e) {
+						mGamesParticipantCallback.onSendPaticipantGames(null);
 					}
-//                    if (callback != null) {
-//                        callback.onSendPaticipantGames(gamesParticipantDataList);
-//                        isSended = true;
-//                    }
 				}
-//                    Log.e("res", results.get(0).getId());
 				
 				@Override
 				public void onFailure(
-					@NonNull Call<BaseServerAnswer<MyGamesData>> call,
-					@NonNull Throwable t
+					@NonNull final Call<BaseServerAnswer<MyGamesData>> call,
+					@NonNull final Throwable t
 				) {
 					Log.e("Zz", "я пришел");
-					callback.onSendPaticipantGames(null);
+					mGamesParticipantCallback.onSendPaticipantGames(null);
 				}
 			});
 			return null;
 		}
-
-//        @Override
-//        protected void onPostExecute(Void aVoid) {
-//            super.onPostExecute(aVoid);
-//            if (!isSended)
-//                callback.onSendPaticipantGames(gamesParticipantDataList);
-//        }
 	}
 	
-	class AttachUserTask extends AsyncTask<Void, Void, Void> {
+	static class AttachUserTask extends AsyncTask<Void, Void, Void> {
 		
-		private Boolean isSended = false;
-		private BaseCallback callback;
-		private String token;
-		private String gameId;
+		private final BaseCallback mBaseCallback;
+		private final String mToken;
+		private final String mGameId;
 		
-		AttachUserTask(BaseCallback callback, String token, String gameId) {
-			this.callback = callback;
-			this.token = token;
-			this.gameId = gameId;
+		private AttachUserTask(final BaseCallback callback, final String token, final String gameId) {
+			mBaseCallback = callback;
+			mToken = token;
+			mGameId = gameId;
 		}
 		
 		@Override
-		protected Void doInBackground(Void... voids) {
-			callAttachToGameApi(token, gameId).enqueue(new Callback<BaseServerAnswer<String>>() {
+		protected Void doInBackground(final Void... voids) {
+			callAttachToGameApi(mToken, mGameId).enqueue(new Callback<BaseServerAnswer<String>>() {
 				
 				@Override
 				public void onResponse(
-					@NonNull Call<BaseServerAnswer<String>> call,
-					@NonNull Response<BaseServerAnswer<String>> response
+					@NonNull final Call<BaseServerAnswer<String>> call,
+					@NonNull final Response<BaseServerAnswer<String>> response
 				) {
-					if (callback != null && response.body() != null) {
-						callback.onSendResponse(Objects.requireNonNull(response.body()).getSuccess());
+					if (mBaseCallback != null && response.body() != null) {
+						mBaseCallback.onSendResponse(Objects.requireNonNull(response.body()).getSuccess());
 					}
 				}
 				
 				@Override
 				public void onFailure(
-					@NonNull Call<BaseServerAnswer<String>> call,
-					@NonNull Throwable t
+					@NonNull final Call<BaseServerAnswer<String>> call,
+					@NonNull final Throwable t
 				) {
 				
 				}
@@ -280,37 +286,40 @@ public class FeedModel {
 		
 	}
 	
-	class UnAttachUserTask extends AsyncTask<Void, Void, Void> {
+	static class UnAttachUserTask extends AsyncTask<Void, Void, Void> {
 		
-		private Boolean isSended = false;
-		private BaseCallback callback;
-		private String token;
-		private String gameId;
+		private final BaseCallback mBaseCallback;
+		private final String mToken;
+		private final String mGameId;
 		
-		UnAttachUserTask(BaseCallback callback, String token, String gameId) {
-			this.callback = callback;
-			this.token = token;
-			this.gameId = gameId;
+		private UnAttachUserTask(
+			final BaseCallback callback,
+			final String token,
+			final String gameId
+		) {
+			mBaseCallback = callback;
+			mToken = token;
+			mGameId = gameId;
 		}
 		
 		@Override
-		protected Void doInBackground(Void... voids) {
-			callUnAttachToGameApi(token, gameId).enqueue(new Callback<BaseServerAnswer<String>>() {
+		protected Void doInBackground(final Void... voids) {
+			callUnAttachToGameApi(mToken, mGameId).enqueue(new Callback<BaseServerAnswer<String>>() {
 				
 				@Override
 				public void onResponse(
-					@NonNull Call<BaseServerAnswer<String>> call,
-					@NonNull Response<BaseServerAnswer<String>> response
+					@NonNull final Call<BaseServerAnswer<String>> call,
+					@NonNull final Response<BaseServerAnswer<String>> response
 				) {
-					if (callback != null && response.body() != null) {
-						callback.onSendResponse(Objects.requireNonNull(response.body()).getSuccess());
+					if (mBaseCallback != null && response.body() != null) {
+						mBaseCallback.onSendResponse(Objects.requireNonNull(response.body()).getSuccess());
 					}
 				}
 				
 				@Override
 				public void onFailure(
-					@NonNull Call<BaseServerAnswer<String>> call,
-					@NonNull Throwable t
+					@NonNull final Call<BaseServerAnswer<String>> call,
+					@NonNull final Throwable t
 				) {
 				
 				}
@@ -320,42 +329,46 @@ public class FeedModel {
 		
 	}
 	
-	class CancelGameTask extends AsyncTask<Void, Void, Void> {
+	static class CancelGameTask extends AsyncTask<Void, Void, Void> {
 		
-		private Boolean isSended = false;
-		private BaseCallback callback;
-		private String token;
-		private int cancel;
-		private String gameId;
+		private final BaseCallback mBaseCallback;
+		private final String mToken;
+		private final int mCancel;
+		private final String mGameId;
 		
-		CancelGameTask(BaseCallback callback, String token, int cancel, String gameId) {
-			this.callback = callback;
-			this.token = token;
-			this.cancel = cancel;
-			this.gameId = gameId;
+		private CancelGameTask(
+			final BaseCallback callback,
+			final String token,
+			final int cancel,
+			final String gameId
+		) {
+			mBaseCallback = callback;
+			mToken = token;
+			mCancel = cancel;
+			mGameId = gameId;
 		}
 		
 		@Override
-		protected Void doInBackground(Void... voids) {
+		protected Void doInBackground(final Void... voids) {
 			callCancelGameApi(
-				token,
-				cancel,
-				gameId).enqueue(new Callback<BaseServerAnswer<String>>() {
+				mToken,
+				mCancel,
+				mGameId).enqueue(new Callback<BaseServerAnswer<String>>() {
 				
 				@Override
 				public void onResponse(
-					@NonNull Call<BaseServerAnswer<String>> call,
-					@NonNull Response<BaseServerAnswer<String>> response
+					@NonNull final Call<BaseServerAnswer<String>> call,
+					@NonNull final Response<BaseServerAnswer<String>> response
 				) {
-					if (callback != null && response.body() != null) {
-						callback.onSendResponse(Objects.requireNonNull(response.body()).getSuccess());
+					if (mBaseCallback != null && response.body() != null) {
+						mBaseCallback.onSendResponse(Objects.requireNonNull(response.body()).getSuccess());
 					}
 				}
 				
 				@Override
 				public void onFailure(
-					@NonNull Call<BaseServerAnswer<String>> call,
-					@NonNull Throwable t
+					@NonNull final Call<BaseServerAnswer<String>> call,
+					@NonNull final Throwable t
 				) {
 				
 				}

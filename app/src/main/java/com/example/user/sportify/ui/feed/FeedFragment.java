@@ -44,11 +44,10 @@ import butterknife.ButterKnife;
 
 public class FeedFragment extends MvpFragment<FeedView, FeedPresenter> implements FeedView {
 	
-	private AlertRegistrationDialog alertRegistrationDialog;
-	private CategoriesAdapter categoriesAdapter;
-	private GamesAdapter gamesAdapter;
-	private List<GameDataApi> games;
-	
+	private AlertRegistrationDialog mAlertRegistrationDialog;
+	private CategoriesAdapter mCategoriesAdapter;
+	private GamesAdapter mGamesAdapter;
+	private List<GameDataApi> mGamesList;
 	
 	@BindView(R.id.games_recycler_view)
 	RecyclerView gamesRecyclerView;
@@ -62,8 +61,7 @@ public class FeedFragment extends MvpFragment<FeedView, FeedPresenter> implement
 	@BindView(R.id.progress_games)
 	ProgressBar progressBar;
 	
-	private LinearLayoutManager gamesLayoutManager;
-	
+	private LinearLayoutManager mGamesLayoutManager;
 	
 	@NonNull
 	@Override
@@ -79,65 +77,68 @@ public class FeedFragment extends MvpFragment<FeedView, FeedPresenter> implement
 	@Nullable
 	@Override
 	public View onCreateView(
-		@NonNull LayoutInflater inflater,
-		@Nullable ViewGroup container,
-		@Nullable Bundle savedInstanceState
+		@NonNull final LayoutInflater inflater,
+		@Nullable final ViewGroup container,
+		@Nullable final Bundle savedInstanceState
 	) {
-		View rootView = inflater.inflate(R.layout.games_fragment, null);
+		final View rootView = inflater.inflate(R.layout.games_fragment, null);
 		ButterKnife.bind(this, rootView);
 		floatingActionButton.setOnClickListener(new FabOnClickListener(presenter));
 		return rootView;
 	}
 	
 	@Override
-	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+	public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		presenter.onViewCreated();
 	}
 	
 	@Override
-	public void loadFirstPage(List<GameDataApi> results) {
-		games = results;
+	public void loadFirstPage(final List<GameDataApi> results) {
+		mGamesList = results;
 		if (results != null) {
-			gamesAdapter.addAll(results);
-			gamesRecyclerView.setAdapter(gamesAdapter);
-			gamesAdapter.notifyDataSetChanged();
+			mGamesAdapter.addAll(results);
+			gamesRecyclerView.setAdapter(mGamesAdapter);
+			mGamesAdapter.notifyDataSetChanged();
 		}
 		
 		progressBar.setVisibility(View.GONE);
 	}
 	
 	@Override
-	public void loadNextPage(List<GameDataApi> results) {
+	public void loadNextPage(final List<GameDataApi> results) {
 		if (results != null) {
-			games.addAll(results);
-			gamesAdapter.addAll(results);
-			gamesAdapter.notifyDataSetChanged();
+			mGamesList.addAll(results);
+			mGamesAdapter.addAll(results);
+			mGamesAdapter.notifyDataSetChanged();
 		}
 	}
 	
 	@Override
 	public void initCategories(
-		LinearLayoutManager categoriesLayoutManager,
-		CategoriesAdapter categoriesAdapter
+		final LinearLayoutManager categoriesLayoutManager,
+		final CategoriesAdapter categoriesAdapter
 	) {
-		this.categoriesAdapter = categoriesAdapter;
+		this.mCategoriesAdapter = categoriesAdapter;
 		new RecyclerViewBase<CategoriesAdapter>(Objects.requireNonNull(getActivity())).initRecyclerView(
 			categoriesRecyclerView,
 			categoriesLayoutManager,
-			this.categoriesAdapter,
+			this.mCategoriesAdapter,
 			true,
 			new MarginItemDecoration());
 	}
 	
 	@Override
-	public void initGames(LinearLayoutManager gamesLayoutManager, GamesAdapter gamesAdapter) {
-		this.gamesAdapter = gamesAdapter;
-		this.gamesLayoutManager = gamesLayoutManager;
+	public void initGames(
+		final LinearLayoutManager gamesLayoutManager,
+		final GamesAdapter gamesAdapter
+	) {
+		mGamesAdapter = gamesAdapter;
+		mGamesLayoutManager = gamesLayoutManager;
 		new RecyclerViewBase<GamesAdapter>(Objects.requireNonNull(getActivity())).initRecyclerView(
 			gamesRecyclerView,
 			gamesLayoutManager,
-			this.gamesAdapter,
+			mGamesAdapter,
 			true,
 			new MarginGamesItemDecoration());
 		presenter.onGamesInited();
@@ -145,30 +146,34 @@ public class FeedFragment extends MvpFragment<FeedView, FeedPresenter> implement
 	
 	
 	@Override
-	public void changeSelectedCategory(int position) {
-		categoriesAdapter.changeSelectedItem(position);
+	public void changeSelectedCategory(final int position) {
+		mCategoriesAdapter.changeSelectedItem(position);
 	}
 	
 	@Override
-	public void changeParticipantState(int position, int gameId, String currentPeopleQuantity) {
-		gamesAdapter.changeParticipateButtonState(position, gameId);
-		gamesAdapter.updatePeopleQuantity(position, currentPeopleQuantity);
+	public void changeParticipantState(
+		final int position,
+		final int gameId,
+		final String currentPeopleQuantity
+	) {
+		mGamesAdapter.changeParticipateButtonState(position, gameId);
+		mGamesAdapter.updatePeopleQuantity(position, currentPeopleQuantity);
 	}
 	
 	@Override
-	public void cancelGame(int position, int gameId) {
-		gamesAdapter.cancelGame(position);
+	public void cancelGame(final int position, final int gameId) {
+		mGamesAdapter.cancelGame(position);
 	}
 	
 	@Override
-	public void showProgressBar(ProgressDialog progressDialog, String tag) {
-		FragmentManager manager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-		FragmentTransaction transaction = manager.beginTransaction();
+	public void showProgressBar(final ProgressDialog progressDialog, final String tag) {
+		final FragmentManager manager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+		final FragmentTransaction transaction = manager.beginTransaction();
 		progressDialog.show(transaction, tag);
 	}
 	
 	@Override
-	public void hideProgressBar(ProgressDialog progressDialog) {
+	public void hideProgressBar(final ProgressDialog progressDialog) {
 		progressDialog.dismiss();
 	}
 	
@@ -184,16 +189,16 @@ public class FeedFragment extends MvpFragment<FeedView, FeedPresenter> implement
 	
 	@Override
 	public void addLoading() {
-		gamesAdapter.addLoading();
+		mGamesAdapter.addLoading();
 	}
 	
 	@Override
 	public void hideLoading() {
-		gamesAdapter.hideLoading();
+		mGamesAdapter.hideLoading();
 	}
 	
 	@Override
-	public void startNewConcretGameActivity(Intent intent) {
+	public void startNewConcretGameActivity(final Intent intent) {
 		startActivity(intent);
 		Objects.requireNonNull(getActivity()).overridePendingTransition(
 			R.anim.zoom_in,
@@ -201,7 +206,7 @@ public class FeedFragment extends MvpFragment<FeedView, FeedPresenter> implement
 	}
 	
 	@Override
-	public void startNewCreateGameActivity(Intent intent) {
+	public void startNewCreateGameActivity(final Intent intent) {
 		startActivity(intent);
 		Objects.requireNonNull(getActivity()).overridePendingTransition(
 			R.anim.slide_up,
@@ -209,15 +214,15 @@ public class FeedFragment extends MvpFragment<FeedView, FeedPresenter> implement
 	}
 	
 	@Override
-	public void filterByCategory(List<GameDataApi> results, int position) {
-		gamesAdapter.addAll(results);
-		gamesRecyclerView.setAdapter(gamesAdapter);
+	public void filterByCategory(final List<GameDataApi> results, final int position) {
+		mGamesAdapter.addAll(results);
+		gamesRecyclerView.setAdapter(mGamesAdapter);
 		progressBar.setVisibility(View.GONE);
 	}
 	
 	public void initGamesScrollListener() {
 		gamesRecyclerView.addOnScrollListener(new FeedPaginationScrollListener(
-			gamesLayoutManager,
+			mGamesLayoutManager,
 			floatingActionButton,
 			presenter));
 		
@@ -225,45 +230,45 @@ public class FeedFragment extends MvpFragment<FeedView, FeedPresenter> implement
 	
 	@Override
 	public void clearGames() {
-		gamesAdapter.clear();
-		gamesAdapter.notifyDataSetChanged();
-		gamesRecyclerView.setAdapter(gamesAdapter);
+		mGamesAdapter.clear();
+		mGamesAdapter.notifyDataSetChanged();
+		gamesRecyclerView.setAdapter(mGamesAdapter);
 	}
 	
 	
 	@Override
 	public void showFirstRegDialog() {
-		alertRegistrationDialog = new AlertRegistrationDialog(
+		mAlertRegistrationDialog = new AlertRegistrationDialog(
 			Objects.requireNonNull(getActivity()),
 			presenter);
-		alertRegistrationDialog.showFirstDialog();
+		mAlertRegistrationDialog.showFirstDialog();
 	}
 	
 	@Override
 	public void firstStepComplete() {
-		alertRegistrationDialog.finishFirstDialog();
-		alertRegistrationDialog.showSecondDialog();
+		mAlertRegistrationDialog.finishFirstDialog();
+		mAlertRegistrationDialog.showSecondDialog();
 	}
 	
 	@Override
-	public void secondStepComplete(Intent intent) {
-		alertRegistrationDialog.finishSecondDialog();
+	public void secondStepComplete(final Intent intent) {
+		mAlertRegistrationDialog.finishSecondDialog();
 		startActivity(intent);
 	}
 	
 	@Override
 	public void setPasswordError() {
-		alertRegistrationDialog.setPasswordError();
+		mAlertRegistrationDialog.setPasswordError();
 	}
 	
 	@Override
 	public void setNameError() {
-		alertRegistrationDialog.setNameError();
+		mAlertRegistrationDialog.setNameError();
 	}
 	
 	@Override
 	public void setPhoneError() {
-		alertRegistrationDialog.setPhoneError();
+		mAlertRegistrationDialog.setPhoneError();
 	}
 	
 	@Override
@@ -275,11 +280,15 @@ public class FeedFragment extends MvpFragment<FeedView, FeedPresenter> implement
 	}
 	
 	@Override
-	public void showAuthError(String message) {
-		CoordinatorLayout coordinatorLayout = Objects.requireNonNull(getActivity()).findViewById(R.id.games_feed_layout);
-		TSnackbar snackbar = TSnackbar.make(coordinatorLayout, message, Snackbar.LENGTH_LONG);
-		View snackbarView = snackbar.getView();
-		TextView textView = snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
+	public void showAuthError(final String message) {
+		final CoordinatorLayout coordinatorLayout = Objects.requireNonNull(getActivity()).findViewById(
+			R.id.games_feed_layout);
+		final TSnackbar snackbar = TSnackbar.make(
+			coordinatorLayout,
+			message,
+			TSnackbar.LENGTH_LONG);
+		final View snackbarView = snackbar.getView();
+		final TextView textView = snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
 		textView.setTextColor(getResources().getColor(R.color.colorPrimary));
 		snackbar.show();
 	}
@@ -288,62 +297,61 @@ public class FeedFragment extends MvpFragment<FeedView, FeedPresenter> implement
 
 class FabOnClickListener implements View.OnClickListener {
 	
-	private FeedPresenter presenter;
+	private final FeedPresenter mFeedPresenter;
 	
 	@Override
-	public void onClick(View view) {
-		presenter.onFabClicked();
+	public void onClick(final View view) {
+		mFeedPresenter.onFabClicked();
 	}
 	
-	FabOnClickListener(FeedPresenter presenter) {
-		this.presenter = presenter;
-		
+	FabOnClickListener(final FeedPresenter presenter) {
+		mFeedPresenter = presenter;
 	}
 }
 
 class FeedPaginationScrollListener extends PaginationScrollListener {
 	
-	private FloatingActionButton floatingActionButton;
-	private FeedPresenter presenter;
+	private final FloatingActionButton mFloatingActionButton;
+	private final FeedPresenter mFeedPresenter;
 	
 	FeedPaginationScrollListener(
-		LinearLayoutManager layoutManager,
-		FloatingActionButton floatingActionButton,
-		FeedPresenter presenter
+		final LinearLayoutManager layoutManager,
+		final FloatingActionButton floatingActionButton,
+		final FeedPresenter presenter
 	) {
 		super(layoutManager);
-		this.floatingActionButton = floatingActionButton;
-		this.presenter = presenter;
+		mFloatingActionButton = floatingActionButton;
+		mFeedPresenter = presenter;
 	}
 	
 	@Override
-	public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+	public void onScrolled(@NonNull final RecyclerView recyclerView, final int dx, final int dy) {
 		super.onScrolled(recyclerView, dx, dy);
-		if (dy > 0 && floatingActionButton.getVisibility() == View.VISIBLE) {
-			floatingActionButton.hide();
-		} else if (dy < 0 && floatingActionButton.getVisibility() != View.VISIBLE) {
-			floatingActionButton.show();
+		if (dy > 0 && mFloatingActionButton.getVisibility() == View.VISIBLE) {
+			mFloatingActionButton.hide();
+		} else if (dy < 0 && mFloatingActionButton.getVisibility() != View.VISIBLE) {
+			mFloatingActionButton.show();
 		}
 	}
 	
 	@Override
 	protected void loadMoreItems() {
-		presenter.onEndOfPageScrolled();
+		mFeedPresenter.onEndOfPageScrolled();
 	}
 	
 	@Override
 	public int getTotalPageCount() {
-		return presenter.getTotalCount();
+		return mFeedPresenter.getTotalCount();
 	}
 	
 	@Override
 	public boolean isLastPage() {
-		return presenter.getIsLastPage();
+		return mFeedPresenter.getIsLastPage();
 	}
 	
 	@Override
 	public boolean isLoading() {
-		return presenter.getIsLoadind();
+		return mFeedPresenter.getIsLoadind();
 	}
 }
 

@@ -2,66 +2,65 @@ package com.example.user.sportify.ui.feed.data;
 
 public class GameData {
 	
-	public int getImage() {
-		return image;
-	}
-	
 	public String getDate() {
-		return date;
+		return mDate;
 	}
 	
 	public String getDescription() {
-		return description;
+		return mDescription;
 	}
 	
-	public String getAdress() {
-		return adress;
+	private final int mImage;
+	private final String mDate;
+	private final String mDescription;
+	private final String mAddress;
+	private final String mPeopleQuantity;
+	
+	public int getImage() {
+		return mImage;
+	}
+	
+	public String getAddress() {
+		return mAddress;
 	}
 	
 	public String getPeopleQuantity() {
-		return peopleQuantity;
+		return mPeopleQuantity;
 	}
 	
 	public Boolean getBtn() {
-		return btn;
+		return mBtn;
 	}
 	
 	public Boolean getState() {
-		return state;
+		return mState;
 	}
 	
-	public Boolean getUserIsOrganizer() {
-		return userIsOrganizer;
+	public Boolean isUserOrganizer() {
+		return mUserIsOrganizer;
 	}
 	
-	
-	private int image;
-	private String date;
-	private String description;
-	private String adress;
-	private String peopleQuantity;
-	private Boolean btn;
-	private Boolean state;
-	
-	private Boolean userIsOrganizer;
+	private final Boolean mBtn;
+	private final Boolean mState;
+	private final Boolean mUserIsOrganizer;
 	
 	public GameData(
-		int image,
-		String date,
-		String description,
-		String adress,
-		String peopleQuantity,
-		Boolean btn,
-		Boolean state,
-		Boolean userIsOrganizer
+		final int image,
+		final String date,
+		final String description,
+		final String address,
+		final String peopleQuantity,
+		final Boolean btn,
+		final Boolean state,
+		final Boolean userIsOrganizer
 	) {
-		this.image = image;
-		this.date = date;
-		this.description = description;
-		this.adress = adress;
-		this.peopleQuantity = peopleQuantity;
-		this.btn = btn;
-		this.state = state;
-		this.userIsOrganizer = userIsOrganizer;
+		mImage = image;
+		mDate = date;
+		mDescription = description;
+		mAddress = address;
+		mPeopleQuantity = peopleQuantity;
+		mBtn = btn;
+		mState = state;
+		mUserIsOrganizer = userIsOrganizer;
 	}
 }

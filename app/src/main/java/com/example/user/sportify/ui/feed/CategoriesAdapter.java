@@ -17,36 +17,37 @@ import android.widget.TextView;
 import com.example.user.sportify.R;
 import com.example.user.sportify.ui.feed.data.CategoryData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.CategoriesViewHolder> {
 	
-	private List<CategoryData> categories;
+	private final List<CategoryData> mCategories;
 	private int selectedItem = 0;
-	private CategoriesRecyclerViewClickListener listener;
-	
+	private final CategoriesRecyclerViewClickListener mCategoriesRecyclerViewClickListener;
 	
 	@NonNull
 	@Override
-	public CategoriesViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-		Context context = viewGroup.getContext();
-		int layoutIdForListItem = R.layout.games_categories_item_layout;
-		LayoutInflater inflater = LayoutInflater.from(context);
-		View view = inflater.inflate(layoutIdForListItem, viewGroup, false);
+	public CategoriesViewHolder onCreateViewHolder(
+		@NonNull final ViewGroup viewGroup,
+		final int i
+	) {
+		final Context context = viewGroup.getContext();
+		final int layoutIdForListItem = R.layout.games_categories_item_layout;
+		final LayoutInflater inflater = LayoutInflater.from(context);
+		final View view = inflater.inflate(layoutIdForListItem, viewGroup, false);
 		
-		return new CategoriesViewHolder(view, listener);
+		return new CategoriesViewHolder(view, mCategoriesRecyclerViewClickListener);
 	}
 	
 	@Override
 	public void onBindViewHolder(
-		@NonNull CategoriesAdapter.CategoriesViewHolder categoriesViewHolder,
-		int position
+		@NonNull final CategoriesAdapter.CategoriesViewHolder categoriesViewHolder,
+		final int position
 	) {
-		CategoryData categoriesModel = categories.get(position);
-		TextView textView = categoriesViewHolder.categoryName;
+		final CategoryData categoriesModel = mCategories.get(position);
+		final TextView textView = categoriesViewHolder.mCategoryName;
 		textView.setText(categoriesModel.getName());
-		ImageButton imageButton = categoriesViewHolder.categoryIcon;
+		final ImageButton imageButton = categoriesViewHolder.mCategoryIcon;
 		if (!(position == selectedItem)) {
 			imageButton.setBackground(ResourcesCompat.getDrawable(
 				categoriesViewHolder.itemView.getContext().getResources(),
@@ -71,7 +72,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
 			null));
 	}
 	
-	void changeSelectedItem(int position) {
+	void changeSelectedItem(final int position) {
 		if (!(selectedItem == position)) {
 			selectedItem = position;
 			Log.e("pos", String.valueOf(position));
@@ -81,39 +82,42 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
 	
 	@Override
 	public int getItemCount() {
-		return categories.size();
+		return mCategories.size();
 	}
 	
 	
-	class CategoriesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+	static class CategoriesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 		
-		private CategoriesRecyclerViewClickListener listener;
+		private final CategoriesRecyclerViewClickListener mCategoriesRecyclerViewClickListener;
 		
-		TextView categoryName;
-		ImageButton categoryIcon;
+		private final TextView mCategoryName;
+		private final ImageButton mCategoryIcon;
 		
 		
-		CategoriesViewHolder(View itemView, CategoriesRecyclerViewClickListener listener) {
-			super(itemView);
-			this.listener = listener;
-			itemView.setOnClickListener(this);
-			categoryName = itemView.findViewById(R.id.category_name);
-			categoryIcon = itemView.findViewById(R.id.category_icon);
-			categoryIcon.setOnClickListener(this);
+		private CategoriesViewHolder(
+			final View holderItemView,
+			final CategoriesRecyclerViewClickListener listener
+		) {
+			super(holderItemView);
+			mCategoriesRecyclerViewClickListener = listener;
+			holderItemView.setOnClickListener(this);
+			mCategoryName = holderItemView.findViewById(R.id.category_name);
+			mCategoryIcon = holderItemView.findViewById(R.id.category_icon);
+			mCategoryIcon.setOnClickListener(this);
 		}
 		
 		@Override
-		public void onClick(View view) {
-			listener.onClick(view, getAdapterPosition());
+		public void onClick(final View view) {
+			mCategoriesRecyclerViewClickListener.onClick(view, getAdapterPosition());
 		}
 	}
 	
 	CategoriesAdapter(
-		Context context,
-		ArrayList<CategoryData> categories,
-		CategoriesRecyclerViewClickListener listener
+		final Context context,
+		final List<CategoryData> categories,
+		final CategoriesRecyclerViewClickListener listener
 	) {
-		this.categories = categories;
-		this.listener = listener;
+		this.mCategories = categories;
+		this.mCategoriesRecyclerViewClickListener = listener;
 	}
 }

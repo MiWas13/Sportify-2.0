@@ -15,13 +15,13 @@ public class MarginItemDecoration extends RecyclerView.ItemDecoration {
 	
 	@Override
 	public void getItemOffsets(
-		@NonNull Rect outRect,
-		@NonNull View view,
-		@NonNull RecyclerView parent,
-		@NonNull RecyclerView.State state
+		@NonNull final Rect outRect,
+		@NonNull final View view,
+		@NonNull final RecyclerView parent,
+		@NonNull final RecyclerView.State state
 	) {
 		super.getItemOffsets(outRect, view, parent, state);
-		int position = parent.getChildAdapterPosition(view);
+		final int position = parent.getChildAdapterPosition(view);
 		
 		if (position == Objects.requireNonNull(parent.getAdapter()).getItemCount() - 1) {
 			outRect.set(0, 0, 0, 0);
@@ -29,7 +29,7 @@ public class MarginItemDecoration extends RecyclerView.ItemDecoration {
 			super.getItemOffsets(outRect, view, parent, state);
 		}
 		
-		int padding = view.getResources().getDimensionPixelOffset(R.dimen.first_categories_recycler_padding);
+		final int padding = view.getResources().getDimensionPixelOffset(R.dimen.first_categories_recycler_padding);
 		
 		if (position == 0) {
 			//TODO

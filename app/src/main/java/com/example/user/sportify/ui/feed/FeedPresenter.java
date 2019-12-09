@@ -33,120 +33,120 @@ import static com.example.user.sportify.ui.utils.Constants.REGISTRATION_ERROR;
 
 public class FeedPresenter extends MvpBasePresenter<FeedView> {
 	
-	private Context context;
-	private FeedModel feedModel;
-	private RegistrationModel registrationModel;
-	private List<Integer> gamesIdsParticipantArray;
-	private ProgressDialog progressDialog;
-	private int currentCategoryId = 0;
-	private int pageCount = 1;
-	private int currentPage = 1;
+	private final Context mContext;
+	private final FeedModel mFeedModel;
+	private final RegistrationModel mRegistrationModel;
+	private List<Integer> mGamesIdsParticipantArray;
+	private ProgressDialog mProgressDialog;
+	private int mCurrentCategoryId = 0;
+	private int mPageCount = 1;
+	private int mCurrentPage = 1;
 	
-	private Boolean passwordIsValid = false;
-	private Boolean nameIsValid = false;
-	private Boolean phoneIsValid = false;
-	private Boolean hasErrors = false;
-	private String name;
-	private String phone;
-	private String password;
-	private Boolean isPhoneChecked = false;
+	private Boolean mPasswordIsValid = false;
+	private Boolean mNameIsValid = false;
+	private Boolean mPhoneIsValid = false;
+	private Boolean mHasErrors = false;
+	private String mName;
+	private String mPhone;
+	private String mPassword;
+	private Boolean mIsPhoneChecked = false;
 	
-	private boolean isLoading = false;
-	private boolean isLastPage = false;
+	private boolean mIsLoading = false;
+	private boolean mIsLastPage = false;
 	
 	void onViewCreated() {
-		feedModel.getGamesParticipant(gamesParticipantData -> {
+		FeedModel.getGamesParticipant(gamesParticipantData -> {
 			if (gamesParticipantData != null) {
-				gamesIdsParticipantArray = makeGamesIdsParticipantArray(gamesParticipantData);
+				mGamesIdsParticipantArray = makeGamesIdsParticipantArray(gamesParticipantData);
 			} else {
-				gamesIdsParticipantArray = makeGamesIdsParticipantArray(new ArrayList<>());
+				mGamesIdsParticipantArray = makeGamesIdsParticipantArray(new ArrayList<>());
 			}
 			Log.e("пипжвьвжал", "я колбэкнулся");
 			initViewElements();
-		}, feedModel.getSessionData().authToken);
+		}, mFeedModel.getSessionData().authToken);
 	}
 	
 	private void initViewElements() {
 		
 		ifViewAttached(view -> {
 			view.initCategories(new LinearLayoutManager(
-				context,
+				mContext,
 				LinearLayoutManager.HORIZONTAL,
-				false), new CategoriesAdapter(context, initCategories(), (view12, position) -> {
+				false), new CategoriesAdapter(mContext, initCategories(), (view12, position) -> {
 				view.changeSelectedCategory(position);
 				view.clearGames();
-				currentPage = 1;
-				currentCategoryId = position;
+				mCurrentPage = 1;
+				mCurrentCategoryId = position;
 				view.showProgressBar();
 				if (position == 0) {
-					isLoading = false;
-					isLastPage = false;
+					mIsLoading = false;
+					mIsLastPage = false;
 					onGamesInited();
 				} else {
-					currentPage = 1;
+					mCurrentPage = 1;
 					new Handler().postDelayed(() -> {
-						feedModel.getGamesPerPage((gameData, pagesQuantity) -> {
-							pageCount = pagesQuantity;
+						FeedModel.getGamesPerPage((gameData, pagesQuantity) -> {
+							mPageCount = pagesQuantity;
 							if (gameData != null) {
 								view.filterByCategory(gameData, position);
 							} else {
 								view.clearGames();
 								view.hideProgressBar();
 							}
-							if (currentPage <= pagesQuantity) {
+							if (mCurrentPage <= pagesQuantity) {
 								ifViewAttached(FeedView::addLoading);
 							} else {
-								isLastPage = true;
+								mIsLastPage = true;
 							}
-						}, position, currentPage);
-						currentPage++;
+						}, position, mCurrentPage);
+						mCurrentPage++;
 					}, 500);
 					
 				}
 			}));
 			
 			
-			view.initGames(new LinearLayoutManager(context), new GamesAdapter(context,
+			view.initGames(new LinearLayoutManager(mContext), new GamesAdapter(
+				mContext,
 				(view1, position, game) -> {
-					Boolean isParticipant = gamesIdsParticipantArray.contains(game.getId());
-					Boolean isOrganizer;
-					isOrganizer = game.getCreatorId() == Integer.valueOf(feedModel.getSessionData().userId);
+					final Boolean isParticipant = mGamesIdsParticipantArray.contains(game.getId());
+					final Boolean isOrganizer = game.getCreatorId() == Integer.valueOf(mFeedModel.getSessionData().userId);
 					if (game.getIsCanceled() != 1) {
 						view.startNewConcretGameActivity(new Intent(
-							context,
+							mContext,
 							ConcretGameActivity.class).putExtra(EXTRA_GAME, game).putExtra(
 							EXTRA_PARTICIPANT_TYPE,
 							isParticipant).putExtra(EXTRA_ORGANIZER_TYPE, isOrganizer));
 					}
 				},
-				feedModel.getSessionData().userId,
-				gamesIdsParticipantArray,
+				mFeedModel.getSessionData().userId,
+				mGamesIdsParticipantArray,
 				//Click connect
 				(game, position, gameId, isInGame) -> {
 					
-					if (feedModel.getSessionData().authToken == null) {
+					if (mFeedModel.getSessionData().authToken == null) {
 						ifViewAttached(FeedView::showFirstRegDialog);
 					} else {
 						
 						if (Integer.valueOf(game.getCurrentPeopleQuantity()) < Integer.valueOf(game.getMaxPeopleQuantity())) {
 							if (isInGame) {
-								feedModel.unAttachUserFromGame(response -> {
+								mFeedModel.unAttachUserFromGame(response -> {
 									if (response) {
 										view.changeParticipantState(
 											position,
 											gameId,
 											String.valueOf(Integer.valueOf(game.getCurrentPeopleQuantity()) - 1));
 									}
-								}, feedModel.getSessionData().authToken, String.valueOf(gameId));
+								}, mFeedModel.getSessionData().authToken, String.valueOf(gameId));
 							} else {
-								feedModel.attachUserToGame(response -> {
+								FeedModel.attachUserToGame(response -> {
 									if (response) {
 										view.changeParticipantState(
 											position,
 											gameId,
 											String.valueOf(Integer.valueOf(game.getCurrentPeopleQuantity()) + 1));
 									}
-								}, feedModel.getSessionData().authToken, String.valueOf(gameId));
+								}, mFeedModel.getSessionData().authToken, String.valueOf(gameId));
 							}
 						} else {
 							view.showMaxQuantitySnackBar();
@@ -156,32 +156,32 @@ public class FeedPresenter extends MvpBasePresenter<FeedView> {
 				},
 				(position, gameId) -> {
 					view.showProgressBar(
-						progressDialog = new ProgressDialog(),
+						mProgressDialog = new ProgressDialog(),
 						PROGRESS_DIALOG_FRAGMENT);
-					feedModel.cancelGame(response -> {
+					mFeedModel.cancelGame(response -> {
 						view.cancelGame(position, gameId);
-						view.hideProgressBar(progressDialog);
-					}, feedModel.getSessionData().authToken, 1, String.valueOf(gameId));
+						view.hideProgressBar(mProgressDialog);
+					}, mFeedModel.getSessionData().authToken, 1, String.valueOf(gameId));
 				},
 				(position, gameId, game) -> view.startNewCreateGameActivity(new Intent(
-					context,
+					mContext,
 					CreateGame.class).putExtra(EXTRA_GAME, game))));
 		});
 		
 	}
 	
-	FeedPresenter(Context context, FeedModel feedModel, RegistrationModel registrationModel) {
-		this.context = context;
-		this.feedModel = feedModel;
-		this.registrationModel = registrationModel;
+	FeedPresenter(final Context context, final FeedModel feedModel, final RegistrationModel registrationModel) {
+		this.mContext = context;
+		this.mFeedModel = feedModel;
+		this.mRegistrationModel = registrationModel;
 	}
 	
 	void onFabClicked() {
-		if (feedModel.getSessionData().authToken == null) {
+		if (mFeedModel.getSessionData().authToken == null) {
 			ifViewAttached(FeedView::showFirstRegDialog);
 		} else {
 			ifViewAttached(view -> view.startNewCreateGameActivity(new Intent(
-				context,
+				mContext,
 				CreateGame.class)));
 		}
 	}
@@ -189,34 +189,34 @@ public class FeedPresenter extends MvpBasePresenter<FeedView> {
 	void onGamesInited() {
 		
 		new Handler().postDelayed(() -> {
-			feedModel.getGamesPerPage((gameData, pagesQuantity) -> {
-				pageCount = pagesQuantity;
+			FeedModel.getGamesPerPage((gameData, pagesQuantity) -> {
+				mPageCount = pagesQuantity;
 				ifViewAttached(FeedView::initGamesScrollListener);
 				ifViewAttached(view -> view.loadFirstPage(gameData));
-				if (currentPage <= pagesQuantity) {
+				if (mCurrentPage <= pagesQuantity) {
 					ifViewAttached(FeedView::addLoading);
 				} else {
-					isLastPage = true;
+					mIsLastPage = true;
 				}
-			}, currentCategoryId, currentPage);
-			currentPage++;
+			}, mCurrentCategoryId, mCurrentPage);
+			mCurrentPage++;
 		}, 500);
 	}
 	
 	void onEndOfPageScrolled() {
-		isLoading = true;
+		mIsLoading = true;
 		new Handler().postDelayed(() -> {
-			feedModel.getGamesPerPage((gameData, pagesQuantity) -> {
+			FeedModel.getGamesPerPage((gameData, pagesQuantity) -> {
 				ifViewAttached(FeedView::hideLoading);
-				isLoading = false;
+				mIsLoading = false;
 				ifViewAttached(view -> view.loadNextPage(gameData));
-				if (currentPage != pagesQuantity) {
+				if (mCurrentPage != pagesQuantity) {
 					ifViewAttached(FeedView::addLoading);
 				} else {
-					isLastPage = true;
+					mIsLastPage = true;
 				}
-				currentPage++;
-			}, currentCategoryId, currentPage);
+				mCurrentPage++;
+			}, mCurrentCategoryId, mCurrentPage);
 			
 		}, 1500);
 		
@@ -224,19 +224,19 @@ public class FeedPresenter extends MvpBasePresenter<FeedView> {
 	}
 	
 	public int getTotalCount() {
-		return pageCount;
+		return mPageCount;
 	}
 	
 	public boolean getIsLastPage() {
-		return isLastPage;
+		return mIsLastPage;
 	}
 	
 	public boolean getIsLoadind() {
-		return isLoading;
+		return mIsLoading;
 	}
 	
-	private ArrayList<CategoryData> initCategories() {
-		ArrayList<CategoryData> dataCategory = new ArrayList<>();
+	private static ArrayList<CategoryData> initCategories() {
+		final ArrayList<CategoryData> dataCategory = new ArrayList<>();
 		dataCategory.add(new CategoryData(0, R.drawable.ic_all, "Все"));
 		dataCategory.add(new CategoryData(1, R.drawable.ic_basketball, "Баскетбол"));
 		dataCategory.add(new CategoryData(2, R.drawable.ic_football, "Футбол"));
@@ -247,11 +247,11 @@ public class FeedPresenter extends MvpBasePresenter<FeedView> {
 		return dataCategory;
 	}
 	
-	private List<Integer> makeGamesIdsParticipantArray(List<GamesParticipantData> gamesParticipantData) {
+	private static List<Integer> makeGamesIdsParticipantArray(final List<GamesParticipantData> gamesParticipantData) {
 		
-		List<Integer> gamesIdsParticipantArray = new ArrayList<>();
+		final List<Integer> gamesIdsParticipantArray = new ArrayList<>();
 		
-		for (GamesParticipantData game : gamesParticipantData) {
+		for (final GamesParticipantData game : gamesParticipantData) {
 			gamesIdsParticipantArray.add(game.getGameId());
 		}
 		
@@ -259,49 +259,49 @@ public class FeedPresenter extends MvpBasePresenter<FeedView> {
 		return gamesIdsParticipantArray;
 	}
 	
-	public void fieldChanged(String inputText, int fieldType) {
+	public void fieldChanged(final String inputText, final int fieldType) {
 		switch (fieldType) {
 			case PASSWORD_EDIT_TEXT:
-				passwordIsValid = inputText.length() >= 6;
-				password = inputText;
+				mPasswordIsValid = inputText.length() >= 6;
+				mPassword = inputText;
 				break;
 			case NAME_EDIT_TEXT:
-				nameIsValid = inputText.length() > 0;
-				name = inputText;
+				mNameIsValid = inputText.length() > 0;
+				mName = inputText;
 				break;
 			case PHONE_EDIT_TEXT:
-				phoneIsValid = inputText.length() >= 18;
-				isPhoneChecked = false;
-				phone = inputText;
+				mPhoneIsValid = inputText.length() >= 18;
+				mIsPhoneChecked = false;
+				mPhone = inputText;
 				break;
 		}
 	}
 	
-	private void onSuccess(String token) {
-		registrationModel.getProfileInfo(profileData -> {
-			registrationModel.saveSessionData(
+	private void onSuccess(final String token) {
+		mRegistrationModel.getProfileInfo(profileData -> {
+			mRegistrationModel.saveSessionData(
 				profileData.getToken(),
 				profileData.getPhone(),
 				profileData.getPassword(),
 				profileData.getId(),
 				profileData.getName());
-			ifViewAttached(view -> view.hideProgressBar(progressDialog));
-			ifViewAttached(view -> view.secondStepComplete(new Intent(context, CreateGame.class)));
+			ifViewAttached(view -> view.hideProgressBar(mProgressDialog));
+			ifViewAttached(view -> view.secondStepComplete(new Intent(mContext, CreateGame.class)));
 		}, token);
 	}
 	
 	public void onFirstReadyButtonClicked() {
-		hasErrors = false;
-		if (!nameIsValid) {
-			hasErrors = true;
+		mHasErrors = false;
+		if (!mNameIsValid) {
+			mHasErrors = true;
 			ifViewAttached(FeedView::setNameError);
 		}
-		if (!phoneIsValid) {
-			hasErrors = true;
+		if (!mPhoneIsValid) {
+			mHasErrors = true;
 			ifViewAttached(FeedView::setPhoneError);
 		}
 		
-		if (!hasErrors) {
+		if (!mHasErrors) {
 			ifViewAttached(FeedView::firstStepComplete);
 		}
 		
@@ -309,47 +309,46 @@ public class FeedPresenter extends MvpBasePresenter<FeedView> {
 	
 	public void onSecondReadyButtonClicked() {
 		
-		if (!passwordIsValid) {
-			hasErrors = true;
+		if (!mPasswordIsValid) {
+			mHasErrors = true;
 			ifViewAttached(FeedView::setPasswordError);
 		}
 		
-		if (!hasErrors && checkPhone()) {
-			registrationModel.signUp(token -> {
+		if (!mHasErrors && checkPhone()) {
+			mRegistrationModel.signUp(token -> {
 				ifViewAttached(view -> view.showProgressBar(
-					progressDialog = new ProgressDialog(),
+					mProgressDialog = new ProgressDialog(),
 					PROGRESS_DIALOG_FRAGMENT));
 				if (token.equals(REGISTRATION_ERROR)) {
-					ifViewAttached(view -> registrationModel.signIn(authToken -> {
+					ifViewAttached(view -> mRegistrationModel.signIn(authToken -> {
 						if (authToken.equals(AUTH_ERROR)) {
-							view.hideProgressBar(progressDialog);
+							view.hideProgressBar(mProgressDialog);
 							view.showAuthError("Неверный пароль :(");
 						} else {
 							onSuccess(authToken);
 						}
-					}, phone, password));
+					}, mPhone, mPassword));
 				} else {
 					onSuccess(token);
 				}
-			}, name, "1", phone, password);
+			}, mName, "1", mPhone, mPassword);
 		}
 	}
 	
 	
 	private Boolean checkPhone() {
-		if (isPhoneChecked) {
-			return true;
-		} else {
-			StringBuilder sb = new StringBuilder(phone);
+		if (!mIsPhoneChecked) {
+			final StringBuilder sb = new StringBuilder(mPhone);
 			sb.delete(0, 4);
 			sb.delete(3, 5);
 			sb.deleteCharAt(sb.lastIndexOf("-"));
 			sb.deleteCharAt(sb.lastIndexOf("-"));
-			if (!(sb.length() == 10))
+			if (!(sb.length() == 10)) {
 				sb.deleteCharAt(10);
-			phone = sb.toString();
-			isPhoneChecked = true;
-			return true;
+			}
+			mPhone = sb.toString();
+			mIsPhoneChecked = true;
 		}
+		return true;
 	}
 }
