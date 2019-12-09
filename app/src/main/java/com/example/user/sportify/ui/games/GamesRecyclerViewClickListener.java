@@ -5,6 +5,6 @@ import android.view.View;
 import com.example.user.sportify.network.models.GameDataApi;
 
 public interface GamesRecyclerViewClickListener {
-
-    void onClick(View view, int position, GameDataApi game);
+	
+	void onClick(View view, int position, GameDataApi game);
 }

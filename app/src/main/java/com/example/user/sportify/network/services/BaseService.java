@@ -24,100 +24,101 @@ import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface BaseService {
-    @GET("route.php?action=get-games")
-    Call<BaseServerAnswer<BaseGameDataApi>> getGames(
-            @Query("category") int categoryId,
-            @Query("page") int pageNumber
-    );
-
-    @FormUrlEncoded
-    @POST("route.php?action=sign-in")
-    Call<BaseServerAnswer<DataUserToken>> signIn(
-            @Field("phone") String phone,
-            @Field("password") String password
-    );
-
-    @FormUrlEncoded
-    @POST("route.php?action=sign-up")
-    Call<BaseServerAnswer<DataUserToken>> signUp(
-            @Field("name") String name,
-            @Field("age") String age,
-            @Field("phone") String phone,
-            @Field("password") String password
-    );
-
-    @FormUrlEncoded
-    @POST("route.php?action=get-profile")
-    Call<BaseServerAnswer<ProfileData>> getProfile(
-            @Field("token") String token
-    );
-
-    @Multipart
-    @POST("route.php?action=game-create")
-    Call<ResponseBody> createGame(
-            @Part("token") RequestBody token,
-            @Part("category_id") RequestBody categoryId,
-            @Part("description") RequestBody description,
-            @Part("date") RequestBody date,
-            @Part("time") RequestBody time,
-            @Part("location") RequestBody location,
-            @Part MultipartBody.Part picture,
-            @Part("coordinates") RequestBody coordinates,
-            @Part("max_people_quantity") RequestBody maxPeopleQuantity,
-            @Part("current_people_quantity") RequestBody currentPeopleQuantity
-    );
-
-    @FormUrlEncoded
-    @POST("route.php?action=game-update")
-    Call<ResponseBody> updateGame(
-            @Field("category_id") String categoryId,
-            @Field("description") String description,
-            @Field("date") String date,
-            @Field("time") String time,
-            @Field("location") String location,
-            @Field("coordinates") String coordinates,
-            @Field("max_people_quantity") String maxPeopleQuantity,
-            @Field("game_id") String gameId
-    );
-
-    @FormUrlEncoded
-    @POST("route.php?action=game-attach")
-    Call<BaseServerAnswer<String>> attachToGame(
-            @Field("token") String token,
-            @Field("game_id") String gameId
-    );
-
-    @FormUrlEncoded
-    @POST("route.php?action=game-unattach")
-    Call<BaseServerAnswer<String>> unAttachFromGame(
-            @Field("token") String token,
-            @Field("game_id") String gameId
-    );
-
-    @FormUrlEncoded
-    @POST("route.php?action=update-cancel")
-    Call<BaseServerAnswer<String>> cancelGame(
-            @Field("token") String token,
-            @Field("cancel") int cancel,
-            @Field("game_id") String gameId
-    );
-
-    @GET("GeoCoder.php")
-    Call<LocationData> getLocation(
-            @Query("geocode") String geocode
-    );
-
-    @FormUrlEncoded
-    @POST("route.php?action=update-profile")
-    Call<ResponseBody> updateProfile(
-            @Field("token") String token,
-            @Field("name") String name,
-            @Field("phone") String phone,
-            @Field("password") String password
-    );
-
-
-    //    @GET("route.php?action=game-participants")
+	
+	@GET("route.php?action=get-games")
+	Call<BaseServerAnswer<BaseGameDataApi>> getGames(
+		@Query("category") int categoryId,
+		@Query("page") int pageNumber
+	);
+	
+	@FormUrlEncoded
+	@POST("route.php?action=sign-in")
+	Call<BaseServerAnswer<DataUserToken>> signIn(
+		@Field("phone") String phone,
+		@Field("password") String password
+	);
+	
+	@FormUrlEncoded
+	@POST("route.php?action=sign-up")
+	Call<BaseServerAnswer<DataUserToken>> signUp(
+		@Field("name") String name,
+		@Field("age") String age,
+		@Field("phone") String phone,
+		@Field("password") String password
+	);
+	
+	@FormUrlEncoded
+	@POST("route.php?action=get-profile")
+	Call<BaseServerAnswer<ProfileData>> getProfile(
+		@Field("token") String token
+	);
+	
+	@Multipart
+	@POST("route.php?action=game-create")
+	Call<ResponseBody> createGame(
+		@Part("token") RequestBody token,
+		@Part("category_id") RequestBody categoryId,
+		@Part("description") RequestBody description,
+		@Part("date") RequestBody date,
+		@Part("time") RequestBody time,
+		@Part("location") RequestBody location,
+		@Part MultipartBody.Part picture,
+		@Part("coordinates") RequestBody coordinates,
+		@Part("max_people_quantity") RequestBody maxPeopleQuantity,
+		@Part("current_people_quantity") RequestBody currentPeopleQuantity
+	);
+	
+	@FormUrlEncoded
+	@POST("route.php?action=game-update")
+	Call<ResponseBody> updateGame(
+		@Field("category_id") String categoryId,
+		@Field("description") String description,
+		@Field("date") String date,
+		@Field("time") String time,
+		@Field("location") String location,
+		@Field("coordinates") String coordinates,
+		@Field("max_people_quantity") String maxPeopleQuantity,
+		@Field("game_id") String gameId
+	);
+	
+	@FormUrlEncoded
+	@POST("route.php?action=game-attach")
+	Call<BaseServerAnswer<String>> attachToGame(
+		@Field("token") String token,
+		@Field("game_id") String gameId
+	);
+	
+	@FormUrlEncoded
+	@POST("route.php?action=game-unattach")
+	Call<BaseServerAnswer<String>> unAttachFromGame(
+		@Field("token") String token,
+		@Field("game_id") String gameId
+	);
+	
+	@FormUrlEncoded
+	@POST("route.php?action=update-cancel")
+	Call<BaseServerAnswer<String>> cancelGame(
+		@Field("token") String token,
+		@Field("cancel") int cancel,
+		@Field("game_id") String gameId
+	);
+	
+	@GET("GeoCoder.php")
+	Call<LocationData> getLocation(
+		@Query("geocode") String geocode
+	);
+	
+	@FormUrlEncoded
+	@POST("route.php?action=update-profile")
+	Call<ResponseBody> updateProfile(
+		@Field("token") String token,
+		@Field("name") String name,
+		@Field("phone") String phone,
+		@Field("password") String password
+	);
+	
+	
+	//    @GET("route.php?action=game-participants")
 //    Call<BaseServerAnswer> getGameParticipants(
 //
 //    );
@@ -127,20 +128,20 @@ public interface BaseService {
 //
 //    );
 //
-    @GET("route.php?action=game-my")
-    Call<BaseServerAnswer<MyGamesData>> getMyGames(
-            @Query("token") String token
-    );
-
-    @GET("route.php?action=game-participants")
-    Call<BaseServerAnswer<List<GamesParticipantData>>> getGameParticipants(
-            @Query("game_id") String gameId
-    );
-
-    @GET("route.php?action=get-user")
-    Call<BaseServerAnswer<UserParticipantData>> getUserPhone(
-            @Query("id") String userId
-    );
+	@GET("route.php?action=game-my")
+	Call<BaseServerAnswer<MyGamesData>> getMyGames(
+		@Query("token") String token
+	);
+	
+	@GET("route.php?action=game-participants")
+	Call<BaseServerAnswer<List<GamesParticipantData>>> getGameParticipants(
+		@Query("game_id") String gameId
+	);
+	
+	@GET("route.php?action=get-user")
+	Call<BaseServerAnswer<UserParticipantData>> getUserPhone(
+		@Query("id") String userId
+	);
 //
 //    @GET("route.php?action=game-remove")
 //    Call<BaseServerAnswer> cancelGame(

@@ -5,8 +5,9 @@ import androidx.fragment.app.Fragment;
 import com.hannesdorfmann.mosby3.mvp.MvpView;
 
 interface MainView extends MvpView {
-    void initFirstTab();
-
-    void changeCurrentPage(int tabPosition, Fragment fragment);
+	
+	void initFirstTab();
+	
+	void changeCurrentPage(int tabPosition, Fragment fragment);
 //    boolean loadFragment(Fragment fragment);
 }

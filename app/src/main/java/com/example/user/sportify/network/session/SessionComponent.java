@@ -5,7 +5,8 @@ import com.example.user.sportify.annotations.SessionScope;
 import dagger.Component;
 
 @SessionScope
-@Component(modules = {SessionModule.class})
+@Component(modules = { SessionModule.class })
 public interface SessionComponent {
-    AuthSessionManager getAuthSessionManager();
+	
+	AuthSessionManager getAuthSessionManager();
 }

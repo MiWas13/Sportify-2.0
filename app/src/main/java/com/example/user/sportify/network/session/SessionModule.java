@@ -10,24 +10,27 @@ import dagger.Provides;
 //Реализован Singleton с помощью @SessionScope
 @Module(includes = ContextModule.class)
 public class SessionModule {
-
-    @SessionScope
-    @Provides
-    public AuthSessionManager authSessionManager(SharedPreferencesSessionStorage sharedPreferencesSessionStorage, SessionData sessionData) {
-        return new AuthSessionManager(sharedPreferencesSessionStorage, sessionData);
-    }
-
-    @SessionScope
-    @Provides
-    public SharedPreferencesSessionStorage sharedPreferencesSessionStorage(Context context) {
-        return new SharedPreferencesSessionStorage(context);
-    }
-
-    @SessionScope
-    @Provides
-    public SessionData sessionData() {
-        return new SessionData();
-    }
-
-
+	
+	@SessionScope
+	@Provides
+	public AuthSessionManager authSessionManager(
+		final SharedPreferencesSessionStorage sharedPreferencesSessionStorage,
+		final SessionData sessionData
+	) {
+		return new AuthSessionManager(sharedPreferencesSessionStorage, sessionData);
+	}
+	
+	@SessionScope
+	@Provides
+	public SharedPreferencesSessionStorage sharedPreferencesSessionStorage(final Context context) {
+		return new SharedPreferencesSessionStorage(context);
+	}
+	
+	@SessionScope
+	@Provides
+	public SessionData sessionData() {
+		return new SessionData();
+	}
+	
+	
 }
