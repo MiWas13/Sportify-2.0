@@ -1,10 +1,10 @@
 package com.example.user.sportify.ui.main;
 
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
+import androidx.annotation.NonNull;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
+import androidx.fragment.app.Fragment;
+
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 

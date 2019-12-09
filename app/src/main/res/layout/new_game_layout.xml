@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/new_game_toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -23,7 +23,7 @@
             android:textColor="#FF212121"
             android:textSize="20sp" />
 
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <View
         android:id="@+id/shadow"
@@ -40,7 +40,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/new_game_toolbar">
 
-        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -129,7 +129,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/new_game_category_spinner" />
 
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/new_game_address_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -160,10 +160,10 @@
                     android:textSize="16sp"
                     app:textAllCaps="true" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/new_game_people_quantity_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -192,9 +192,9 @@
                     android:textSize="16sp"
                     app:textAllCaps="true" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/new_game_description_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -224,7 +224,7 @@
                     android:textSize="16sp"
                     app:textAllCaps="true" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Switch
                 android:id="@+id/new_game_show_phone_switch"
@@ -268,6 +268,6 @@
                 android:background="@drawable/toolbar_drop_shadow" />
 
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

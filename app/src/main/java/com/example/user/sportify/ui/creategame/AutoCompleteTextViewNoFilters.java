@@ -3,7 +3,7 @@ package com.example.user.sportify.ui.creategame;
 import android.content.Context;
 import android.util.AttributeSet;
 
-public class AutoCompleteTextViewNoFilters extends android.support.v7.widget.AppCompatAutoCompleteTextView {
+public class AutoCompleteTextViewNoFilters extends androidx.appcompat.widget.AppCompatAutoCompleteTextView {
 
     public AutoCompleteTextViewNoFilters(Context context) {
         super(context);

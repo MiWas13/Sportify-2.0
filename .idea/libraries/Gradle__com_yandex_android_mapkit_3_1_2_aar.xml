@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.yandex.android:mapkit:3.1.2@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mapkit-3.1.2.aar/721f5bcbc1b4fb5e39511fb411c327e6/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mapkit-3.1.2.aar/721f5bcbc1b4fb5e39511fb411c327e6/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/70b8117b5c5ca1fba1f11fe86f097d12/jetified-mapkit-3.1.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/70b8117b5c5ca1fba1f11fe86f097d12/jetified-mapkit-3.1.2/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

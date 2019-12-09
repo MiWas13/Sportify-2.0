@@ -2,9 +2,9 @@ package com.example.user.sportify.ui.mygames.base;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.user.sportify.R;
 import com.example.user.sportify.ui.mygames.MyGamesFragment;

@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.yandex.android:search:3.1.2@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/search-3.1.2.aar/471954bce09118e595e0d553169121a9/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/search-3.1.2.aar/471954bce09118e595e0d553169121a9/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ca70cedd3e90cd824527d4ca5f09de08/jetified-search-3.1.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ca70cedd3e90cd824527d4ca5f09de08/jetified-search-3.1.2/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

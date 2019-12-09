@@ -1,11 +1,10 @@
 package com.example.user.sportify.ui.creategame;
 
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.example.user.sportify.network.api.AppBase;
-import com.example.user.sportify.network.models.BaseServerAnswer;
 import com.example.user.sportify.network.models.LocationData;
 import com.example.user.sportify.network.session.AuthSessionManager;
 import com.example.user.sportify.network.session.SessionComponent;

@@ -1,28 +1,25 @@
 package com.example.user.sportify.ui.map;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -35,33 +32,15 @@ import com.example.user.sportify.network.session.DaggerSessionComponent;
 import com.example.user.sportify.ui.base.RecyclerViewBase;
 import com.example.user.sportify.ui.concretgame.ConcretGameDescriptionAdapter;
 import com.example.user.sportify.ui.concretgame.OrganizerConcretGameParticipantsAdapter;
-import com.example.user.sportify.ui.games.ConnectButtonClickListener;
 import com.hannesdorfmann.mosby3.mvp.MvpFragment;
 import com.squareup.picasso.Picasso;
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
-import com.yandex.mapkit.geometry.Circle;
 import com.yandex.mapkit.geometry.Point;
-import com.yandex.mapkit.geometry.Polygon;
-import com.yandex.mapkit.geometry.Polyline;
-import com.yandex.mapkit.map.Callback;
 import com.yandex.mapkit.map.CameraPosition;
-import com.yandex.mapkit.map.CircleMapObject;
-import com.yandex.mapkit.map.ColoredPolylineMapObject;
-import com.yandex.mapkit.map.ConflictResolvingMode;
-import com.yandex.mapkit.map.IconStyle;
 import com.yandex.mapkit.map.MapObject;
-import com.yandex.mapkit.map.MapObjectCollection;
-import com.yandex.mapkit.map.MapObjectCollectionListener;
-import com.yandex.mapkit.map.MapObjectDragListener;
 import com.yandex.mapkit.map.MapObjectTapListener;
-import com.yandex.mapkit.map.MapObjectVisitor;
 import com.yandex.mapkit.map.PlacemarkMapObject;
-import com.yandex.mapkit.map.PlacemarksStyler;
-import com.yandex.mapkit.map.PolygonMapObject;
-import com.yandex.mapkit.map.PolylineMapObject;
-import com.yandex.runtime.image.AnimatedImageProvider;
-import com.yandex.runtime.image.ImageProvider;
 import com.yandex.runtime.ui_view.ViewProvider;
 
 
@@ -72,7 +51,6 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.view.View.LAYER_TYPE_SOFTWARE;
 import static com.example.user.sportify.ui.utils.Constants.BASE_UPLOADS_URL;
 
 public class MapFragment extends MvpFragment<MapView, MapPresenter> implements MapView {

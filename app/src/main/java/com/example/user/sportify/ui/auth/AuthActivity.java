@@ -1,6 +1,6 @@
 package com.example.user.sportify.ui.auth;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.hannesdorfmann.mosby3.mvp.MvpActivity;
 

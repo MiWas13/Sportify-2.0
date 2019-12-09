@@ -1,7 +1,7 @@
 package com.example.user.sportify.ui.mygames;
 
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.example.user.sportify.network.api.AppBase;
@@ -13,9 +13,7 @@ import com.example.user.sportify.network.models.MyGamesData;
 import com.example.user.sportify.network.session.AuthSessionManager;
 import com.example.user.sportify.network.session.SessionComponent;
 import com.example.user.sportify.network.session.SessionData;
-import com.example.user.sportify.ui.feed.FeedModel;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 

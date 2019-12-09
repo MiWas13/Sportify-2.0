@@ -3,8 +3,8 @@ package com.example.user.sportify.ui.concretgame;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import android.util.Log;
 
 import com.example.user.sportify.network.models.GameDataApi;

@@ -2,8 +2,7 @@ package com.example.user.sportify.ui.mygames;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.user.sportify.network.models.GameDataApi;
 import com.example.user.sportify.network.models.GamesParticipantData;
@@ -15,7 +14,6 @@ import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 
 import static com.example.user.sportify.ui.utils.Constants.EXTRA_GAME;
 import static com.example.user.sportify.ui.utils.Constants.EXTRA_PARTICIPANT_TYPE;

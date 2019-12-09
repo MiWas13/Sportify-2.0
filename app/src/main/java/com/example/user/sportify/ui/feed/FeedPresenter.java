@@ -3,7 +3,7 @@ package com.example.user.sportify.ui.feed;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.support.v7.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import android.util.Log;
 
 import com.example.user.sportify.R;

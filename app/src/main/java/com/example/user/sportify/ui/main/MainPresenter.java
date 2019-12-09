@@ -1,8 +1,7 @@
 package com.example.user.sportify.ui.main;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.util.Log;
+import androidx.fragment.app.Fragment;
 
 import com.example.user.sportify.R;
 import com.example.user.sportify.ui.feed.FeedFragment;

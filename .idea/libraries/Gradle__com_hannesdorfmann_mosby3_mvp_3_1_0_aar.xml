@@ -1,10 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: com.hannesdorfmann.mosby3:mvp:3.1.0@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mvp-3.1.0.aar/af254c063b7f337e9b4730652f75e2aa/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mvp-3.1.0.aar/af254c063b7f337e9b4730652f75e2aa/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9c42a428fcbcd84d1ba5a4cb2455fcc6/jetified-mvp-3.1.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9c42a428fcbcd84d1ba5a4cb2455fcc6/jetified-mvp-3.1.0/res" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.hannesdorfmann.mosby3/mvp/3.1.0/1787ce73c77234c03bc1d9a7580a3b82538e194f/mvp-3.1.0-javadoc.jar!/" />
+    </JAVADOC>
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.hannesdorfmann.mosby3/mvp/3.1.0/2b4d760f702e76821997f52b883b9b345d95ede6/mvp-3.1.0-sources.jar!/" />
     </SOURCES>

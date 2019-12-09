@@ -1,9 +1,7 @@
 package com.example.user.sportify.ui.map;
 
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
-import android.view.View;
-import android.widget.ImageView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.user.sportify.network.models.GameDataApi;
 import com.example.user.sportify.network.models.UserParticipantData;

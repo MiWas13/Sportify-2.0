@@ -1,7 +1,7 @@
 package com.example.user.sportify.ui.feed;
 
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.example.user.sportify.network.api.AppBase;

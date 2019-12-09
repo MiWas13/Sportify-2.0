@@ -1,7 +1,7 @@
 package com.example.user.sportify.ui.mygames;
 
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.user.sportify.network.models.GameDataApi;
 import com.example.user.sportify.ui.games.GamesAdapter;

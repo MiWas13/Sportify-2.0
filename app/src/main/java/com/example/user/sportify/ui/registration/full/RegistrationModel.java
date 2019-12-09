@@ -1,7 +1,7 @@
 package com.example.user.sportify.ui.registration.full;
 
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.example.user.sportify.network.api.AppBase;
 import com.example.user.sportify.network.models.BaseServerAnswer;
