@@ -14,14 +14,14 @@ import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
 
 class MainPresenter extends MvpBasePresenter<MainView> {
 	
-	private Context context;
-	private MainModel mainModel;
+	private final Context mContext;
+	private final MainModel mMainModel;
 	
 	void onViewCreated() {
 		ifViewAttached(MainView::initFirstTab);
 	}
 	
-	void onTabSelected(int tabPosition) {
+	void onTabSelected(final int tabPosition) {
 		
 		Fragment fragment = null;
 		switch (tabPosition) {
@@ -34,7 +34,7 @@ class MainPresenter extends MvpBasePresenter<MainView> {
 				break;
 			
 			case R.id.navigation_my_games:
-				fragment = new BaseMyGamesFragment(context);
+				fragment = new BaseMyGamesFragment(mContext);
 				break;
 			
 			case R.id.navigation_profile:
@@ -45,16 +45,16 @@ class MainPresenter extends MvpBasePresenter<MainView> {
 				}
 				break;
 		}
-		Fragment finalFragment = fragment;
+		final Fragment finalFragment = fragment;
 		ifViewAttached(view -> view.changeCurrentPage(tabPosition, finalFragment));
 	}
 	
-	MainPresenter(Context context, MainModel mainModel) {
-		this.context = context;
-		this.mainModel = mainModel;
+	MainPresenter(final Context context, final MainModel mainModel) {
+		mContext = context;
+		mMainModel = mainModel;
 	}
 	
 	private Boolean checkAuth() {
-		return mainModel.getSessionData().authToken != null;
+		return mMainModel.getSessionData().authToken != null;
 	}
 }

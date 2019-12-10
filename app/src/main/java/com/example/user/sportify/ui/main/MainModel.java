@@ -8,25 +8,25 @@ public class MainModel {
 	
 	private AuthSessionManager authSessionManager;
 	private SessionData sessionData;
-	private SessionComponent daggerSessionComponent;
+	private final SessionComponent mDaggerSessionComponent;
 	
 	
 	private void initDatabase() {
-		authSessionManager = daggerSessionComponent.getAuthSessionManager();
+		authSessionManager = mDaggerSessionComponent.getAuthSessionManager();
 	}
 	
 	public void saveSessionData(
-		String authToken,
-		String email,
-		String password,
-		String userId,
-		String name
+		final String authToken,
+		final String email,
+		final String password,
+		final String userId,
+		final String name
 	) {
 		authSessionManager.saveSessionData(authToken, email, password, userId, name);
 	}
 	
-	MainModel(SessionComponent daggerSessionComponent) {
-		this.daggerSessionComponent = daggerSessionComponent;
+	MainModel(final SessionComponent daggerSessionComponent) {
+		mDaggerSessionComponent = daggerSessionComponent;
 		initDatabase();
 	}
 	

@@ -9,5 +9,4 @@ interface MainView extends MvpView {
 	void initFirstTab();
 	
 	void changeCurrentPage(int tabPosition, Fragment fragment);
-//    boolean loadFragment(Fragment fragment);
 }

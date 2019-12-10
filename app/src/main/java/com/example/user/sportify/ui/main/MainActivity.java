@@ -29,7 +29,7 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
 	
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
@@ -50,7 +50,7 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
 	}
 	
 	@Override
-	public void onPointerCaptureChanged(boolean hasCapture) {
+	public void onPointerCaptureChanged(final boolean hasCapture) {
 	
 	}
 	
@@ -63,7 +63,7 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
 	}
 	
 	@Override
-	public void changeCurrentPage(int tabPosition, Fragment fragment) {
+	public void changeCurrentPage(final int tabPosition, final Fragment fragment) {
 		assert fragment != null;
 		getSupportFragmentManager().beginTransaction().setCustomAnimations(
 			R.animator.slide_in_left,
@@ -75,21 +75,21 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
 
 class MainActivityTabSelectionListener implements BottomNavigationView.OnNavigationItemSelectedListener {
 	
-	private MainPresenter mainPresenter;
-	private BottomNavigationView bottomNavigationView;
+	private final MainPresenter mMainPresenter;
+	private final BottomNavigationView mBottomNavigationView;
 	
 	@Override
-	public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-		mainPresenter.onTabSelected(bottomNavigationView.getMenu().findItem(menuItem.getItemId()).getItemId());
+	public boolean onNavigationItemSelected(@NonNull final MenuItem menuItem) {
+		mMainPresenter.onTabSelected(mBottomNavigationView.getMenu().findItem(menuItem.getItemId()).getItemId());
 		return false;
 	}
 	
 	MainActivityTabSelectionListener(
-		MainPresenter mainPresenter,
-		BottomNavigationView bottomNavigationView
+		final MainPresenter mainPresenter,
+		final BottomNavigationView bottomNavigationView
 	) {
-		this.mainPresenter = mainPresenter;
-		this.bottomNavigationView = bottomNavigationView;
+		mMainPresenter = mainPresenter;
+		mBottomNavigationView = bottomNavigationView;
 	}
 	
 }
