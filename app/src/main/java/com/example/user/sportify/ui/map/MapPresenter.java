@@ -15,6 +15,7 @@ import com.example.user.sportify.network.models.GameDataApi;
 import com.example.user.sportify.network.models.GamesParticipantData;
 import com.example.user.sportify.network.models.UserParticipantData;
 import com.example.user.sportify.ui.concretgame.ConcretGameDescriptionAdapter;
+import com.example.user.sportify.ui.concretgame.ConcretGameModel;
 import com.example.user.sportify.ui.concretgame.OrganizerConcretGameParticipantsAdapter;
 import com.example.user.sportify.ui.creategame.CreateGame;
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
@@ -350,9 +351,9 @@ class MapPresenter extends MvpBasePresenter<MapView> {
 	}
 	
 	private void addParticipants(String gameId) {
-		mapModel.getGameParticipants(gamesParticipantData -> {
+		ConcretGameModel.getGameParticipants(gamesParticipantData -> {
 			for (GamesParticipantData gamesParticipant : gamesParticipantData) {
-				mapModel.getUserPhone(
+				ConcretGameModel.getUserPhone(
 					user -> ifViewAttached(view -> view.addParticipant(user)),
 					gamesParticipant.getUserId());
 			}
@@ -372,12 +373,12 @@ class MapPresenter extends MvpBasePresenter<MapView> {
 	
 	public void onConnectButtonClicked(GameDataApi game) {
 		if (participantDataArray.contains(game.getId())) {
-			mapModel.unAttachUserFromGame(response -> {
+			ConcretGameModel.unAttachUserFromGame(response -> {
 				ifViewAttached(MapView::setNotInGameState);
 				participantDataArray.remove(participantDataArray.indexOf(game.getId()));
 			}, mapModel.getSessionData().authToken, String.valueOf(game.getId()));
 		} else {
-			mapModel.attachUserToGame(response -> {
+			ConcretGameModel.attachUserToGame(response -> {
 				ifViewAttached(MapView::setInGameState);
 				participantDataArray.add(game.getId());
 			}, mapModel.getSessionData().authToken, String.valueOf(game.getId()));

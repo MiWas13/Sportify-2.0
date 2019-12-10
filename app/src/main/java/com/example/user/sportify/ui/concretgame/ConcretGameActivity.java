@@ -52,22 +52,21 @@ public class ConcretGameActivity extends MvpActivity<ConcretGameView, ConcretGam
 	@BindView(R.id.concret_game_toolbar_title)
 	TextView categoryName;
 	
-	private RecyclerView participantsPhonesRecycler;
-	private Button connectButton;
+	private RecyclerView mParticipantsPhonesRecycler;
+	private Button mConnectButton;
 	
-	private ConcretGameDescriptionAdapter concretGameDescriptionAdapter;
-	private OrganizerConcretGameParticipantsAdapter organizerConcretGameParticipantsAdapter;
+	private OrganizerConcretGameParticipantsAdapter mOrganizerConcretGameParticipantsAdapter;
 	
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (!getIntent().getBooleanExtra(EXTRA_ORGANIZER_TYPE, false)) {
 			setContentView(R.layout.concret_game);
-			connectButton = findViewById(R.id.concret_game_connect_button);
-			connectButton.setOnClickListener(new OnConnectButtonClickListener(presenter));
+			mConnectButton = findViewById(R.id.concret_game_connect_button);
+			mConnectButton.setOnClickListener(new OnConnectButtonClickListener(presenter));
 		} else {
 			setContentView(R.layout.organizer_concret_game);
-			participantsPhonesRecycler = findViewById(R.id.participants_phones_recycler);
+			mParticipantsPhonesRecycler = findViewById(R.id.participants_phones_recycler);
 		}
 		ButterKnife.bind(this);
 		
@@ -105,11 +104,10 @@ public class ConcretGameActivity extends MvpActivity<ConcretGameView, ConcretGam
 		final LinearLayoutManager concretGameDescriptionLayoutManager,
 		final ConcretGameDescriptionAdapter concretGameDescriptionAdapter
 	) {
-		this.concretGameDescriptionAdapter = concretGameDescriptionAdapter;
 		new RecyclerViewBase<ConcretGameDescriptionAdapter>(this).initRecyclerView(
 			gameDescriptionRecycler,
 			concretGameDescriptionLayoutManager,
-			this.concretGameDescriptionAdapter,
+			concretGameDescriptionAdapter,
 			true,
 			null);
 	}
@@ -119,11 +117,11 @@ public class ConcretGameActivity extends MvpActivity<ConcretGameView, ConcretGam
 		final LinearLayoutManager participantsPhonesLayoutManager,
 		final OrganizerConcretGameParticipantsAdapter organizerConcretGameParticipantsAdapter
 	) {
-		this.organizerConcretGameParticipantsAdapter = organizerConcretGameParticipantsAdapter;
+		mOrganizerConcretGameParticipantsAdapter = organizerConcretGameParticipantsAdapter;
 		new RecyclerViewBase<OrganizerConcretGameParticipantsAdapter>(this).initRecyclerView(
-			participantsPhonesRecycler,
+			mParticipantsPhonesRecycler,
 			participantsPhonesLayoutManager,
-			this.organizerConcretGameParticipantsAdapter,
+			mOrganizerConcretGameParticipantsAdapter,
 			true,
 			null);
 	}
@@ -151,19 +149,19 @@ public class ConcretGameActivity extends MvpActivity<ConcretGameView, ConcretGam
 	
 	@Override
 	public void hideConnectButton() {
-		connectButton.setVisibility(View.GONE);
+		mConnectButton.setVisibility(View.GONE);
 	}
 	
 	@Override
 	public void setInGameState() {
-		connectButton.setText("Вы в игре");
-		connectButton.setBackgroundColor(Color.parseColor("#FFB032"));
+		mConnectButton.setText("Вы в игре");
+		mConnectButton.setBackgroundColor(Color.parseColor("#FFB032"));
 	}
 	
 	@Override
 	public void setNotInGameState() {
-		connectButton.setText("Присоединиться");
-		connectButton.setBackgroundColor(Color.parseColor("#FF44ABFF"));
+		mConnectButton.setText("Присоединиться");
+		mConnectButton.setBackgroundColor(Color.parseColor("#FF44ABFF"));
 	}
 	
 	@Override
@@ -180,7 +178,7 @@ public class ConcretGameActivity extends MvpActivity<ConcretGameView, ConcretGam
 	
 	@Override
 	public void addParticipant(final UserParticipantData user) {
-		organizerConcretGameParticipantsAdapter.addPosotion(user);
+		mOrganizerConcretGameParticipantsAdapter.addPosition(user);
 	}
 	
 	@Override
@@ -192,14 +190,14 @@ public class ConcretGameActivity extends MvpActivity<ConcretGameView, ConcretGam
 
 class OnConnectButtonClickListener implements View.OnClickListener {
 	
-	private ConcretGamePresenter presenter;
+	private final ConcretGamePresenter mConcretGamePresenter;
 	
 	OnConnectButtonClickListener(final ConcretGamePresenter presenter) {
-		this.presenter = presenter;
+		mConcretGamePresenter = presenter;
 	}
 	
 	@Override
 	public void onClick(final View view) {
-		presenter.onConnectButtonClicked();
+		mConcretGamePresenter.onConnectButtonClicked();
 	}
 }

@@ -25,12 +25,12 @@ import java.util.Locale;
 
 public class ConcretGameDescriptionAdapter extends RecyclerView.Adapter<ConcretGameDescriptionAdapter.ConcretGameDescriptionAdapterViewHolder> {
 	
-	private final ConcretGameItemClickListener listener;
-	private final PhonePositionClickListener phonePositionClickListener;
-	private final MapPositionClickListener mapPositionClickListener;
-	private final GameDataApi game;
-	private final Context context;
-	private final Boolean isOrganizer;
+	private final ConcretGameItemClickListener mConcretGameItemClickListener;
+	private final PhonePositionClickListener mPhonePositionClickListener;
+	private final MapPositionClickListener mMapPositionClickListener;
+	private final GameDataApi mGame;
+	private final Context mContext;
+	private final Boolean mIsOrganizer;
 	
 	@NonNull
 	@Override
@@ -43,61 +43,61 @@ public class ConcretGameDescriptionAdapter extends RecyclerView.Adapter<ConcretG
 		final LayoutInflater inflater = LayoutInflater.from(context);
 		final View view = inflater.inflate(layoutIdForListItem, viewGroup, false);
 		
-		return new ConcretGameDescriptionAdapter.ConcretGameDescriptionAdapterViewHolder(
+		return new ConcretGameDescriptionAdapterViewHolder(
 			view,
-			listener);
+			mConcretGameItemClickListener);
 	}
 	
 	@Override
 	public void onBindViewHolder(
-		@NonNull ConcretGameDescriptionAdapter.ConcretGameDescriptionAdapterViewHolder holder,
-		int position
+		@NonNull final ConcretGameDescriptionAdapter.ConcretGameDescriptionAdapterViewHolder holder,
+		final int position
 	) {
 		switch (position) {
 			case 0:
-				holder.gameDescIcon.setImageDrawable(ResourcesCompat.getDrawable(
+				holder.mGameDescIcon.setImageDrawable(ResourcesCompat.getDrawable(
 					holder.itemView.getContext().getResources(),
 					R.drawable.ic_people,
 					null));
-				final String peopleQuantity = game.getCurrentPeopleQuantity() + " из " + game.getMaxPeopleQuantity();
-				holder.gameDescFirstLine.setText(peopleQuantity);
+				final String peopleQuantity = mGame.getCurrentPeopleQuantity() + " из " + mGame.getMaxPeopleQuantity();
+				holder.mGameDescFirstLine.setText(peopleQuantity);
 				holder.gameDescSecondLine.setText(holder.itemView.getContext().getResources().getString(
 					R.string.people_quantity));
 				break;
 			case 1:
-				holder.gameDescIcon.setImageDrawable(ResourcesCompat.getDrawable(
+				holder.mGameDescIcon.setImageDrawable(ResourcesCompat.getDrawable(
 					holder.itemView.getContext().getResources(),
 					R.drawable.ic_date,
 					null));
-				holder.gameDescFirstLine.setText(getCurrentDate(game.getDate(), game.getTime()));
+				holder.mGameDescFirstLine.setText(getCurrentDate(mGame.getDate(), mGame.getTime()));
 				holder.gameDescSecondLine.setText(holder.itemView.getContext().getResources().getString(
 					R.string.game_start_desc));
 				break;
 			case 2:
-				holder.gameDescIcon.setImageDrawable(ResourcesCompat.getDrawable(
+				holder.mGameDescIcon.setImageDrawable(ResourcesCompat.getDrawable(
 					holder.itemView.getContext().getResources(),
 					R.drawable.ic_location,
 					null));
-				holder.gameDescFirstLine.setText(game.getLocation());
+				holder.mGameDescFirstLine.setText(mGame.getLocation());
 				holder.gameDescSecondLine.setTextColor(holder.itemView.getContext().getResources().getColor(
 					R.color.colorMenu));
 				holder.gameDescSecondLine.setText(holder.itemView.getContext().getResources().getString(
 					R.string.show_navigation_desc));
-				holder.itemView.setOnClickListener(view -> mapPositionClickListener.onPhonePositionClicked(
-					game.getCoordinates()));
+				holder.itemView.setOnClickListener(view -> mMapPositionClickListener.onPhonePositionClicked(
+					mGame.getCoordinates()));
 				break;
 			case 3:
-				holder.gameDescIcon.setImageDrawable(ResourcesCompat.getDrawable(
+				holder.mGameDescIcon.setImageDrawable(ResourcesCompat.getDrawable(
 					holder.itemView.getContext().getResources(),
 					R.drawable.ic_phone,
 					null));
-				holder.gameDescFirstLine.setText(game.getCreatorPhone());
+				holder.mGameDescFirstLine.setText(mGame.getCreatorPhone());
 				holder.gameDescSecondLine.setTextColor(holder.itemView.getContext().getResources().getColor(
 					R.color.colorMenu));
 				holder.gameDescSecondLine.setText(holder.itemView.getContext().getResources().getString(
 					R.string.call_organizer_desc));
-				holder.itemView.setOnClickListener(view -> phonePositionClickListener.onPhonePositionClicked(
-					game.getCreatorPhone()));
+				holder.itemView.setOnClickListener(view -> mPhonePositionClickListener.onPhonePositionClicked(
+					mGame.getCreatorPhone()));
 				break;
 		}
 	}
@@ -136,7 +136,7 @@ public class ConcretGameDescriptionAdapter extends RecyclerView.Adapter<ConcretG
 	
 	@Override
 	public int getItemCount() {
-		if (isOrganizer) {
+		if (mIsOrganizer) {
 			return 3;
 		} else {
 			return 4;
@@ -144,12 +144,12 @@ public class ConcretGameDescriptionAdapter extends RecyclerView.Adapter<ConcretG
 	}
 	
 	
-	class ConcretGameDescriptionAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+	static class ConcretGameDescriptionAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 		
-		private final ConcretGameItemClickListener listener;
+		private final ConcretGameItemClickListener mConcretGameItemClickListener;
 		
-		private final ImageView gameDescIcon;
-		private final TextView gameDescFirstLine;
+		private final ImageView mGameDescIcon;
+		private final TextView mGameDescFirstLine;
 		private final TextView gameDescSecondLine;
 		
 		
@@ -158,17 +158,17 @@ public class ConcretGameDescriptionAdapter extends RecyclerView.Adapter<ConcretG
 			final ConcretGameItemClickListener listener
 		) {
 			super(itemView);
-			this.listener = listener;
+			mConcretGameItemClickListener = listener;
 			itemView.setOnClickListener(this);
-			gameDescIcon = itemView.findViewById(R.id.game_desc_icon);
-			gameDescFirstLine = itemView.findViewById(R.id.game_desc_first_line);
+			mGameDescIcon = itemView.findViewById(R.id.game_desc_icon);
+			mGameDescFirstLine = itemView.findViewById(R.id.game_desc_first_line);
 			gameDescSecondLine = itemView.findViewById(R.id.game_desc_second_line);
-			gameDescIcon.setOnClickListener(this);
+			mGameDescIcon.setOnClickListener(this);
 		}
 		
 		@Override
 		public void onClick(final View view) {
-			listener.onClick(view, getAdapterPosition());
+			mConcretGameItemClickListener.onClick(view, getAdapterPosition());
 		}
 	}
 	
@@ -180,11 +180,11 @@ public class ConcretGameDescriptionAdapter extends RecyclerView.Adapter<ConcretG
 		final MapPositionClickListener mapPositionClickListener,
 		final Boolean isOrganizer
 	) {
-		this.context = context;
-		this.game = game;
-		this.listener = listener;
-		this.phonePositionClickListener = phonePositionClickListener;
-		this.mapPositionClickListener = mapPositionClickListener;
-		this.isOrganizer = isOrganizer;
+		mContext = context;
+		mGame = game;
+		mConcretGameItemClickListener = listener;
+		mPhonePositionClickListener = phonePositionClickListener;
+		mMapPositionClickListener = mapPositionClickListener;
+		mIsOrganizer = isOrganizer;
 	}
 }

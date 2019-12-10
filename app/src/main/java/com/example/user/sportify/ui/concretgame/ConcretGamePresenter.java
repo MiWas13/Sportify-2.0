@@ -95,13 +95,13 @@ class ConcretGamePresenter extends MvpBasePresenter<ConcretGameView> {
 			progressDialog = new ProgressDialog(),
 			PROGRESS_DIALOG_FRAGMENT));
 		if (isParticipant) {
-			concretGameModel.unAttachUserFromGame(response -> {
+			ConcretGameModel.unAttachUserFromGame(response -> {
 				ifViewAttached(ConcretGameView::setNotInGameState);
 				ifViewAttached(view -> view.hideProgressBar(progressDialog));
 			}, concretGameModel.getSessionData().authToken, String.valueOf(gameId));
 			isParticipant = false;
 		} else {
-			concretGameModel.attachUserToGame(response -> {
+			ConcretGameModel.attachUserToGame(response -> {
 				ifViewAttached(ConcretGameView::setInGameState);
 				ifViewAttached(view -> view.hideProgressBar(progressDialog));
 			}, concretGameModel.getSessionData().authToken, String.valueOf(gameId));
@@ -148,9 +148,9 @@ class ConcretGamePresenter extends MvpBasePresenter<ConcretGameView> {
 	}
 	
 	private void addParticipants(String gameId) {
-		concretGameModel.getGameParticipants(gamesParticipantData -> {
+		ConcretGameModel.getGameParticipants(gamesParticipantData -> {
 			for (GamesParticipantData gamesParticipant : gamesParticipantData) {
-				concretGameModel.getUserPhone(user -> ifViewAttached(view -> view.addParticipant(
+				ConcretGameModel.getUserPhone(user -> ifViewAttached(view -> view.addParticipant(
 					user)), gamesParticipant.getUserId());
 			}
 		}, gameId);

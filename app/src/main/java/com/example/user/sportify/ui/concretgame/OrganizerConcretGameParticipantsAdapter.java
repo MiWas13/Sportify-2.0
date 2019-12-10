@@ -19,77 +19,76 @@ import java.util.List;
 
 public class OrganizerConcretGameParticipantsAdapter extends RecyclerView.Adapter<OrganizerConcretGameParticipantsAdapter.OrganizerConcretGameParticipantsAdapterViewHolder> {
 	
-	private Context context;
-	private List<UserParticipantData> users;
-	private PhonePositionClickListener phonePositionClickListener;
+	private final Context mContext;
+	private final List<UserParticipantData> mUsersList;
+	private final PhonePositionClickListener mPhonePositionClickListener;
 	
 	@NonNull
 	@Override
 	public OrganizerConcretGameParticipantsAdapterViewHolder onCreateViewHolder(
-		@NonNull ViewGroup viewGroup,
-		int position
+		@NonNull final ViewGroup viewGroup,
+		final int position
 	) {
-		Context context = viewGroup.getContext();
-		int layoutIdForListItem = R.layout.game_description_item;
-		LayoutInflater inflater = LayoutInflater.from(context);
-		View view = inflater.inflate(layoutIdForListItem, viewGroup, false);
+		final Context context = viewGroup.getContext();
+		final int layoutIdForListItem = R.layout.game_description_item;
+		final LayoutInflater inflater = LayoutInflater.from(context);
+		final View view = inflater.inflate(layoutIdForListItem, viewGroup, false);
 		
 		return new OrganizerConcretGameParticipantsAdapterViewHolder(view);
 	}
 	
 	@Override
 	public void onBindViewHolder(
-		@NonNull OrganizerConcretGameParticipantsAdapterViewHolder holder,
-		int position
+		@NonNull final OrganizerConcretGameParticipantsAdapterViewHolder holder,
+		final int position
 	) {
-		holder.gameDescIcon.setImageDrawable(ResourcesCompat.getDrawable(
+		holder.mGameDescIcon.setImageDrawable(ResourcesCompat.getDrawable(
 			holder.itemView.getContext().getResources(),
 			R.drawable.ic_phone,
 			null));
-		holder.gameDescFirstLine.setText(users.get(position).getPhone());
-		holder.gameDescSecondLine.setText(users.get(position).getName());
-		holder.itemView.setOnClickListener(view -> phonePositionClickListener.onPhonePositionClicked(
-			users.get(position).getPhone()));
+		holder.mGameDescFirstLine.setText(mUsersList.get(position).getPhone());
+		holder.mGameDescSecondLine.setText(mUsersList.get(position).getName());
+		holder.itemView.setOnClickListener(view -> mPhonePositionClickListener.onPhonePositionClicked(
+			mUsersList.get(position).getPhone()));
 	}
 	
 	@Override
 	public int getItemCount() {
-		if (users != null) {
-			return users.size();
+		if (mUsersList != null) {
+			return mUsersList.size();
 		} else {
 			return 0;
 		}
 	}
 	
 	
-	class OrganizerConcretGameParticipantsAdapterViewHolder extends RecyclerView.ViewHolder {
+	static class OrganizerConcretGameParticipantsAdapterViewHolder extends RecyclerView.ViewHolder {
 		
-		ImageView gameDescIcon;
-		TextView gameDescFirstLine;
-		TextView gameDescSecondLine;
+		private final ImageView mGameDescIcon;
+		private final TextView mGameDescFirstLine;
+		private final TextView mGameDescSecondLine;
 		
-		
-		OrganizerConcretGameParticipantsAdapterViewHolder(View itemView) {
-			super(itemView);
-			gameDescIcon = itemView.findViewById(R.id.game_desc_icon);
-			gameDescFirstLine = itemView.findViewById(R.id.game_desc_first_line);
-			gameDescSecondLine = itemView.findViewById(R.id.game_desc_second_line);
+		private OrganizerConcretGameParticipantsAdapterViewHolder(final View holderItemView) {
+			super(holderItemView);
+			mGameDescIcon = itemView.findViewById(R.id.game_desc_icon);
+			mGameDescFirstLine = itemView.findViewById(R.id.game_desc_first_line);
+			mGameDescSecondLine = itemView.findViewById(R.id.game_desc_second_line);
 		}
 	}
 	
 	public OrganizerConcretGameParticipantsAdapter(
-		Context context,
-		List<UserParticipantData> users,
-		PhonePositionClickListener phonePositionClickListener
+		final Context context,
+		final List<UserParticipantData> users,
+		final PhonePositionClickListener phonePositionClickListener
 	) {
-		this.context = context;
-		this.users = users;
-		this.phonePositionClickListener = phonePositionClickListener;
+		mContext = context;
+		mUsersList = users;
+		mPhonePositionClickListener = phonePositionClickListener;
 		
 	}
 	
-	public void addPosotion(UserParticipantData user) {
-		users.add(user);
+	public void addPosition(final UserParticipantData user) {
+		mUsersList.add(user);
 		notifyDataSetChanged();
 	}
 }

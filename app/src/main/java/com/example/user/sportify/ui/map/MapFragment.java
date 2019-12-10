@@ -394,7 +394,7 @@ public class MapFragment extends MvpFragment<MapView, MapPresenter> implements M
 	
 	@Override
 	public void addParticipant(final UserParticipantData user) {
-		mOrganizerConcretGameParticipantsAdapter.addPosotion(user);
+		mOrganizerConcretGameParticipantsAdapter.addPosition(user);
 	}
 	
 	private void getImageWithPicasso(final String photoUrl, final ImageView imageView) {

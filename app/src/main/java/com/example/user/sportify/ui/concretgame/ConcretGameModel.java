@@ -21,13 +21,13 @@ import retrofit2.Response;
 
 public class ConcretGameModel {
 	
-	private AuthSessionManager authSessionManager;
+	private AuthSessionManager mAuthSessionManager;
 	private SessionData sessionData;
-	private final SessionComponent daggerSessionComponent;
+	private final SessionComponent mDaggerSessionComponent;
 	
 	
 	private void initDatabase() {
-		authSessionManager = daggerSessionComponent.getAuthSessionManager();
+		mAuthSessionManager = mDaggerSessionComponent.getAuthSessionManager();
 	}
 	
 	public void saveSessionData(
@@ -37,19 +37,19 @@ public class ConcretGameModel {
 		final String userId,
 		final String name
 	) {
-		authSessionManager.saveSessionData(authToken, phone, password, userId, name);
+		mAuthSessionManager.saveSessionData(authToken, phone, password, userId, name);
 	}
 	
 	public ConcretGameModel(final SessionComponent daggerSessionComponent) {
-		this.daggerSessionComponent = daggerSessionComponent;
+		mDaggerSessionComponent = daggerSessionComponent;
 		initDatabase();
 	}
 	
 	public SessionData getSessionData() {
-		return authSessionManager.getSessionData();
+		return mAuthSessionManager.getSessionData();
 	}
 	
-	public void attachUserToGame(
+	public static void attachUserToGame(
 		final AttachUserToGameCallback callback,
 		final String token,
 		final String gameId
@@ -58,7 +58,7 @@ public class ConcretGameModel {
 		attachUserTask.execute();
 	}
 	
-	public void unAttachUserFromGame(
+	public static void unAttachUserFromGame(
 		final AttachUserToGameCallback callback,
 		final String token,
 		final String gameId
@@ -67,14 +67,16 @@ public class ConcretGameModel {
 		attachUserTask.execute();
 	}
 	
-	public void getGameParticipants(final GameParticipantsCallback callback, final String gameId) {
-		final GetGameParticipantsTask getGameParticipantsTask = new GetGameParticipantsTask(
-			callback,
-			gameId);
+	public static void getGameParticipants(
+		final GameParticipantsCallback callback,
+		final String gameId
+	) {
+		final GetGameParticipantsTask getGameParticipantsTask
+			= new GetGameParticipantsTask(callback, gameId);
 		getGameParticipantsTask.execute();
 	}
 	
-	public void getUserPhone(final UserPhoneCallback callback, final String userId) {
+	public static void getUserPhone(final UserPhoneCallback callback, final String userId) {
 		final GetUserPhoneTask getUserPhoneTask = new GetUserPhoneTask(callback, userId);
 		getUserPhoneTask.execute();
 	}
@@ -124,34 +126,33 @@ public class ConcretGameModel {
 		void onSendResponse(String response);
 	}
 	
-	class AttachUserTask extends AsyncTask<Void, Void, Void> {
+	static class AttachUserTask extends AsyncTask<Void, Void, Void> {
 		
-		private final Boolean isSended = false;
-		private final AttachUserToGameCallback callback;
-		private final String token;
-		private final String gameId;
+		private final AttachUserToGameCallback mAttachUserToGameCallback;
+		private final String mToken;
+		private final String mGameId;
 		
-		AttachUserTask(
+		private AttachUserTask(
 			final AttachUserToGameCallback callback,
 			final String token,
 			final String gameId
 		) {
-			this.callback = callback;
-			this.token = token;
-			this.gameId = gameId;
+			mAttachUserToGameCallback = callback;
+			mToken = token;
+			mGameId = gameId;
 		}
 		
 		@Override
 		protected Void doInBackground(final Void... voids) {
-			callAttachToGameApi(token, gameId).enqueue(new Callback<BaseServerAnswer<String>>() {
+			callAttachToGameApi(mToken, mGameId).enqueue(new Callback<BaseServerAnswer<String>>() {
 				
 				@Override
 				public void onResponse(
 					@NonNull final Call<BaseServerAnswer<String>> call,
 					@NonNull final Response<BaseServerAnswer<String>> response
 				) {
-					if (callback != null && response.body() != null) {
-						callback.onSendResponse(Objects.requireNonNull(response.body()).getSuccess().toString());
+					if (mAttachUserToGameCallback != null && response.body() != null) {
+						mAttachUserToGameCallback.onSendResponse(Objects.requireNonNull(response.body()).getSuccess().toString());
 					}
 				}
 				
@@ -170,32 +171,33 @@ public class ConcretGameModel {
 	
 	static class UnAttachUserTask extends AsyncTask<Void, Void, Void> {
 		
-		private Boolean isSended = false;
-		private final AttachUserToGameCallback callback;
-		private final String token;
-		private final String gameId;
+		private final AttachUserToGameCallback mAttachUserToGameCallback;
+		private final String mToken;
+		private final String mGameId;
 		
-		UnAttachUserTask(
+		private UnAttachUserTask(
 			final AttachUserToGameCallback callback,
 			final String token,
 			final String gameId
 		) {
-			this.callback = callback;
-			this.token = token;
-			this.gameId = gameId;
+			mAttachUserToGameCallback = callback;
+			mToken = token;
+			mGameId = gameId;
 		}
 		
 		@Override
 		protected Void doInBackground(final Void... voids) {
-			callUnAttachToGameApi(token, gameId).enqueue(new Callback<BaseServerAnswer<String>>() {
+			callUnAttachToGameApi(
+				mToken,
+				mGameId).enqueue(new Callback<BaseServerAnswer<String>>() {
 				
 				@Override
 				public void onResponse(
 					@NonNull final Call<BaseServerAnswer<String>> call,
 					@NonNull final Response<BaseServerAnswer<String>> response
 				) {
-					if (callback != null && response.body() != null) {
-						callback.onSendResponse(Objects.requireNonNull(response.body()).getSuccess().toString());
+					if (mAttachUserToGameCallback != null && response.body() != null) {
+						mAttachUserToGameCallback.onSendResponse(Objects.requireNonNull(response.body()).getSuccess().toString());
 					}
 				}
 				
@@ -214,25 +216,28 @@ public class ConcretGameModel {
 	
 	static class GetGameParticipantsTask extends AsyncTask<Void, Void, Void> {
 		
-		private final String gameId;
-		private final GameParticipantsCallback callback;
+		private final String mGameId;
+		private final GameParticipantsCallback mCallback;
 		
-		GetGameParticipantsTask(final GameParticipantsCallback callback, final String gameId) {
-			this.callback = callback;
-			this.gameId = gameId;
+		private GetGameParticipantsTask(
+			final GameParticipantsCallback callback,
+			final String gameId
+		) {
+			mCallback = callback;
+			mGameId = gameId;
 		}
 		
 		@Override
 		protected Void doInBackground(final Void... voids) {
-			callGetGameParticipantsApi(gameId).enqueue(new Callback<BaseServerAnswer<List<GamesParticipantData>>>() {
+			callGetGameParticipantsApi(mGameId).enqueue(new Callback<BaseServerAnswer<List<GamesParticipantData>>>() {
 				
 				@Override
 				public void onResponse(
 					@NonNull final Call<BaseServerAnswer<List<GamesParticipantData>>> call,
 					@NonNull final Response<BaseServerAnswer<List<GamesParticipantData>>> response
 				) {
-					if (callback != null) {
-						callback.onSendGamesParticipants(fetchGameParticipantsResults(response));
+					if (mCallback != null) {
+						mCallback.onSendGamesParticipants(fetchGameParticipantsResults(response));
 					}
 				}
 				
@@ -250,25 +255,25 @@ public class ConcretGameModel {
 	
 	static class GetUserPhoneTask extends AsyncTask<Void, Void, Void> {
 		
-		private final String userId;
-		private final UserPhoneCallback callback;
+		private final String mUserId;
+		private final UserPhoneCallback mUserPhoneCallback;
 		
 		private GetUserPhoneTask(final UserPhoneCallback callback, final String userId) {
-			this.callback = callback;
-			this.userId = userId;
+			mUserPhoneCallback = callback;
+			mUserId = userId;
 		}
 		
 		@Override
 		protected Void doInBackground(final Void... voids) {
-			callGetUserPhoneApi(userId).enqueue(new Callback<BaseServerAnswer<UserParticipantData>>() {
+			callGetUserPhoneApi(mUserId).enqueue(new Callback<BaseServerAnswer<UserParticipantData>>() {
 				
 				@Override
 				public void onResponse(
 					@NonNull final Call<BaseServerAnswer<UserParticipantData>> call,
 					@NonNull final Response<BaseServerAnswer<UserParticipantData>> response
 				) {
-					if (callback != null) {
-						callback.onSendUserPhone(Objects.requireNonNull(response.body()).getMessage());
+					if (mUserPhoneCallback != null) {
+						mUserPhoneCallback.onSendUserPhone(Objects.requireNonNull(response.body()).getMessage());
 					}
 				}
 				
