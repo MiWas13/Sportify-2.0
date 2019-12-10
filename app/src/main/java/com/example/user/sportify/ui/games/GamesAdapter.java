@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.example.user.sportify.R;
 import com.example.user.sportify.network.models.GameDataApi;
-import com.example.user.sportify.ui.feed.data.GameData;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
@@ -37,25 +36,26 @@ import static com.example.user.sportify.ui.utils.Constants.GAME_ORGANIZER_VIEWHO
 
 public class GamesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	
-	private List<GameDataApi> games;
-	private GamesRecyclerViewClickListener mListener;
-	private ConnectToGameListener connectToGameListener;
-	private String userId;
-	private ConnectButtonClickListener connectButtonClickListener;
-	private boolean isLoadingAdded = false;
-	private Context context;
-	private List<Integer> gamesIdsParticipantArray;
-	private DeleteGameButtonClickListener deleteGameButtonClickListener;
-	private UpdateGameButtonClickListener updateGameButtonClickListener;
-	
+	private List<GameDataApi> mGames;
+	private final GamesRecyclerViewClickListener mListener;
+	private final ConnectToGameListener mConnectToGameListener;
+	private final String mUserId;
+	private boolean mIsLoadingAdded = false;
+	private final Context mContext;
+	private final List<Integer> mGamesIdsParticipantArray;
+	private final DeleteGameButtonClickListener mDeleteGameButtonClickListener;
+	private final UpdateGameButtonClickListener mUpdateGameButtonClickListener;
 	
 	@NonNull
 	@Override
-	public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-		Context context = viewGroup.getContext();
-		int layoutIdForListItem;
-		LayoutInflater inflater;
-		View view;
+	public RecyclerView.ViewHolder onCreateViewHolder(
+		@NonNull final ViewGroup viewGroup,
+		final int viewType
+	) {
+		final Context context = viewGroup.getContext();
+		final int layoutIdForListItem;
+		final LayoutInflater inflater;
+		final View view;
 		if (viewType == GAME_ORGANIZER_VIEWHOLDER) {
 			layoutIdForListItem = R.layout.my_games_organizer_item_layout;
 			inflater = LayoutInflater.from(context);
@@ -74,51 +74,31 @@ public class GamesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 		}
 	}
 	
-	public void updateData(List<GameDataApi> updatedGames) {
-		games.clear();
-		games.addAll(updatedGames);
-		notifyDataSetChanged();
-	}
-	
 	@Override
-	public int getItemViewType(int position) {
-
-//        if (!isLoadingAdded) {
-		if (position == games.size() - 1 && isLoadingAdded) {
+	public int getItemViewType(final int position) {
+		
+		if (position == mGames.size() - 1 && mIsLoadingAdded) {
 			return GAME_LOADING_VIEWHOLDER;
 		} else {
-			if (String.valueOf(games.get(position).getCreatorId()).equals(userId)) {
+			if (String.valueOf(mGames.get(position).getCreatorId()).equals(mUserId)) {
 				return GAME_ORGANIZER_VIEWHOLDER;
 			} else {
 				return GAME_BASE_VIEWHOLDER;
 			}
 		}
-
-//        } else {
-//            return GAME_LOADING_VIEWHOLDER;
-//        }
-//        if (position == games.size() - 1 && isLoadingAdded) {
-//            return 3;
-//        } else {
-////            if (games.get(position).getUserIsOrganizer()) {
-////                return 0;
-////            } else {
-//            return 1;
-////            }
-//        }
 	}
 	
 	@Override
 	public void onBindViewHolder(
-		@NonNull RecyclerView.ViewHolder gamesViewHolderVariative,
-		int position
+		@NonNull final RecyclerView.ViewHolder gamesViewHolderVariative,
+		final int position
 	) {
 		
-		GameDataApi gameData = games.get(position);
+		final GameDataApi gameData = mGames.get(position);
 		
 		switch (gamesViewHolderVariative.getItemViewType()) {
 			case GAME_BASE_VIEWHOLDER:
-				GamesViewHolder gamesViewHolder = (GamesViewHolder) gamesViewHolderVariative;
+				final GamesViewHolder gamesViewHolder = (GamesViewHolder) gamesViewHolderVariative;
 				Log.e("loc", gameData.getLocation());
 				Log.e("iscancel", String.valueOf(gameData.getIsCanceled()));
 				Log.e("", "");
@@ -126,24 +106,24 @@ public class GamesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 					cancelGame(gamesViewHolder);
 				} else {
 					notCancelGame(gamesViewHolder);
-					if (gamesIdsParticipantArray.contains(gameData.getId())) {
-						gamesViewHolder.button.setText("Вы в игре");
-						gamesViewHolder.button.setBackground(ResourcesCompat.getDrawable(
+					if (mGamesIdsParticipantArray.contains(gameData.getId())) {
+						gamesViewHolder.mButton.setText("Вы в игре");
+						gamesViewHolder.mButton.setBackground(ResourcesCompat.getDrawable(
 							gamesViewHolder.itemView.getContext().getResources(),
 							R.drawable.rounded_connect_button_inactive,
 							null));
-						gamesViewHolder.button.setOnClickListener(view -> connectToGameListener.connectButtonOnClicked(
+						gamesViewHolder.mButton.setOnClickListener(view -> mConnectToGameListener.connectButtonOnClicked(
 							gameData,
 							position,
 							gameData.getId(),
 							true));
 					} else {
-						gamesViewHolder.button.setText("Присоединиться");
-						gamesViewHolder.button.setBackground(ResourcesCompat.getDrawable(
+						gamesViewHolder.mButton.setText("Присоединиться");
+						gamesViewHolder.mButton.setBackground(ResourcesCompat.getDrawable(
 							gamesViewHolder.itemView.getContext().getResources(),
 							R.drawable.rounded_connect_button_active,
 							null));
-						gamesViewHolder.button.setOnClickListener(view -> connectToGameListener.connectButtonOnClicked(
+						gamesViewHolder.mButton.setOnClickListener(view -> mConnectToGameListener.connectButtonOnClicked(
 							gameData,
 							gamesViewHolder.getAdapterPosition(),
 							gameData.getId(),
@@ -151,18 +131,18 @@ public class GamesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 					}
 				}
 				
-				gamesViewHolder.gameChip.setText(getCategoryName(gameData.getCategoryId()));
-				gamesViewHolder.date.setText(getCurrentDate(
+				gamesViewHolder.mGameChip.setText(getCategoryName(gameData.getCategoryId()));
+				gamesViewHolder.mDate.setText(getCurrentDate(
 					gameData.getDate(),
 					gameData.getTime()));
-				gamesViewHolder.description.setText(shortifyString(gameData.getDescription()));
-				gamesViewHolder.address.setText(gameData.getLocation());
-				String peopleQuantityParticipant = gameData.getCurrentPeopleQuantity() + " / " + gameData.getMaxPeopleQuantity();
-				gamesViewHolder.peopleQuantity.setText(peopleQuantityParticipant);
-				if (!gameData.getLocationPhotoUrl().equals("") && gameData.getLocationPhotoUrl() != null) {
+				gamesViewHolder.mDescription.setText(shortifyString(gameData.getDescription()));
+				gamesViewHolder.mAddress.setText(gameData.getLocation());
+				final String peopleQuantityParticipant = gameData.getCurrentPeopleQuantity() + " / " + gameData.getMaxPeopleQuantity();
+				gamesViewHolder.mPeopleQuantity.setText(peopleQuantityParticipant);
+				if (!gameData.getLocationPhotoUrl().isEmpty() && gameData.getLocationPhotoUrl() != null) {
 					getImageWithPicasso(
 						(BASE_UPLOADS_URL + gameData.getLocationPhotoUrl()),
-						gamesViewHolder.image);
+						gamesViewHolder.mImage);
 				} else {
 					gameWithoutPhoto(gamesViewHolder);
 				}
@@ -170,16 +150,16 @@ public class GamesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 			
 			case GAME_ORGANIZER_VIEWHOLDER:
 				
-				GamesOrganizerViewHolder gamesOrganizerViewHolder = (GamesOrganizerViewHolder) gamesViewHolderVariative;
+				final GamesOrganizerViewHolder gamesOrganizerViewHolder = (GamesOrganizerViewHolder) gamesViewHolderVariative;
 				
 				if (gameData.getIsCanceled() == 1) {
 					cancelOrganizerGame(gamesOrganizerViewHolder);
 				} else {
 					notCancelOrganizerGame(gamesOrganizerViewHolder);
-					gamesOrganizerViewHolder.deleteButton.setOnClickListener(view -> deleteGameButtonClickListener.deleteGameButtonOnClicked(
+					gamesOrganizerViewHolder.deleteButton.setOnClickListener(view -> mDeleteGameButtonClickListener.deleteGameButtonOnClicked(
 						position,
 						gameData.getId()));
-					gamesOrganizerViewHolder.changeButton.setOnClickListener(view -> updateGameButtonClickListener.updateGameButtonOnClicked(
+					gamesOrganizerViewHolder.changeButton.setOnClickListener(view -> mUpdateGameButtonClickListener.updateGameButtonOnClicked(
 						position,
 						gameData.getId(),
 						gameData));
@@ -189,10 +169,10 @@ public class GamesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 					gameData.getTime()));
 				gamesOrganizerViewHolder.description.setText(shortifyString(gameData.getDescription()));
 				gamesOrganizerViewHolder.address.setText(gameData.getLocation());
-				String peopleQuantityOrganizer = gameData.getCurrentPeopleQuantity() + " / " + gameData.getMaxPeopleQuantity();
+				final String peopleQuantityOrganizer = gameData.getCurrentPeopleQuantity() + " / " + gameData.getMaxPeopleQuantity();
 				gamesOrganizerViewHolder.gameChip.setText(peopleQuantityOrganizer);
 				
-				if (!gameData.getLocationPhotoUrl().equals("") && gameData.getLocationPhotoUrl() != null) {
+				if (!gameData.getLocationPhotoUrl().isEmpty() && gameData.getLocationPhotoUrl() != null) {
 					getImageWithPicasso(
 						(BASE_UPLOADS_URL + gameData.getLocationPhotoUrl()),
 						gamesOrganizerViewHolder.image);
@@ -209,30 +189,30 @@ public class GamesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 		}
 	}
 	
-	private void gameWithoutPhoto(GamesViewHolder gamesViewHolder) {
-		gamesViewHolder.image.setVisibility(View.GONE);
+	private void gameWithoutPhoto(final GamesViewHolder gamesViewHolder) {
+		gamesViewHolder.mImage.setVisibility(View.GONE);
 	}
 	
-	private void organizerGameWithoutPhoto(GamesOrganizerViewHolder gamesOrganizerViewHolder) {
+	private void organizerGameWithoutPhoto(final GamesOrganizerViewHolder gamesOrganizerViewHolder) {
 		gamesOrganizerViewHolder.image.setVisibility(View.GONE);
 	}
 	
 	
-	private void cancelGame(GamesViewHolder gamesViewHolder) {
-		gamesViewHolder.canceledLayout.setVisibility(View.VISIBLE);
-		gamesViewHolder.button.setVisibility(View.INVISIBLE);
-		gamesViewHolder.button.setEnabled(false);
-		gamesViewHolder.gameChip.setVisibility(View.GONE);
+	private void cancelGame(final GamesViewHolder gamesViewHolder) {
+		gamesViewHolder.mCanceledLayout.setVisibility(View.VISIBLE);
+		gamesViewHolder.mButton.setVisibility(View.INVISIBLE);
+		gamesViewHolder.mButton.setEnabled(false);
+		gamesViewHolder.mGameChip.setVisibility(View.GONE);
 	}
 	
-	private void notCancelGame(GamesViewHolder gamesViewHolder) {
-		gamesViewHolder.canceledLayout.setVisibility(View.INVISIBLE);
-		gamesViewHolder.button.setVisibility(View.VISIBLE);
-		gamesViewHolder.button.setEnabled(true);
-		gamesViewHolder.gameChip.setVisibility(View.VISIBLE);
+	private void notCancelGame(final GamesViewHolder gamesViewHolder) {
+		gamesViewHolder.mCanceledLayout.setVisibility(View.INVISIBLE);
+		gamesViewHolder.mButton.setVisibility(View.VISIBLE);
+		gamesViewHolder.mButton.setEnabled(true);
+		gamesViewHolder.mGameChip.setVisibility(View.VISIBLE);
 	}
 	
-	private void cancelOrganizerGame(GamesOrganizerViewHolder gamesOrganizerViewHolder) {
+	private void cancelOrganizerGame(final GamesOrganizerViewHolder gamesOrganizerViewHolder) {
 		gamesOrganizerViewHolder.canceledLayout.setVisibility(View.VISIBLE);
 		gamesOrganizerViewHolder.gameChip.setVisibility(View.GONE);
 		gamesOrganizerViewHolder.changeButton.setEnabled(false);
@@ -241,7 +221,7 @@ public class GamesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 		gamesOrganizerViewHolder.deleteButton.setVisibility(View.INVISIBLE);
 	}
 	
-	private void notCancelOrganizerGame(GamesOrganizerViewHolder gamesOrganizerViewHolder) {
+	private void notCancelOrganizerGame(final GamesOrganizerViewHolder gamesOrganizerViewHolder) {
 		gamesOrganizerViewHolder.canceledLayout.setVisibility(View.INVISIBLE);
 		gamesOrganizerViewHolder.gameChip.setVisibility(View.VISIBLE);
 		gamesOrganizerViewHolder.changeButton.setEnabled(true);
@@ -250,8 +230,8 @@ public class GamesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 		gamesOrganizerViewHolder.deleteButton.setVisibility(View.VISIBLE);
 	}
 	
-	private void getImageWithPicasso(String photoUrl, ImageView imageView) {
-		Picasso.with(context)
+	private void getImageWithPicasso(final String photoUrl, final ImageView imageView) {
+		Picasso.with(mContext)
 			.load(photoUrl)
 			.placeholder(R.drawable.image_placeholder)
 			.fit()
@@ -261,28 +241,28 @@ public class GamesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 	}
 	
 	@SuppressLint("SimpleDateFormat")
-	private String getCurrentDate(String serverDate, String time) {
-		Locale russian = new Locale("ru");
-		String[] newMonths = {
+	private static String getCurrentDate(final String serverDate, final String time) {
+		final Locale russian = new Locale("ru");
+		final String[] newMonths = {
 			"января", "февраля", "марта", "апреля", "мая", "июня",
 			"июля", "августа", "сентября", "октября", "ноября", "декабря" };
-		DateFormatSymbols dateFormatSymbols = DateFormatSymbols.getInstance(russian);
+		final DateFormatSymbols dateFormatSymbols = DateFormatSymbols.getInstance(russian);
 		dateFormatSymbols.setMonths(newMonths);
-		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, russian);
-		SimpleDateFormat simpleDateFormat = (SimpleDateFormat) dateFormat;
+		final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, russian);
+		final SimpleDateFormat simpleDateFormat = (SimpleDateFormat) dateFormat;
 		simpleDateFormat.setDateFormatSymbols(dateFormatSymbols);
 		
-		StringBuilder stringBuilder = new StringBuilder(time);
+		final StringBuilder stringBuilder = new StringBuilder(time);
 		
 		stringBuilder.delete(stringBuilder.lastIndexOf(":"), 8);
 		
 		Date date = null;
 		try {
 			date = new SimpleDateFormat("yyyy-MM-dd").parse(serverDate);
-		} catch (ParseException e) {
+		} catch (final ParseException e) {
 			e.printStackTrace();
 		}
-		StringBuilder sb = new StringBuilder(simpleDateFormat.format(date));
+		final StringBuilder sb = new StringBuilder(simpleDateFormat.format(date));
 		
 		if (sb.lastIndexOf("2018 г.") != -1) {
 			sb.delete(sb.lastIndexOf("2018 г."), simpleDateFormat.format(date).length());
@@ -292,10 +272,10 @@ public class GamesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 		return sb.toString().trim() + " в " + stringBuilder.toString();
 	}
 	
-	private String shortifyString(String description) {
+	private static String shortifyString(String description) {
 		
 		if (description.length() > 120) {
-			StringBuilder stringBuilder = new StringBuilder(description);
+			final StringBuilder stringBuilder = new StringBuilder(description);
 			stringBuilder.delete(120, description.length());
 			description = stringBuilder.toString() + "...";
 		}
@@ -305,45 +285,43 @@ public class GamesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 	
 	@Override
 	public int getItemCount() {
-		return games == null ? 0 : games.size();
-//        return games.size();
+		return mGames == null ? 0 : mGames.size();
 	}
 	
 	
 	public class GamesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 		
-		private GamesRecyclerViewClickListener mListener;
+		private final GamesRecyclerViewClickListener mGamesRecyclerViewClickListener;
 		
-		// Create a TextView variable called listItemNumberView
-		ImageView image;
-		LinearLayout canceledLayout;
-		TextView date;
-		TextView description;
-		TextView address;
-		TextView peopleQuantity;
-		TextView gameChip;
-		Button button;
+		private final ImageView mImage;
+		private final LinearLayout mCanceledLayout;
+		private final TextView mDate;
+		private final TextView mDescription;
+		private final TextView mAddress;
+		private final TextView mPeopleQuantity;
+		private final TextView mGameChip;
+		private final Button mButton;
 		
-		
-		// Create a constructor for NewsViewHolder that accepts a View called itemView as a parameter
-		
-		GamesViewHolder(View itemView, GamesRecyclerViewClickListener mListener) {
-			super(itemView);
-			this.mListener = mListener;
+		private GamesViewHolder(
+			final View holderItemView,
+			final GamesRecyclerViewClickListener listener
+		) {
+			super(holderItemView);
+			mGamesRecyclerViewClickListener = listener;
 			itemView.setOnClickListener(this);
-			image = itemView.findViewById(R.id.game_image);
-			canceledLayout = itemView.findViewById(R.id.cancelled_layout);
-			date = itemView.findViewById(R.id.game_date);
-			description = itemView.findViewById(R.id.game_description);
-			address = itemView.findViewById(R.id.game_address);
-			peopleQuantity = itemView.findViewById(R.id.game_people_quantity);
-			gameChip = itemView.findViewById(R.id.game_chip_category_name);
-			button = itemView.findViewById(R.id.game_button);
+			mImage = itemView.findViewById(R.id.game_image);
+			mCanceledLayout = itemView.findViewById(R.id.cancelled_layout);
+			mDate = itemView.findViewById(R.id.game_date);
+			mDescription = itemView.findViewById(R.id.game_description);
+			mAddress = itemView.findViewById(R.id.game_address);
+			mPeopleQuantity = itemView.findViewById(R.id.game_people_quantity);
+			mGameChip = itemView.findViewById(R.id.game_chip_category_name);
+			mButton = itemView.findViewById(R.id.game_button);
 			
 		}
 		
 		@Override
-		public void onClick(View view) {
+		public void onClick(final View view) {
 			mListener.onClick(view, getAdapterPosition(), getItem(getAdapterPosition()));
 		}
 	}
@@ -351,24 +329,24 @@ public class GamesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 	
 	public class GamesOrganizerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 		
-		private GamesRecyclerViewClickListener mListener;
+		private final GamesRecyclerViewClickListener mGamesRecyclerViewClickListener;
 		
-		// Create a TextView variable called listItemNumberView
-		ImageView image;
-		LinearLayout canceledLayout;
-		TextView date;
-		TextView description;
-		TextView address;
-		TextView gameChip;
-		Button deleteButton;
-		Button changeButton;
+		private final ImageView image;
+		private final LinearLayout canceledLayout;
+		private final TextView date;
+		private final TextView description;
+		private final TextView address;
+		private final TextView gameChip;
+		private final Button deleteButton;
+		private final Button changeButton;
 		
 		
-		// Create a constructor for NewsViewHolder that accepts a View called itemView as a parameter
-		
-		GamesOrganizerViewHolder(View itemView, GamesRecyclerViewClickListener mListener) {
-			super(itemView);
-			this.mListener = mListener;
+		private GamesOrganizerViewHolder(
+			final View holderItemView,
+			final GamesRecyclerViewClickListener listener
+		) {
+			super(holderItemView);
+			mGamesRecyclerViewClickListener = listener;
 			itemView.setOnClickListener(this);
 			image = itemView.findViewById(R.id.game_image);
 			canceledLayout = itemView.findViewById(R.id.cancelled_layout);
@@ -378,127 +356,93 @@ public class GamesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 			gameChip = itemView.findViewById(R.id.game_chip_category_name);
 			deleteButton = itemView.findViewById(R.id.delete_btn);
 			changeButton = itemView.findViewById(R.id.change_btn);
-			
 		}
 		
-		
 		@Override
-		public void onClick(View view) {
+		public void onClick(final View view) {
 			mListener.onClick(view, getAdapterPosition(), getItem(getAdapterPosition()));
 		}
 	}
 	
-	protected class LoadingVH extends RecyclerView.ViewHolder {
+	private static class LoadingVH extends RecyclerView.ViewHolder {
 		
-		LoadingVH(View itemView) {
-			super(itemView);
+		private LoadingVH(final View holderItemView) {
+			super(holderItemView);
 		}
 	}
 	
 	
 	public GamesAdapter(
-		Context context,
-		GamesRecyclerViewClickListener mListener,
-		String userId,
-		List<Integer> gamesIdsParticipantArray,
-		ConnectToGameListener connectToGameListener,
-		DeleteGameButtonClickListener deleteGameButtonClickListener,
-		UpdateGameButtonClickListener updateGameButtonClickListener
+		final Context context,
+		final GamesRecyclerViewClickListener listener,
+		final String userId,
+		final List<Integer> gamesIdsParticipantArray,
+		final ConnectToGameListener connectToGameListener,
+		final DeleteGameButtonClickListener deleteGameButtonClickListener,
+		final UpdateGameButtonClickListener updateGameButtonClickListener
 	) {
-		this.mListener = mListener;
-		this.context = context;
-		this.userId = userId;
-		this.gamesIdsParticipantArray = gamesIdsParticipantArray;
-		this.connectToGameListener = connectToGameListener;
-		this.deleteGameButtonClickListener = deleteGameButtonClickListener;
-		this.updateGameButtonClickListener = updateGameButtonClickListener;
+		this.mListener = listener;
+		this.mContext = context;
+		this.mUserId = userId;
+		this.mGamesIdsParticipantArray = gamesIdsParticipantArray;
+		this.mConnectToGameListener = connectToGameListener;
+		this.mDeleteGameButtonClickListener = deleteGameButtonClickListener;
+		this.mUpdateGameButtonClickListener = updateGameButtonClickListener;
 		
-		games = new ArrayList<>();
+		mGames = new ArrayList<>();
 	}
 	
-	public void add(GameData gameData) {
-		games.add(null);
-		notifyItemInserted(games.size() - 1);
+	public void updatePeopleQuantity(final int position, final String currentPeopleQuantity) {
+		mGames.get(position).setCurrentPeopleQuantity(currentPeopleQuantity);
 	}
 	
-	public void updatePeopleQuantity(int position, String currentPeopleQuantity) {
-//        games.get(position).setCurrentPeopleQuantity(String.valueOf(Integer.valueOf(games.get(position).getCurrentPeopleQuantity()) + 1));
-		games.get(position).setCurrentPeopleQuantity(currentPeopleQuantity);
-	}
-
-//    public void addAll(ArrayList<GameDataApi> gameDataList) {
-//        games.addAll(gameDataList);
-//        notifyDataSetChanged();
-//    }
-
-//    public void remove(GameData id) {
-//        int position = games.indexOf(id);
-//        if (position > -1) {
-//            games.remove(position);
-//            notifyItemRemoved(position);
-//        }
-//    }
-	
-	
-	private GameDataApi getItem(int position) {
-		return games.get(position);
+	private GameDataApi getItem(final int position) {
+		return mGames.get(position);
 	}
 	
 	public List<GameDataApi> getGames() {
-		return games;
+		return mGames;
 	}
 	
-	public void setGames(List<GameDataApi> movieResults) {
-		this.games = movieResults;
+	public void setGames(final List<GameDataApi> movieResults) {
+		mGames = movieResults;
 	}
 	
-	public void add(GameDataApi game) {
-		games.add(game);
-		notifyItemInserted(games.size() - 1);
+	private void add(final GameDataApi game) {
+		mGames.add(game);
+		notifyItemInserted(mGames.size() - 1);
 	}
 	
-	public void addAll(List<GameDataApi> results) {
-		for (GameDataApi result : results) {
+	public void addAll(final List<GameDataApi> results) {
+		for (final GameDataApi result : results) {
 			add(result);
 		}
 	}
 	
 	public void addLoading() {
-		isLoadingAdded = true;
+		mIsLoadingAdded = true;
 		add(new GameDataApi());
 		notifyDataSetChanged();
 	}
 	
 	public void hideLoading() {
-		isLoadingAdded = false;
+		mIsLoadingAdded = false;
 		
-		int position = games.size() - 1;
-		GameDataApi game = getItem(position);
+		final int position = mGames.size() - 1;
+		final GameDataApi game = getItem(position);
 		
 		if (game != null) {
-			games.remove(position);
-			notifyItemRemoved(position);
-		}
-	}
-	
-	private void remove(GameDataApi r) {
-		int position = games.indexOf(r);
-		games.clear();
-		if (position > -1) {
-			games.remove(position);
+			mGames.remove(position);
 			notifyItemRemoved(position);
 		}
 	}
 	
 	public void clear() {
-		isLoadingAdded = false;
-		games.clear();
-//        while (getItemCount() > 0) {
-//            remove(getItem(0));
-//        }
+		mIsLoadingAdded = false;
+		mGames.clear();
 	}
 	
-	private String getCategoryName(int categoryId) {
+	private static String getCategoryName(final int categoryId) {
 		String categoryName = "";
 		switch (categoryId) {
 			case 1:
@@ -523,24 +467,24 @@ public class GamesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 		return categoryName;
 	}
 	
-	public void changeParticipateButtonState(int position, int gameId) {
+	public void changeParticipateButtonState(final int position, final int gameId) {
 		
-		if (gamesIdsParticipantArray.contains(gameId)) {
-			gamesIdsParticipantArray.remove(gamesIdsParticipantArray.indexOf(gameId));
+		if (mGamesIdsParticipantArray.contains(gameId)) {
+			mGamesIdsParticipantArray.remove((Integer) gameId);
 		} else {
-			gamesIdsParticipantArray.add(gameId);
+			mGamesIdsParticipantArray.add(gameId);
 		}
 		
 		notifyItemChanged(position);
 	}
 	
-	public void cancelGame(int position) {
-		games.get(position).setIsCanceled(1);
+	public void cancelGame(final int position) {
+		mGames.get(position).setIsCanceled(1);
 		notifyItemChanged(position);
 	}
 	
-	public void deleteItem(int position) {
-		games.remove(games.get(position));
+	public void deleteItem(final int position) {
+		mGames.remove(mGames.get(position));
 		notifyItemChanged(position);
 	}
 	
