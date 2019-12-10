@@ -10,11 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="32289280-37bb-42d5-ae85-f4a7a27a635f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/main/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/main/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/main/MainModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/main/MainModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/main/MainPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/main/MainPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/main/MainView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/main/MainView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/map/MapFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/map/MapFragment.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -52,11 +48,24 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/main/MainView.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="150">
               <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/map/MapFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="326">
+              <caret line="224" column="28" selection-start-line="224" selection-start-column="28" selection-end-line="224" selection-end-column="28" />
+              <folding>
+                <element signature="e#15158#15159#0" expanded="true" />
+                <element signature="e#15191#15192#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -111,7 +120,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/games/GamesAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/games/GamesRecyclerViewClickListener.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/games/UpdateGameButtonClickListener.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/map/MapFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/map/MapModel.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/map/MapPresenter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/map/MapView.java" />
@@ -151,6 +159,7 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/main/MainPresenter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/main/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/main/MainView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/map/MapFragment.java" />
       </list>
     </option>
   </component>
@@ -237,6 +246,29 @@
               <item name="ui" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="MainActivity.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+            </path>
+            <path>
+              <item name="Sportify-2.0" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="com" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="example" type="462c0819:PsiDirectoryNode" />
+              <item name="user" type="462c0819:PsiDirectoryNode" />
+              <item name="sportify" type="462c0819:PsiDirectoryNode" />
+              <item name="ui" type="462c0819:PsiDirectoryNode" />
+              <item name="map" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Sportify-2.0" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="com" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="example" type="462c0819:PsiDirectoryNode" />
+              <item name="user" type="462c0819:PsiDirectoryNode" />
+              <item name="sportify" type="462c0819:PsiDirectoryNode" />
+              <item name="ui" type="462c0819:PsiDirectoryNode" />
+              <item name="map" type="462c0819:PsiDirectoryNode" />
+              <item name="MapFragment.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
             </path>
             <path>
               <item name="Sportify-2.0" type="1abcf292:AndroidViewProjectNode" />
@@ -366,7 +398,14 @@
       <option name="project" value="LOCAL" />
       <updated>1575919167986</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Make main more readable">
+      <created>1576001513228</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1576001513229</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TodoView">
@@ -383,7 +422,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.32967034" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.32967034" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info id="Build Variants" order="4" side_tool="true" />
@@ -395,7 +434,7 @@
       <window_info anchor="bottom" id="Run" order="1" />
       <window_info anchor="bottom" id="TODO" order="2" weight="0.32959184" />
       <window_info anchor="bottom" id="Find" order="3" weight="0.32959184" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="4" visible="true" weight="0.32959184" />
+      <window_info anchor="bottom" id="Terminal" order="4" weight="0.32959184" />
       <window_info anchor="bottom" id="Event Log" order="5" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="6" weight="0.32902467" />
       <window_info anchor="bottom" id="Build" order="7" weight="0.32857144" />
@@ -442,7 +481,8 @@
     <MESSAGE value="Initial commit" />
     <MESSAGE value="Format code" />
     <MESSAGE value="Make feed more readable" />
-    <option name="LAST_COMMIT_MESSAGE" value="Make feed more readable" />
+    <MESSAGE value="Make main more readable" />
+    <option name="LAST_COMMIT_MESSAGE" value="Make main more readable" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/games/ConnectButtonClickListener.java">
@@ -484,13 +524,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="8" selection-start-line="8" selection-end-line="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/map/MapFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="482" column="5" selection-start-line="482" selection-start-column="5" selection-end-line="482" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -822,6 +855,17 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/map/MapFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="224" column="28" selection-start-line="224" selection-start-column="28" selection-end-line="224" selection-end-column="28" />
+          <folding>
+            <element signature="e#15158#15159#0" expanded="true" />
+            <element signature="e#15191#15192#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -24,20 +24,24 @@ import retrofit2.Response;
 
 public class MapModel extends ConcretGameModel {
 	
-	MapModel(SessionComponent daggerSessionComponent) {
+	MapModel(final SessionComponent daggerSessionComponent) {
 		super(daggerSessionComponent);
 	}
 	
-	public void getGamesPerPage(GameDataCallback callback, int categoryId, int page) {
-		GetGamesPerPageTask getGamesPerPageTask = new GetGamesPerPageTask(
+	public static void getGamesPerPage(
+		final GameDataCallback callback,
+		final int categoryId,
+		final int page
+	) {
+		final GetGamesPerPageTask getGamesPerPageTask = new GetGamesPerPageTask(
 			callback,
 			categoryId,
 			page);
 		getGamesPerPageTask.execute();
 	}
 	
-	public void getGamesParticipant(GamesParticipantCallback callback, String token) {
-		GamesParticipantTask gamesParticipantTask = new GamesParticipantTask(callback, token);
+	public void getGamesParticipant(final GamesParticipantCallback callback, final String token) {
+		final GamesParticipantTask gamesParticipantTask = new GamesParticipantTask(callback, token);
 		gamesParticipantTask.execute();
 	}
 	
@@ -46,29 +50,32 @@ public class MapModel extends ConcretGameModel {
 		void onSendGamesData(List<GameDataApi> gameData, int pagesQuantity);
 	}
 	
-	private Call<BaseServerAnswer<BaseGameDataApi>> callBaseGameDataApi(int categoryId, int page) {
+	private static Call<BaseServerAnswer<BaseGameDataApi>> callBaseGameDataApi(
+		final int categoryId,
+		final int page
+	) {
 		return AppBase.getBaseService().getGames(categoryId, page);
 	}
 	
-	private Call<BaseServerAnswer<MyGamesData>> callBaseDataGamesParticipantApi(String token) {
+	private static Call<BaseServerAnswer<MyGamesData>> callBaseDataGamesParticipantApi(final String token) {
 		return AppBase.getBaseService().getMyGames(token);
 	}
 	
-	private List<GameDataApi> fetchResults(Response<BaseServerAnswer<BaseGameDataApi>> response) {
-		BaseServerAnswer<BaseGameDataApi> baseGameDataApi = response.body();
+	private static List<GameDataApi> fetchResults(final Response<BaseServerAnswer<BaseGameDataApi>> response) {
+		final BaseServerAnswer<BaseGameDataApi> baseGameDataApi = response.body();
 		assert baseGameDataApi != null;
 		return baseGameDataApi.getMessage().getPosts();
 	}
 	
-	private int fetchPagesQuantity(Response<BaseServerAnswer<BaseGameDataApi>> response) {
-		BaseServerAnswer<BaseGameDataApi> baseGameDataApi = response.body();
+	private static int fetchPagesQuantity(final Response<BaseServerAnswer<BaseGameDataApi>> response) {
+		final BaseServerAnswer<BaseGameDataApi> baseGameDataApi = response.body();
 		assert baseGameDataApi != null;
 		return baseGameDataApi.getMessage().getInfo().getPages();
 	}
 	
-	private List<GamesParticipantData> fetchDataGamesParticipantResults(Response<BaseServerAnswer<MyGamesData>> response) {
-		List<GamesParticipantData> gamesParticipantData;
-		BaseServerAnswer<MyGamesData> baseDataUserTokenApi = response.body();
+	private static List<GamesParticipantData> fetchDataGamesParticipantResults(final Response<BaseServerAnswer<MyGamesData>> response) {
+		final List<GamesParticipantData> gamesParticipantData;
+		final BaseServerAnswer<MyGamesData> baseDataUserTokenApi = response.body();
 		assert baseDataUserTokenApi != null;
 		gamesParticipantData = baseDataUserTokenApi.getMessage().getAttached();
 		return gamesParticipantData;
@@ -79,41 +86,45 @@ public class MapModel extends ConcretGameModel {
 		void onSendPaticipantGames(List<GamesParticipantData> gamesParticipantData);
 	}
 	
-	class GetGamesPerPageTask extends AsyncTask<Void, Void, Void> {
+	static class GetGamesPerPageTask extends AsyncTask<Void, Void, Void> {
 		
-		private GameDataCallback callback;
-		private int categoryId;
-		private int page;
+		private final GameDataCallback mGameDataCallback;
+		private final int mCategoryId;
+		private final int mPage;
 		
-		GetGamesPerPageTask(GameDataCallback callback, int categoryId, int page) {
-			this.callback = callback;
-			this.categoryId = categoryId;
-			this.page = page;
+		private GetGamesPerPageTask(
+			final GameDataCallback callback,
+			final int categoryId,
+			final int page
+		) {
+			mGameDataCallback = callback;
+			mCategoryId = categoryId;
+			mPage = page;
 		}
 		
 		@Override
-		protected Void doInBackground(Void... voids) {
+		protected Void doInBackground(final Void... voids) {
 			
 			callBaseGameDataApi(
-				categoryId,
-				page).enqueue(new Callback<BaseServerAnswer<BaseGameDataApi>>() {
+				mCategoryId,
+				mPage).enqueue(new Callback<BaseServerAnswer<BaseGameDataApi>>() {
 				
 				@Override
 				public void onResponse(
-					@NonNull Call<BaseServerAnswer<BaseGameDataApi>> call,
-					@NonNull Response<BaseServerAnswer<BaseGameDataApi>> response
+					@NonNull final Call<BaseServerAnswer<BaseGameDataApi>> call,
+					@NonNull final Response<BaseServerAnswer<BaseGameDataApi>> response
 				) {
-					int pagesQuantity = fetchPagesQuantity(response);
-					List<GameDataApi> results = fetchResults(response);
-					if (callback != null) {
-						callback.onSendGamesData(results, pagesQuantity);
+					final int pagesQuantity = fetchPagesQuantity(response);
+					final List<GameDataApi> results = fetchResults(response);
+					if (mGameDataCallback != null) {
+						mGameDataCallback.onSendGamesData(results, pagesQuantity);
 					}
 				}
 				
 				@Override
 				public void onFailure(
-					@NonNull Call<BaseServerAnswer<BaseGameDataApi>> call,
-					@NonNull Throwable t
+					@NonNull final Call<BaseServerAnswer<BaseGameDataApi>> call,
+					@NonNull final Throwable t
 				) {
 				
 				}
@@ -127,36 +138,36 @@ public class MapModel extends ConcretGameModel {
 	class GamesParticipantTask extends AsyncTask<Void, Void, Void> {
 		
 		private Boolean isSended = false;
-		private GamesParticipantCallback callback;
-		private String token;
+		private final GamesParticipantCallback mGamesParticipantCallback;
+		private final String mToken;
 		
-		GamesParticipantTask(GamesParticipantCallback callback, String token) {
-			this.callback = callback;
-			this.token = token;
+		private GamesParticipantTask(final GamesParticipantCallback callback, final String token) {
+			mGamesParticipantCallback = callback;
+			mToken = token;
 		}
 		
 		@Override
-		protected Void doInBackground(Void... voids) {
-			callBaseDataGamesParticipantApi(token).enqueue(new Callback<BaseServerAnswer<MyGamesData>>() {
+		protected Void doInBackground(final Void... voids) {
+			callBaseDataGamesParticipantApi(mToken).enqueue(new Callback<BaseServerAnswer<MyGamesData>>() {
 				
 				@Override
 				public void onResponse(
-					@NonNull Call<BaseServerAnswer<MyGamesData>> call,
-					@NonNull Response<BaseServerAnswer<MyGamesData>> response
+					@NonNull final Call<BaseServerAnswer<MyGamesData>> call,
+					@NonNull final Response<BaseServerAnswer<MyGamesData>> response
 				) {
-					List<GamesParticipantData> results = fetchDataGamesParticipantResults(response);
+					final List<GamesParticipantData> results = fetchDataGamesParticipantResults(
+						response);
 					
-					if (callback != null) {
-						callback.onSendPaticipantGames(results);
+					if (mGamesParticipantCallback != null) {
+						mGamesParticipantCallback.onSendPaticipantGames(results);
 						isSended = true;
 					}
 				}
-//                    Log.e("res", results.get(0).getId());
 				
 				@Override
 				public void onFailure(
-					@NonNull Call<BaseServerAnswer<MyGamesData>> call,
-					@NonNull Throwable t
+					@NonNull final Call<BaseServerAnswer<MyGamesData>> call,
+					@NonNull final Throwable t
 				) {
 					Log.e("Zz", "я пришел");
 				}
@@ -165,10 +176,10 @@ public class MapModel extends ConcretGameModel {
 		}
 		
 		@Override
-		protected void onPostExecute(Void aVoid) {
+		protected void onPostExecute(final Void aVoid) {
 			super.onPostExecute(aVoid);
 			if (!isSended) {
-				callback.onSendPaticipantGames(new ArrayList<>());
+				mGamesParticipantCallback.onSendPaticipantGames(new ArrayList<>());
 			}
 		}
 	}

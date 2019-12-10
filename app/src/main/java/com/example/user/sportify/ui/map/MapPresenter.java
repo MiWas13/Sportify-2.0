@@ -61,7 +61,7 @@ class MapPresenter extends MvpBasePresenter<MapView> {
 	
 	private void getFirstPage() {
 		new android.os.Handler().postDelayed(() -> {
-			mapModel.getGamesPerPage((gameData, pagesQuantity) -> {
+			MapModel.getGamesPerPage((gameData, pagesQuantity) -> {
 				ifViewAttached(view -> {
 					view.showMapView();
 					view.hideProgressBar();
@@ -89,7 +89,7 @@ class MapPresenter extends MvpBasePresenter<MapView> {
 	
 	
 	private void getNextPage(int page) {
-		mapModel.getGamesPerPage((gameData, pagesQuantity) -> {
+		MapModel.getGamesPerPage((gameData, pagesQuantity) -> {
 			locationArray.addAll(makeLocationArray(gameData));
 			gamesArray.addAll(gameData);
 			iconsArray.addAll(makeIconsArray(gameData));

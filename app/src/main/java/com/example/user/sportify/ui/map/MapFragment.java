@@ -104,16 +104,16 @@ public class MapFragment extends MvpFragment<MapView, MapPresenter> implements M
 	@BindView(R.id.map_progress_bar)
 	ProgressBar mapProgressBar;
 	
-	private List<PlacemarkMapObject> placemarkMapObjectList;
+	private List<PlacemarkMapObject> mPlacemarkMapObjectList;
 	
-	private List<MapObjectTapListener> objectTapListenerList;
+	private List<MapObjectTapListener> mObjectTapListenerList;
 	
-	private List<GameDataApi> games;
+	private List<GameDataApi> mGamesList;
 	
 	
-	private BottomSheetBehavior bottomSheetBehavior;
-	private ConcretGameDescriptionAdapter concretGameDescriptionAdapter;
-	private OrganizerConcretGameParticipantsAdapter organizerConcretGameParticipantsAdapter;
+	private BottomSheetBehavior mBottomSheetBehavior;
+	private ConcretGameDescriptionAdapter mConcretGameDescriptionAdapter;
+	private OrganizerConcretGameParticipantsAdapter mOrganizerConcretGameParticipantsAdapter;
 	
 	@NonNull
 	@Override
@@ -127,21 +127,21 @@ public class MapFragment extends MvpFragment<MapView, MapPresenter> implements M
 	@Nullable
 	@Override
 	public View onCreateView(
-		@NonNull LayoutInflater inflater,
-		@Nullable ViewGroup container,
-		@Nullable Bundle savedInstanceState
+		@NonNull final LayoutInflater inflater,
+		@Nullable final ViewGroup container,
+		@Nullable final Bundle savedInstanceState
 	) {
-		View view = inflater.inflate(R.layout.base_map_fragment, null);
-		placemarkMapObjectList = new ArrayList<>();
-		objectTapListenerList = new ArrayList<>();
-		games = new ArrayList<>();
+		final View view = inflater.inflate(R.layout.base_map_fragment, null);
+		mPlacemarkMapObjectList = new ArrayList<>();
+		mObjectTapListenerList = new ArrayList<>();
+		mGamesList = new ArrayList<>();
 		ButterKnife.bind(this, view);
 		MapKitFactory.initialize(Objects.requireNonNull(getActivity()));
-		CoordinatorLayout coordinatorLayout = view.findViewById(R.id.coordinator_layout);
-		View bottomSheet = coordinatorLayout.findViewById(R.id.bottom_sheet);
-		bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
-		bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-		bottomSheetBehavior.setBottomSheetCallback(new CustomBottomSheetCallback(fab, littleDesc));
+		final CoordinatorLayout coordinatorLayout = view.findViewById(R.id.coordinator_layout);
+		final View bottomSheet = coordinatorLayout.findViewById(R.id.bottom_sheet);
+		mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+		mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+		mBottomSheetBehavior.setBottomSheetCallback(new CustomBottomSheetCallback(fab, littleDesc));
 		fab.setOnClickListener(new FabClickListener(presenter));
 		mapView.getMap().move(
 			new CameraPosition(new Point(55.751574, 37.573856), 11.0f, 0.0f, 0.0f),
@@ -152,7 +152,7 @@ public class MapFragment extends MvpFragment<MapView, MapPresenter> implements M
 	}
 	
 	@Override
-	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+	public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		presenter.onViewCreated();
 	}
@@ -173,49 +173,47 @@ public class MapFragment extends MvpFragment<MapView, MapPresenter> implements M
 	
 	@Override
 	public void addPoints(
-		ArrayList<ArrayList<String>> coordinates,
-		List<GameDataApi> games,
-		ArrayList<Integer> icons
+		final ArrayList<ArrayList<String>> coordinates,
+		final List<GameDataApi> games,
+		final ArrayList<Integer> icons
 	) {
 		
 		//TODO: Большой костыль и нарушение структуры MVP, причина: garbage collector удалял taplistener, проблему решить не смог, поэтому решил хранить все слушатели, а так же объекты в массивах прямо во view
 		
-		LayoutInflater ltInflater = getLayoutInflater();
-		View view = ltInflater.inflate(R.layout.map_icon_layout, null, false);
-		ImageView category = view.findViewById(R.id.icon);
+		final LayoutInflater ltInflater = getLayoutInflater();
+		final View view = ltInflater.inflate(R.layout.map_icon_layout, null, false);
+		final ImageView category = view.findViewById(R.id.icon);
 		category.setColorFilter(Objects.requireNonNull(getActivity()).getResources().getColor(R.color.colorMenu));
 		
 		for (int i = 0; i < coordinates.size(); i++) {
 
-//            if (!this.games.contains(games.get(i))) {
 			category.setImageDrawable(getActivity().getDrawable(icons.get(i)));
-			ViewProvider viewProvider = new ViewProvider(view);
-			PlacemarkMapObject mark = mapView.getMap().getMapObjects().addPlacemark(
+			final ViewProvider viewProvider = new ViewProvider(view);
+			final PlacemarkMapObject mark = mapView.getMap().getMapObjects().addPlacemark(
 				new Point(
 					Double.valueOf(coordinates.get(i).get(0)),
 					Double.valueOf(coordinates.get(i).get(1))),
 				viewProvider);
-			this.games.add(games.get(i));
-			MapObjectTapListenerExtended listener = new MapObjectTapListenerExtended(
+			mGamesList.add(games.get(i));
+			final MapObjectTapListenerExtended listener = new MapObjectTapListenerExtended(
 				presenter,
 				games.get(i),
 				mark);
-			placemarkMapObjectList.add(mark);
-			objectTapListenerList.add(listener);
-			placemarkMapObjectList.get(placemarkMapObjectList.indexOf(mark)).addTapListener(
-				objectTapListenerList.get(objectTapListenerList.indexOf(listener)));
-//            }
+			mPlacemarkMapObjectList.add(mark);
+			mObjectTapListenerList.add(listener);
+			mPlacemarkMapObjectList.get(mPlacemarkMapObjectList.indexOf(mark))
+				.addTapListener(mObjectTapListenerList.get(mObjectTapListenerList.indexOf(listener)));
 		
 		}
 	}
 	
 	@Override
-	public void startNewActivity(Intent intent) {
+	public void startNewActivity(final Intent intent) {
 		startActivity(intent);
 	}
 	
 	@Override
-	public void startNewCreateGameActivity(Intent intent) {
+	public void startNewCreateGameActivity(final Intent intent) {
 		startActivity(intent);
 		Objects.requireNonNull(getActivity()).overridePendingTransition(
 			R.anim.slide_up,
@@ -223,52 +221,52 @@ public class MapFragment extends MvpFragment<MapView, MapPresenter> implements M
 	}
 	
 	@Override
-	public void setActiveIcon(PlacemarkMapObject mark, int categoryIcon) {
-		bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-		LayoutInflater ltInflater = getLayoutInflater();
-		View view1 = ltInflater.inflate(R.layout.map_icon_layout, null, false);
-		ImageView category1 = view1.findViewById(R.id.icon);
+	public void setActiveIcon(final PlacemarkMapObject mark, final int categoryIcon) {
+		mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+		final LayoutInflater ltInflater = getLayoutInflater();
+		final View view1 = ltInflater.inflate(R.layout.map_icon_layout, null, false);
+		final ImageView category1 = view1.findViewById(R.id.icon);
 		category1.setColorFilter(Color.WHITE);
 		category1.setBackground(Objects.requireNonNull(getActivity()).getDrawable(R.drawable.rounded_map_icon_active));
 		category1.setImageDrawable(getActivity().getDrawable(categoryIcon));
-		ViewProvider viewProvider = new ViewProvider(view1);
-		placemarkMapObjectList.get(placemarkMapObjectList.indexOf(mark)).setView(viewProvider);
+		final ViewProvider viewProvider = new ViewProvider(view1);
+		mPlacemarkMapObjectList.get(mPlacemarkMapObjectList.indexOf(mark)).setView(viewProvider);
 	}
 	
 	@Override
-	public void setInActiveIcon(PlacemarkMapObject mark, int categoryIcon) {
-		LayoutInflater ltInflater = getLayoutInflater();
-		View view1 = ltInflater.inflate(R.layout.map_icon_layout, null, false);
-		ImageView category1 = view1.findViewById(R.id.icon);
+	public void setInActiveIcon(final PlacemarkMapObject mark, final int categoryIcon) {
+		final LayoutInflater ltInflater = getLayoutInflater();
+		final View view1 = ltInflater.inflate(R.layout.map_icon_layout, null, false);
+		final ImageView category1 = view1.findViewById(R.id.icon);
 		category1.setColorFilter(Objects.requireNonNull(getActivity()).getResources().getColor(R.color.colorMenu));
 		category1.setBackground(Objects.requireNonNull(getActivity()).getDrawable(R.drawable.rounded_map_icon_inactive));
 		category1.setImageDrawable(getActivity().getDrawable(categoryIcon));
 		
-		ViewProvider viewProvider = new ViewProvider(view1);
-		Log.e("mark", String.valueOf(placemarkMapObjectList.indexOf(mark)));
-		placemarkMapObjectList.get(placemarkMapObjectList.indexOf(mark)).setView(viewProvider);
+		final ViewProvider viewProvider = new ViewProvider(view1);
+		Log.e("mark", String.valueOf(mPlacemarkMapObjectList.indexOf(mark)));
+		mPlacemarkMapObjectList.get(mPlacemarkMapObjectList.indexOf(mark)).setView(viewProvider);
 		
 	}
 	
 	@Override
 	public void initGameDescription(
-		LinearLayoutManager concretGameDescriptionLayoutManager,
-		ConcretGameDescriptionAdapter concretGameDescriptionAdapter
+		final LinearLayoutManager concretGameDescriptionLayoutManager,
+		final ConcretGameDescriptionAdapter concretGameDescriptionAdapter
 	) {
-		this.concretGameDescriptionAdapter = concretGameDescriptionAdapter;
+		mConcretGameDescriptionAdapter = concretGameDescriptionAdapter;
 		new RecyclerViewBase<ConcretGameDescriptionAdapter>(Objects.requireNonNull(getActivity())).initRecyclerView(
 			bottomSheetDescriptionRecycler,
 			concretGameDescriptionLayoutManager,
-			this.concretGameDescriptionAdapter,
+			mConcretGameDescriptionAdapter,
 			true,
 			null);
 	}
 	
 	
 	@Override
-	public void setBaseInfo(GameDataApi game, String categoryName, String date) {
-		String quantity = game.getCurrentPeopleQuantity() + "/" + game.getMaxPeopleQuantity();
-		String title = categoryName + " " + date;
+	public void setBaseInfo(final GameDataApi game, final String categoryName, final String date) {
+		final String quantity = game.getCurrentPeopleQuantity() + "/" + game.getMaxPeopleQuantity();
+		final String title = categoryName + " " + date;
 		bottomSheetTitle.setText(title);
 		bottomSheetQuantity.setText(quantity);
 		bottomSheetAddress.setText(game.getLocation());
@@ -287,29 +285,29 @@ public class MapFragment extends MvpFragment<MapView, MapPresenter> implements M
 	
 	@Override
 	public void initOrganizerGameDescription(
-		LinearLayoutManager concretGameDescriptionLayoutManager,
-		ConcretGameDescriptionAdapter concretGameDescriptionAdapter
+		final LinearLayoutManager concretGameDescriptionLayoutManager,
+		final ConcretGameDescriptionAdapter concretGameDescriptionAdapter
 	) {
-		this.concretGameDescriptionAdapter = concretGameDescriptionAdapter;
+		mConcretGameDescriptionAdapter = concretGameDescriptionAdapter;
 		new RecyclerViewBase<ConcretGameDescriptionAdapter>(Objects.requireNonNull(getActivity())).initRecyclerView(
 			bottomSheetDescriptionRecycler,
 			concretGameDescriptionLayoutManager,
-			this.concretGameDescriptionAdapter,
+			mConcretGameDescriptionAdapter,
 			true,
 			null);
 	}
 	
 	@Override
 	public void initParticipantsPhones(
-		LinearLayoutManager participantsPhonesLayoutManager,
-		OrganizerConcretGameParticipantsAdapter organizerConcretGameParticipantsAdapter
+		final LinearLayoutManager participantsPhonesLayoutManager,
+		final OrganizerConcretGameParticipantsAdapter organizerConcretGameParticipantsAdapter
 	) {
-		this.organizerConcretGameParticipantsAdapter = organizerConcretGameParticipantsAdapter;
+		mOrganizerConcretGameParticipantsAdapter = organizerConcretGameParticipantsAdapter;
 		new RecyclerViewBase<OrganizerConcretGameParticipantsAdapter>(Objects.requireNonNull(
 			getActivity())).initRecyclerView(
 			participantsPhonesRecycler,
 			participantsPhonesLayoutManager,
-			this.organizerConcretGameParticipantsAdapter,
+			mOrganizerConcretGameParticipantsAdapter,
 			true,
 			null);
 	}
@@ -355,11 +353,11 @@ public class MapFragment extends MvpFragment<MapView, MapPresenter> implements M
 	}
 	
 	@Override
-	public void showRegistrationSnackBar(String message) {
-		CoordinatorLayout coordinatorLayout = Objects.requireNonNull(getActivity()).findViewById(R.id.coordinator_layout);
-		TSnackbar snackbar = TSnackbar.make(coordinatorLayout, message, Snackbar.LENGTH_LONG);
-		View snackbarView = snackbar.getView();
-		TextView textView = snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
+	public void showRegistrationSnackBar(final String message) {
+		final CoordinatorLayout coordinatorLayout = Objects.requireNonNull(getActivity()).findViewById(R.id.coordinator_layout);
+		final TSnackbar snackbar = TSnackbar.make(coordinatorLayout, message, TSnackbar.LENGTH_LONG);
+		final View snackbarView = snackbar.getView();
+		final TextView textView = snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
 		textView.setTextColor(getResources().getColor(R.color.colorPrimary));
 		snackbar.show();
 	}
@@ -382,7 +380,7 @@ public class MapFragment extends MvpFragment<MapView, MapPresenter> implements M
 	
 	@Override
 	public void showBottomSlider() {
-		bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+		mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 	}
 	
 	@Override
@@ -395,11 +393,11 @@ public class MapFragment extends MvpFragment<MapView, MapPresenter> implements M
 	}
 	
 	@Override
-	public void addParticipant(UserParticipantData user) {
-		organizerConcretGameParticipantsAdapter.addPosotion(user);
+	public void addParticipant(final UserParticipantData user) {
+		mOrganizerConcretGameParticipantsAdapter.addPosotion(user);
 	}
 	
-	private void getImageWithPicasso(String photoUrl, ImageView imageView) {
+	private void getImageWithPicasso(final String photoUrl, final ImageView imageView) {
 		Picasso.with(getActivity())
 			.load(photoUrl)
 			.placeholder(R.drawable.image_placeholder)
@@ -413,72 +411,72 @@ public class MapFragment extends MvpFragment<MapView, MapPresenter> implements M
 
 class MapObjectTapListenerExtended implements MapObjectTapListener {
 	
-	private GameDataApi game;
-	private MapPresenter presenter;
-	private PlacemarkMapObject mark;
+	private final GameDataApi mGame;
+	private final MapPresenter mMapPresenter;
+	private final PlacemarkMapObject mPlacemarkMapObject;
 	
 	
 	MapObjectTapListenerExtended(
-		MapPresenter presenter,
-		GameDataApi game,
-		PlacemarkMapObject mark
+		final MapPresenter presenter,
+		final GameDataApi game,
+		final PlacemarkMapObject mark
 	) {
-		this.game = game;
-		this.presenter = presenter;
-		this.mark = mark;
+		mGame = game;
+		mMapPresenter = presenter;
+		mPlacemarkMapObject = mark;
 	}
 	
 	@Override
-	public boolean onMapObjectTap(@NonNull MapObject mapObject, @NonNull Point point) {
+	public boolean onMapObjectTap(@NonNull final MapObject mapObject, @NonNull final Point point) {
 		
-		presenter.onMapObjectTap(game, mark);
+		mMapPresenter.onMapObjectTap(mGame, mPlacemarkMapObject);
 		return false;
 	}
 }
 
 class FabClickListener implements View.OnClickListener {
 	
-	private MapPresenter presenter;
+	private final MapPresenter mMapPresenter;
 	
-	FabClickListener(MapPresenter presenter) {
-		this.presenter = presenter;
+	FabClickListener(final MapPresenter presenter) {
+		mMapPresenter = presenter;
 	}
 	
 	@Override
-	public void onClick(View view) {
-		presenter.onFabClicked();
+	public void onClick(final View view) {
+		mMapPresenter.onFabClicked();
 	}
 }
 
 
 class CustomBottomSheetCallback extends BottomSheetBehavior.BottomSheetCallback {
 	
-	private ConstraintLayout littleDesc;
-	private FloatingActionButton fab;
+	private final ConstraintLayout mLittleDesc;
+	private final FloatingActionButton mFab;
 	
-	CustomBottomSheetCallback(FloatingActionButton fab, ConstraintLayout littleDesc) {
-		this.fab = fab;
-		this.littleDesc = littleDesc;
+	CustomBottomSheetCallback(final FloatingActionButton fab, final ConstraintLayout littleDesc) {
+		mFab = fab;
+		mLittleDesc = littleDesc;
 	}
 	
 	@Override
-	public void onStateChanged(@NonNull View view, int i) {
+	public void onStateChanged(@NonNull final View view, final int i) {
 	
 	}
 	
 	@Override
-	public void onSlide(@NonNull View view, float v) {
+	public void onSlide(@NonNull final View view, final float v) {
 		Log.e("", String.valueOf(v));
 		if (v >= 0) {
-			fab.hide();
+			mFab.hide();
 		} else {
-			fab.show();
+			mFab.show();
 		}
 		
 		if (v >= 0.8f) {
-			littleDesc.setVisibility(View.GONE);
+			mLittleDesc.setVisibility(View.GONE);
 		} else {
-			littleDesc.setVisibility(View.VISIBLE);
+			mLittleDesc.setVisibility(View.VISIBLE);
 		}
 	}
 }
@@ -486,16 +484,16 @@ class CustomBottomSheetCallback extends BottomSheetBehavior.BottomSheetCallback 
 
 class ConnectButtonOnClickListener implements View.OnClickListener {
 	
-	private MapPresenter presenter;
-	private GameDataApi game;
+	private final MapPresenter mMapPresenter;
+	private final GameDataApi mGame;
 	
-	ConnectButtonOnClickListener(MapPresenter presenter, GameDataApi game) {
-		this.presenter = presenter;
-		this.game = game;
+	ConnectButtonOnClickListener(final MapPresenter presenter, final GameDataApi game) {
+		mMapPresenter = presenter;
+		mGame = game;
 	}
 	
 	@Override
-	public void onClick(View view) {
-		presenter.onConnectButtonClicked(game);
+	public void onClick(final View view) {
+		mMapPresenter.onConnectButtonClicked(mGame);
 	}
 }
