@@ -10,15 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="32289280-37bb-42d5-ae85-f4a7a27a635f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/base/PaginationScrollListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/base/PaginationScrollListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/concretgame/ConcretGameActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/concretgame/ConcretGameActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/concretgame/ConcretGameDescriptionAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/concretgame/ConcretGameDescriptionAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/concretgame/ConcretGameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/concretgame/ConcretGameModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/concretgame/ConcretGamePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/concretgame/ConcretGamePresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/concretgame/OrganizerConcretGameParticipantsAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/concretgame/OrganizerConcretGameParticipantsAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/map/MapFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/map/MapFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/map/MapPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/map/MapPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/creategame/AutoCompleteTextViewNoFilters.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/creategame/AutoCompleteTextViewNoFilters.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/creategame/CreateGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/creategame/CreateGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/creategame/CreateGameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/creategame/CreateGameModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/creategame/CreateGamePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/creategame/CreateGamePresenter.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -58,15 +53,6 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/base/PaginationScrollListener.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="520">
-              <caret line="39" column="1" lean-forward="true" selection-start-line="39" selection-start-column="1" selection-end-line="39" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/concretgame/ConcretGameActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="205">
@@ -91,24 +77,6 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/concretgame/ConcretGameItemClickListener.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/concretgame/ConcretGameModel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2720">
-              <caret line="76" column="5" selection-start-line="76" selection-start-column="5" selection-end-line="76" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/concretgame/ConcretGameView.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="285">
@@ -126,11 +94,38 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/concretgame/OrganizerConcretGameParticipantsAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="520">
-              <caret line="94" lean-forward="true" selection-start-line="94" selection-end-line="94" />
+            <state relative-caret-position="370">
+              <caret line="84" column="27" lean-forward="true" selection-start-line="84" selection-start-column="27" selection-end-line="84" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/creategame/AutoCompleteTextViewNoFilters.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="405">
+              <caret line="30" column="1" selection-start-line="30" selection-start-column="1" selection-end-line="30" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/creategame/CreateGame.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/creategame/CreateGameModel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="655">
+              <caret line="190" column="21" lean-forward="true" selection-start-line="190" selection-start-column="21" selection-end-line="190" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -157,6 +152,8 @@
       <find>Log.e(</find>
       <find>я колбэкнулся</find>
       <find>getClient</find>
+      <find>addPosition</find>
+      <find>addPosotion</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -165,9 +162,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/games/ConnectToGameListener.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/games/DeleteGameButtonClickListener.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/games/GamesAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/games/GamesRecyclerViewClickListener.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/games/UpdateGameButtonClickListener.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/map/MapPresenter.java" />
@@ -216,6 +210,9 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/concretgame/ConcretGameActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/map/MapFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/concretgame/OrganizerConcretGameParticipantsAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/creategame/AutoCompleteTextViewNoFilters.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/creategame/CreateGame.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/creategame/CreateGameModel.java" />
       </list>
     </option>
   </component>
@@ -289,19 +286,7 @@
               <item name="user" type="462c0819:PsiDirectoryNode" />
               <item name="sportify" type="462c0819:PsiDirectoryNode" />
               <item name="ui" type="462c0819:PsiDirectoryNode" />
-              <item name="concretgame" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Sportify-2.0" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="com" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="example" type="462c0819:PsiDirectoryNode" />
-              <item name="user" type="462c0819:PsiDirectoryNode" />
-              <item name="sportify" type="462c0819:PsiDirectoryNode" />
-              <item name="ui" type="462c0819:PsiDirectoryNode" />
-              <item name="concretgame" type="462c0819:PsiDirectoryNode" />
-              <item name="ConcretGameActivity.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+              <item name="creategame" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Sportify-2.0" type="1abcf292:AndroidViewProjectNode" />
@@ -313,6 +298,7 @@
               <item name="sportify" type="462c0819:PsiDirectoryNode" />
               <item name="ui" type="462c0819:PsiDirectoryNode" />
               <item name="creategame" type="462c0819:PsiDirectoryNode" />
+              <item name="CreateGame.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
             </path>
             <path>
               <item name="Sportify-2.0" type="1abcf292:AndroidViewProjectNode" />
@@ -357,6 +343,30 @@
               <item name="sportify" type="462c0819:PsiDirectoryNode" />
               <item name="ui" type="462c0819:PsiDirectoryNode" />
               <item name="registration" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Sportify-2.0" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="com" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="example" type="462c0819:PsiDirectoryNode" />
+              <item name="user" type="462c0819:PsiDirectoryNode" />
+              <item name="sportify" type="462c0819:PsiDirectoryNode" />
+              <item name="ui" type="462c0819:PsiDirectoryNode" />
+              <item name="registration" type="462c0819:PsiDirectoryNode" />
+              <item name="dialog" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Sportify-2.0" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="com" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="example" type="462c0819:PsiDirectoryNode" />
+              <item name="user" type="462c0819:PsiDirectoryNode" />
+              <item name="sportify" type="462c0819:PsiDirectoryNode" />
+              <item name="ui" type="462c0819:PsiDirectoryNode" />
+              <item name="registration" type="462c0819:PsiDirectoryNode" />
+              <item name="full" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Sportify-2.0" type="1abcf292:AndroidViewProjectNode" />
@@ -511,7 +521,14 @@
       <option name="project" value="LOCAL" />
       <updated>1576002136896</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Make ConcretGame more readable">
+      <created>1576003251342</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1576003251342</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TodoView">
@@ -528,7 +545,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.32967034" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.32967034" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info id="Build Variants" order="4" side_tool="true" />
@@ -540,8 +557,8 @@
       <window_info anchor="bottom" id="Run" order="1" />
       <window_info anchor="bottom" id="TODO" order="2" weight="0.32959184" />
       <window_info anchor="bottom" id="Find" order="3" weight="0.32959184" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="4" visible="true" weight="0.32959184" />
-      <window_info anchor="bottom" id="Event Log" order="5" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="4" sideWeight="0.4993895" weight="0.32959184" />
+      <window_info anchor="bottom" id="Event Log" order="5" sideWeight="0.50061053" side_tool="true" weight="0.32959184" />
       <window_info anchor="bottom" id="Version Control" order="6" weight="0.32902467" />
       <window_info anchor="bottom" id="Build" order="7" weight="0.32857144" />
       <window_info anchor="bottom" id="Logcat" order="8" weight="0.32959184" />
@@ -589,30 +606,10 @@
     <MESSAGE value="Make feed more readable" />
     <MESSAGE value="Make main more readable" />
     <MESSAGE value="Make map more readable" />
-    <option name="LAST_COMMIT_MESSAGE" value="Make map more readable" />
+    <MESSAGE value="Make ConcretGame more readable" />
+    <option name="LAST_COMMIT_MESSAGE" value="Make ConcretGame more readable" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/mygames/MyGamesModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="38" column="23" selection-start-line="38" selection-start-column="23" selection-end-line="38" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/mygames/MyGamesPresenter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1340">
-          <caret line="43" column="42" selection-start-line="43" selection-start-column="42" selection-end-line="43" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/mygames/MyGamesView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="35" selection-start-line="35" selection-end-line="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/profile/ProfileFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="377">
@@ -977,8 +974,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/concretgame/OrganizerConcretGameParticipantsAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
-          <caret line="94" lean-forward="true" selection-start-line="94" selection-end-line="94" />
+        <state relative-caret-position="370">
+          <caret line="84" column="27" lean-forward="true" selection-start-line="84" selection-start-column="27" selection-end-line="84" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/creategame/AutoCompleteTextViewNoFilters.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="30" column="1" selection-start-line="30" selection-start-column="1" selection-end-line="30" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/creategame/CreateGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/user/sportify/ui/creategame/CreateGameModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="655">
+          <caret line="190" column="21" lean-forward="true" selection-start-line="190" selection-start-column="21" selection-end-line="190" selection-end-column="21" />
         </state>
       </provider>
     </entry>

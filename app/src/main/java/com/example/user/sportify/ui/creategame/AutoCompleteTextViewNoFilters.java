@@ -5,23 +5,27 @@ import android.util.AttributeSet;
 
 public class AutoCompleteTextViewNoFilters extends androidx.appcompat.widget.AppCompatAutoCompleteTextView {
 	
-	public AutoCompleteTextViewNoFilters(Context context) {
+	public AutoCompleteTextViewNoFilters(final Context context) {
 		super(context);
 	}
 	
-	public AutoCompleteTextViewNoFilters(Context context, AttributeSet attrs) {
+	public AutoCompleteTextViewNoFilters(final Context context, final AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
 	}
 	
-	public AutoCompleteTextViewNoFilters(Context context, AttributeSet attrs, int defStyle) {
+	public AutoCompleteTextViewNoFilters(
+		final Context context,
+		final AttributeSet attrs,
+		final int defStyle
+	) {
 		super(context, attrs, defStyle);
 		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
-	protected void performFiltering(CharSequence text, int keyCode) {
-		String filterText = "";
+	protected void performFiltering(final CharSequence text, final int keyCode) {
+		final String filterText = "";
 		super.performFiltering(filterText, keyCode);
 	}
 }

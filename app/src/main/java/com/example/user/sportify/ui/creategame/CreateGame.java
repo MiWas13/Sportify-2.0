@@ -113,7 +113,7 @@ public class CreateGame extends MvpActivity<CreateGameView, CreateGamePresenter>
 	@BindView(R.id.new_game_people_quantity)
 	EditText newPeopleQuantity;
 	
-	private ArrayAdapter<String> addressAdapter;
+	private ArrayAdapter<String> mAddressAdapter;
 	
 	@NonNull
 	@Override
@@ -123,7 +123,7 @@ public class CreateGame extends MvpActivity<CreateGameView, CreateGamePresenter>
 	}
 	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(final Bundle savedInstanceState) {
 		MapKitFactory.initialize(this);
 		SearchFactory.initialize(this);
 		setContentView(R.layout.new_game_layout);
@@ -148,7 +148,7 @@ public class CreateGame extends MvpActivity<CreateGameView, CreateGamePresenter>
 	}
 	
 	@Override
-	public void setChangeableData(GameDataApi game) {
+	public void setChangeableData(final GameDataApi game) {
 		newGameAddress.setText(game.getLocation());
 		dateBtn.setText(getCurrentDate(game.getDate(), game.getTime()));
 		showPhone.setChecked(true);
@@ -164,7 +164,7 @@ public class CreateGame extends MvpActivity<CreateGameView, CreateGamePresenter>
 		}
 	}
 	
-	private void getImageWithPicasso(String photoUrl, ImageView imageView) {
+	private void getImageWithPicasso(final String photoUrl, final ImageView imageView) {
 		Picasso.with(this)
 			.load(photoUrl)
 			.placeholder(R.drawable.image_placeholder)
@@ -176,25 +176,25 @@ public class CreateGame extends MvpActivity<CreateGameView, CreateGamePresenter>
 	
 	
 	@SuppressLint("SimpleDateFormat")
-	private String getCurrentDate(String serverDate, String time) {
-		Locale russian = new Locale("ru");
-		String[] newMonths = {
+	private static String getCurrentDate(final String serverDate, final String time) {
+		final Locale russian = new Locale("ru");
+		final String[] newMonths = {
 			"января", "февраля", "марта", "апреля", "мая", "июня",
 			"июля", "августа", "сентября", "октября", "ноября", "декабря" };
-		DateFormatSymbols dateFormatSymbols = DateFormatSymbols.getInstance(russian);
+		final DateFormatSymbols dateFormatSymbols = DateFormatSymbols.getInstance(russian);
 		dateFormatSymbols.setMonths(newMonths);
-		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, russian);
-		SimpleDateFormat simpleDateFormat = (SimpleDateFormat) dateFormat;
+		final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, russian);
+		final SimpleDateFormat simpleDateFormat = (SimpleDateFormat) dateFormat;
 		simpleDateFormat.setDateFormatSymbols(dateFormatSymbols);
 		
-		StringBuilder stringBuilder = new StringBuilder(time);
+		final StringBuilder stringBuilder = new StringBuilder(time);
 		
 		stringBuilder.delete(stringBuilder.lastIndexOf(":"), 8);
 		
 		Date date = null;
 		try {
 			date = new SimpleDateFormat("yyyy-MM-dd").parse(serverDate);
-		} catch (ParseException e) {
+		} catch (final ParseException e) {
 			e.printStackTrace();
 		}
 		return simpleDateFormat.format(date) + " в " + stringBuilder.toString();
@@ -214,22 +214,22 @@ public class CreateGame extends MvpActivity<CreateGameView, CreateGamePresenter>
 	
 	
 	@Override
-	public void initAddressField(ArrayAdapter<String> addressAdapter) {
-		this.addressAdapter = addressAdapter;
-		newGameAddress.setAdapter(this.addressAdapter);
+	public void initAddressField(final ArrayAdapter<String> addressAdapter) {
+		mAddressAdapter = addressAdapter;
+		newGameAddress.setAdapter(mAddressAdapter);
 	}
 	
 	@Override
-	public void initCategorySpinner(ArrayAdapter<String> categoriesAdapter) {
+	public void initCategorySpinner(final ArrayAdapter<String> categoriesAdapter) {
 		categorySpinner.setAdapter(categoriesAdapter);
 		categorySpinner.setOnItemSelectedListener(new OnCategoryItemClicked(presenter));
 	}
 	
 	@Override
-	public void updateAddressAdapter(List<String> suggestResult) {
-		addressAdapter.clear();
-		addressAdapter.addAll(suggestResult);
-		addressAdapter.notifyDataSetChanged();
+	public void updateAddressAdapter(final List<String> suggestResult) {
+		mAddressAdapter.clear();
+		mAddressAdapter.addAll(suggestResult);
+		mAddressAdapter.notifyDataSetChanged();
 	}
 	
 	
@@ -252,22 +252,22 @@ public class CreateGame extends MvpActivity<CreateGameView, CreateGamePresenter>
 	}
 	
 	@Override
-	public void showDataPickerDialog(DatePickerDialog datePickerDialog) {
+	public void showDataPickerDialog(final DatePickerDialog datePickerDialog) {
 		datePickerDialog.show();
 	}
 	
 	@Override
-	public void showTimePickerDialog(TimePickerDialog timePickerDialog) {
+	public void showTimePickerDialog(final TimePickerDialog timePickerDialog) {
 		timePickerDialog.show();
 	}
 	
 	@Override
-	public void setDateFieldValue(String date) {
+	public void setDateFieldValue(final String date) {
 		dateBtn.setText(date);
 	}
 	
 	@Override
-	public void setLocationImage(Bitmap bitmap) {
+	public void setLocationImage(final Bitmap bitmap) {
 		newLocationImage.setImageBitmap(bitmap);
 		locationImageButton.setVisibility(View.GONE);
 		shadow.setVisibility(View.GONE);
@@ -300,19 +300,19 @@ public class CreateGame extends MvpActivity<CreateGameView, CreateGamePresenter>
 	}
 	
 	@Override
-	public void getImageFromGallery(Intent photoPickerIntent) {
+	public void getImageFromGallery(final Intent photoPickerIntent) {
 		startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
 	}
 	
 	@Override
-	public void showProgressDialog(ProgressDialog progressDialog, String tag) {
-		FragmentManager manager = getSupportFragmentManager();
-		FragmentTransaction transaction = manager.beginTransaction();
+	public void showProgressDialog(final ProgressDialog progressDialog, final String tag) {
+		final FragmentManager manager = getSupportFragmentManager();
+		final FragmentTransaction transaction = manager.beginTransaction();
 		progressDialog.show(transaction, tag);
 	}
 	
 	@Override
-	public void hideProgressDialog(ProgressDialog progressDialog) {
+	public void hideProgressDialog(final ProgressDialog progressDialog) {
 		progressDialog.dismiss();
 	}
 	
@@ -352,7 +352,7 @@ public class CreateGame extends MvpActivity<CreateGameView, CreateGamePresenter>
 	}
 	
 	@Override
-	public void showPermissionSnack(String message) {
+	public void showPermissionSnack(final String message) {
 		Snackbar.make(
 			getWindow().getDecorView().getRootView(),
 			message,
@@ -361,9 +361,9 @@ public class CreateGame extends MvpActivity<CreateGameView, CreateGamePresenter>
 	
 	@Override
 	protected void onActivityResult(
-		int requestCode,
-		int resultCode,
-		@Nullable Intent imageReturnedIntent
+		final int requestCode,
+		final int resultCode,
+		@Nullable final Intent imageReturnedIntent
 	) {
 		super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 		if (imageReturnedIntent != null) {
@@ -374,9 +374,9 @@ public class CreateGame extends MvpActivity<CreateGameView, CreateGamePresenter>
 	
 	@Override
 	public void onRequestPermissionsResult(
-		int requestCode,
-		@NonNull String permissions[],
-		@NonNull int[] grantResults
+		final int requestCode,
+		@NonNull final String[] permissions,
+		@NonNull final int[] grantResults
 	) {
 		presenter.permissionChecked(requestCode, permissions, grantResults);
 	}
@@ -390,152 +390,170 @@ public class CreateGame extends MvpActivity<CreateGameView, CreateGamePresenter>
 
 class NewGameTextWatcher implements TextWatcher {
 	
-	private CreateGamePresenter presenter;
-	private AutoCompleteTextView autoCompleteTextView;
-	private int editTextType;
+	private final CreateGamePresenter mCreateGamePresenter;
+	private final AutoCompleteTextView mAutoCompleteTextView;
+	private final int mEditTextType;
 	
 	NewGameTextWatcher(
-		CreateGamePresenter presenter,
-		AutoCompleteTextView autoCompleteTextView,
-		int editTextType
+		final CreateGamePresenter presenter,
+		final AutoCompleteTextView autoCompleteTextView,
+		final int editTextType
 	) {
-		this.presenter = presenter;
-		this.autoCompleteTextView = autoCompleteTextView;
-		this.editTextType = editTextType;
+		mCreateGamePresenter = presenter;
+		mAutoCompleteTextView = autoCompleteTextView;
+		mEditTextType = editTextType;
 	}
 	
 	@Override
-	public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+	public void beforeTextChanged(
+		final CharSequence charSequence,
+		final int i,
+		final int i1,
+		final int i2
+	) {
 	
 	}
 	
 	@Override
-	public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//        if (editTextType == NEW_LOCATION) {
-//            autoCompleteTextView.showDropDown();
-//        }
+	public void onTextChanged(
+		final CharSequence charSequence,
+		final int i,
+		final int i1,
+		final int i2
+	) {
+	
 	}
 	
 	@Override
-	public void afterTextChanged(Editable editable) {
-		if (editTextType == NEW_LOCATION) {
-			presenter.requestSuggest(editable.toString());
+	public void afterTextChanged(final Editable editable) {
+		if (mEditTextType == NEW_LOCATION) {
+			mCreateGamePresenter.requestSuggest(editable.toString());
 		}
-		presenter.fieldChanged(editable.toString(), editTextType);
+		mCreateGamePresenter.fieldChanged(editable.toString(), mEditTextType);
 	}
 }
 
 class NewGameDatePickerListener implements DatePickerDialog.OnDateSetListener {
 	
-	private CreateGamePresenter presenter;
+	private final CreateGamePresenter mCreateGamePresenter;
 	
-	NewGameDatePickerListener(CreateGamePresenter presenter) {
-		this.presenter = presenter;
+	NewGameDatePickerListener(final CreateGamePresenter presenter) {
+		mCreateGamePresenter = presenter;
 	}
 	
 	
 	@Override
-	public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-		presenter.onDataSet(year, month, day);
+	public void onDateSet(
+		final DatePicker datePicker,
+		final int year,
+		final int month,
+		final int day
+	) {
+		mCreateGamePresenter.onDataSet(year, month, day);
 	}
 }
 
 class NewGameTimePickerListener implements TimePickerDialog.OnTimeSetListener {
 	
-	private CreateGamePresenter presenter;
-	private int year;
-	private int month;
-	private int day;
+	private final CreateGamePresenter mCreateGamePresenter;
+	private final int mYear;
+	private final int mMonth;
+	private final int mDay;
 	
-	NewGameTimePickerListener(CreateGamePresenter presenter, int year, int month, int day) {
-		this.presenter = presenter;
-		this.year = year;
-		this.month = month;
-		this.day = day;
+	NewGameTimePickerListener(
+		final CreateGamePresenter presenter,
+		final int year,
+		final int month,
+		final int day
+	) {
+		mCreateGamePresenter = presenter;
+		mYear = year;
+		mMonth = month;
+		mDay = day;
 	}
 	
 	@Override
-	public void onTimeSet(TimePicker timePicker, int hours, int minutes) {
-		presenter.onTimeSet(year, month, day, hours, minutes);
+	public void onTimeSet(final TimePicker timePicker, final int hours, final int minutes) {
+		mCreateGamePresenter.onTimeSet(mYear, mMonth, mDay, hours, minutes);
 	}
 }
 
 class NewGameDataButtonListener implements SearchView.OnClickListener {
 	
-	private CreateGamePresenter presenter;
+	private final CreateGamePresenter mCreateGamePresenter;
 	
-	NewGameDataButtonListener(CreateGamePresenter presenter) {
-		this.presenter = presenter;
+	NewGameDataButtonListener(final CreateGamePresenter presenter) {
+		mCreateGamePresenter = presenter;
 	}
 	
 	@Override
-	public void onClick(View view) {
-		presenter.onDataButtonClicked();
+	public void onClick(final View view) {
+		mCreateGamePresenter.onDataButtonClicked();
 	}
 }
 
 class NewGameLocationImage implements View.OnClickListener {
 	
-	private CreateGamePresenter presenter;
+	private final CreateGamePresenter mCreateGamePresenter;
 	
-	NewGameLocationImage(CreateGamePresenter presenter) {
-		this.presenter = presenter;
+	NewGameLocationImage(final CreateGamePresenter presenter) {
+		mCreateGamePresenter = presenter;
 	}
 	
 	@Override
-	public void onClick(View view) {
-		presenter.onLocationImageClicked();
+	public void onClick(final View view) {
+		mCreateGamePresenter.onLocationImageClicked();
 	}
 }
 
 class NewGameSwitcherCheckListener implements CompoundButton.OnCheckedChangeListener {
 	
-	private CreateGamePresenter presenter;
+	private final CreateGamePresenter mCreateGamePresenter;
 	
-	NewGameSwitcherCheckListener(CreateGamePresenter presenter) {
-		this.presenter = presenter;
+	NewGameSwitcherCheckListener(final CreateGamePresenter presenter) {
+		mCreateGamePresenter = presenter;
 	}
 	
 	@Override
-	public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-		presenter.showPhoneChanged(b);
+	public void onCheckedChanged(final CompoundButton compoundButton, final boolean b) {
+		mCreateGamePresenter.showPhoneChanged(b);
 	}
 }
 
 class NewConfirmButtonListener implements View.OnClickListener {
 	
-	private CreateGamePresenter presenter;
+	private final CreateGamePresenter mCreateGamePresenter;
 	
-	NewConfirmButtonListener(CreateGamePresenter presenter) {
-		this.presenter = presenter;
+	NewConfirmButtonListener(final CreateGamePresenter presenter) {
+		mCreateGamePresenter = presenter;
 	}
 	
 	@Override
-	public void onClick(View view) {
-		presenter.onConfirmClicked();
+	public void onClick(final View view) {
+		mCreateGamePresenter.onConfirmClicked();
 	}
 }
 
 class OnCategoryItemClicked implements AdapterView.OnItemSelectedListener {
 	
-	private CreateGamePresenter presenter;
+	private final CreateGamePresenter mCreateGamePresenter;
 	
-	OnCategoryItemClicked(CreateGamePresenter presenter) {
-		this.presenter = presenter;
+	OnCategoryItemClicked(final CreateGamePresenter presenter) {
+		mCreateGamePresenter = presenter;
 	}
 	
 	@Override
 	public void onItemSelected(
-		AdapterView<?> adapterView,
-		View view,
-		int selectedItemPosition,
-		long selectedId
+		final AdapterView<?> adapterView,
+		final View view,
+		final int selectedItemPosition,
+		final long selectedId
 	) {
-		presenter.fieldChanged(String.valueOf(selectedId), NEW_CATEGORY_ID);
+		mCreateGamePresenter.fieldChanged(String.valueOf(selectedId), NEW_CATEGORY_ID);
 	}
 	
 	@Override
-	public void onNothingSelected(AdapterView<?> adapterView) {
+	public void onNothingSelected(final AdapterView<?> adapterView) {
 	
 	}
 }

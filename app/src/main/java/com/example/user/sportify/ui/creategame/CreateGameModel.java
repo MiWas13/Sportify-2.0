@@ -25,47 +25,47 @@ import retrofit2.Response;
 
 class CreateGameModel {
 	
-	private AuthSessionManager authSessionManager;
-	private SessionComponent daggerSessionComponent;
+	private AuthSessionManager mAuthSessionManager;
+	private final SessionComponent mDaggerSessionComponent;
 	
 	
 	private void initDatabase() {
-		authSessionManager = daggerSessionComponent.getAuthSessionManager();
+		mAuthSessionManager = mDaggerSessionComponent.getAuthSessionManager();
 	}
 	
-	CreateGameModel(SessionComponent daggerSessionComponent) {
-		this.daggerSessionComponent = daggerSessionComponent;
+	CreateGameModel(final SessionComponent daggerSessionComponent) {
+		mDaggerSessionComponent = daggerSessionComponent;
 		initDatabase();
 	}
 	
 	public SessionData getSessionData() {
-		return authSessionManager.getSessionData();
+		return mAuthSessionManager.getSessionData();
 	}
 	
-	void createGame(
-		CreateGameCallback callback,
-		File file,
-		String token,
-		String categoryId,
-		String description,
-		String date,
-		String time,
-		String location,
-		String coordinates,
-		String maxPeopleQuantity,
-		String currentPeopleQuantity
+	static void createGame(
+		final CreateGameCallback callback,
+		final File file,
+		final String token,
+		final String categoryId,
+		final String description,
+		final String date,
+		final String time,
+		final String location,
+		final String coordinates,
+		final String maxPeopleQuantity,
+		final String currentPeopleQuantity
 	) {
-		MultipartBody.Part fileMulti = makeMultipartablePicture(file);
-		RequestBody tokeMulti = makeMultipartable(token);
-		RequestBody categoryIdMulti = makeMultipartable(categoryId);
-		RequestBody descriptionMulti = makeMultipartable(description);
-		RequestBody dateMulti = makeMultipartable(date);
-		RequestBody timeMulti = makeMultipartable(time);
-		RequestBody locationMulti = makeMultipartable(location);
-		RequestBody coordinatesMulti = makeMultipartable(coordinates);
-		RequestBody maxPeopleQuantityMulti = makeMultipartable(maxPeopleQuantity);
-		RequestBody currentPeopleQuantityMulti = makeMultipartable(currentPeopleQuantity);
-		CreateGameTask createGameTask = new CreateGameTask(
+		final MultipartBody.Part fileMulti = makeMultipartablePicture(file);
+		final RequestBody tokeMulti = makeMultipartable(token);
+		final RequestBody categoryIdMulti = makeMultipartable(categoryId);
+		final RequestBody descriptionMulti = makeMultipartable(description);
+		final RequestBody dateMulti = makeMultipartable(date);
+		final RequestBody timeMulti = makeMultipartable(time);
+		final RequestBody locationMulti = makeMultipartable(location);
+		final RequestBody coordinatesMulti = makeMultipartable(coordinates);
+		final RequestBody maxPeopleQuantityMulti = makeMultipartable(maxPeopleQuantity);
+		final RequestBody currentPeopleQuantityMulti = makeMultipartable(currentPeopleQuantity);
+		final CreateGameTask createGameTask = new CreateGameTask(
 			callback,
 			fileMulti,
 			tokeMulti,
@@ -80,18 +80,18 @@ class CreateGameModel {
 		createGameTask.execute();
 	}
 	
-	void updateGame(
-		CreateGameCallback callback,
-		String categoryId,
-		String description,
-		String date,
-		String time,
-		String location,
-		String coordinates,
-		String maxPeopleQuantity,
-		String gameId
+	static void updateGame(
+		final CreateGameCallback callback,
+		final String categoryId,
+		final String description,
+		final String date,
+		final String time,
+		final String location,
+		final String coordinates,
+		final String maxPeopleQuantity,
+		final String gameId
 	) {
-		UpdateGameTask updateGameTask = new UpdateGameTask(
+		final UpdateGameTask updateGameTask = new UpdateGameTask(
 			callback,
 			categoryId,
 			description,
@@ -104,12 +104,12 @@ class CreateGameModel {
 		updateGameTask.execute();
 	}
 	
-	void getLocation(LocationCallback callback, String geocode) {
-		GetLocationTask getLocationTask = new GetLocationTask(callback, geocode);
+	static void getLocation(final LocationCallback callback, final String geocode) {
+		final GetLocationTask getLocationTask = new GetLocationTask(callback, geocode);
 		getLocationTask.execute();
 	}
 	
-	private Call<LocationData> callCancelGameApi(String geocode) {
+	private static Call<LocationData> callCancelGameApi(final String geocode) {
 		return AppBase.getBaseService().getLocation(geocode);
 	}
 	
@@ -124,13 +124,13 @@ class CreateGameModel {
 		void onLocationReceived(String coordinates);
 	}
 	
-	private RequestBody makeMultipartable(String content) {
+	private static RequestBody makeMultipartable(final String content) {
 		return RequestBody.create(MediaType.parse("multipart/form-data"), content);
 	}
 	
-	private MultipartBody.Part makeMultipartablePicture(File file) {
+	private static MultipartBody.Part makeMultipartablePicture(final File file) {
 		if (file != null) {
-			RequestBody requestFile = RequestBody.create(
+			final RequestBody requestFile = RequestBody.create(
 				MediaType.parse("multipart/form-data"),
 				file.getAbsoluteFile());
 			return MultipartBody.Part.createFormData("file", file.getName(), requestFile);
@@ -139,75 +139,78 @@ class CreateGameModel {
 		}
 	}
 	
-	class CreateGameTask extends AsyncTask<Void, Void, Void> {
+	static class CreateGameTask extends AsyncTask<Void, Void, Void> {
 		
-		private CreateGameCallback callback;
-		private MultipartBody.Part picture;
-		private RequestBody token;
-		private RequestBody categoryId;
-		private RequestBody description;
-		private RequestBody date;
-		private RequestBody time;
-		private RequestBody location;
-		private RequestBody coordinates;
-		private RequestBody maxPeopleQuantity;
-		private RequestBody currentPeopleQuantity;
+		private final CreateGameCallback mCreateGameCallback;
+		private final MultipartBody.Part mPicture;
+		private final RequestBody mToken;
+		private final RequestBody mCategoryId;
+		private final RequestBody mDescription;
+		private final RequestBody mDate;
+		private final RequestBody mTime;
+		private final RequestBody mLocation;
+		private final RequestBody mCoordinates;
+		private final RequestBody mMaxPeopleQuantity;
+		private final RequestBody mCurrentPeopleQuantity;
 		
-		CreateGameTask(
-			CreateGameCallback callback,
-			MultipartBody.Part picture,
-			RequestBody token,
-			RequestBody categoryId,
-			RequestBody description,
-			RequestBody date,
-			RequestBody time,
-			RequestBody location,
-			RequestBody coordinates,
-			RequestBody maxPeopleQuantity,
-			RequestBody currentPeopleQuantity
+		private CreateGameTask(
+			final CreateGameCallback callback,
+			final MultipartBody.Part picture,
+			final RequestBody token,
+			final RequestBody categoryId,
+			final RequestBody description,
+			final RequestBody date,
+			final RequestBody time,
+			final RequestBody location,
+			final RequestBody coordinates,
+			final RequestBody maxPeopleQuantity,
+			final RequestBody currentPeopleQuantity
 		) {
 			
-			this.callback = callback;
-			this.picture = picture;
-			this.token = token;
-			this.categoryId = categoryId;
-			this.description = description;
-			this.date = date;
-			this.time = time;
-			this.location = location;
-			this.coordinates = coordinates;
-			this.maxPeopleQuantity = maxPeopleQuantity;
-			this.currentPeopleQuantity = currentPeopleQuantity;
+			mCreateGameCallback = callback;
+			mPicture = picture;
+			mToken = token;
+			mCategoryId = categoryId;
+			mDescription = description;
+			mDate = date;
+			mTime = time;
+			mLocation = location;
+			mCoordinates = coordinates;
+			mMaxPeopleQuantity = maxPeopleQuantity;
+			mCurrentPeopleQuantity = currentPeopleQuantity;
 		}
 		
 		@Override
-		protected Void doInBackground(Void... voids) {
+		protected Void doInBackground(final Void... voids) {
 			
-			Call<ResponseBody> call = AppBase.getBaseService().createGame(
-				token,
-				categoryId,
-				description,
-				date,
-				time,
-				location,
-				picture,
-				coordinates,
-				maxPeopleQuantity,
-				currentPeopleQuantity);
+			final Call<ResponseBody> call = AppBase.getBaseService().createGame(
+				mToken,
+				mCategoryId,
+				mDescription,
+				mDate,
+				mTime,
+				mLocation,
+				mPicture,
+				mCoordinates,
+				mMaxPeopleQuantity,
+				mCurrentPeopleQuantity);
 			call.enqueue(new Callback<ResponseBody>() {
 				
 				@Override
 				public void onResponse(
-					@NonNull Call<ResponseBody> call,
-					@NonNull Response<ResponseBody> response
+					@NonNull final Call<ResponseBody> call,
+					@NonNull final Response<ResponseBody> response
 				) {
-					if (callback != null) {
-						callback.onGameCreated(String.valueOf(response.message()));
+					if (mCreateGameCallback != null) {
+						mCreateGameCallback.onGameCreated(String.valueOf(response.message()));
 					}
 				}
 				
 				@Override
-				public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+				public void onFailure(
+					@NonNull final Call<ResponseBody> call,
+					@NonNull final Throwable t
+				) {
 					t.printStackTrace();
 					Log.e("ex", "ошибка");
 				}
@@ -217,66 +220,69 @@ class CreateGameModel {
 		}
 	}
 	
-	class UpdateGameTask extends AsyncTask<Void, Void, Void> {
+	static class UpdateGameTask extends AsyncTask<Void, Void, Void> {
 		
-		private CreateGameCallback callback;
-		private String categoryId;
-		private String description;
-		private String date;
-		private String time;
-		private String location;
-		private String coordinates;
-		private String maxPeopleQuantity;
-		private String gameId;
+		private final CreateGameCallback mCreateGameCallback;
+		private final String mCategoryId;
+		private final String mDescription;
+		private final String mDate;
+		private final String mTime;
+		private final String mLocation;
+		private final String mCoordinates;
+		private final String mMaxPeopleQuantity;
+		private final String mGameId;
 		
-		UpdateGameTask(
-			CreateGameCallback callback,
-			String categoryId,
-			String description,
-			String date,
-			String time,
-			String location,
-			String coordinates,
-			String maxPeopleQuantity,
-			String gameId
+		private UpdateGameTask(
+			final CreateGameCallback callback,
+			final String categoryId,
+			final String description,
+			final String date,
+			final String time,
+			final String location,
+			final String coordinates,
+			final String maxPeopleQuantity,
+			final String gameId
 		) {
-			this.callback = callback;
-			this.categoryId = categoryId;
-			this.description = description;
-			this.date = date;
-			this.time = time;
-			this.location = location;
-			this.coordinates = coordinates;
-			this.maxPeopleQuantity = maxPeopleQuantity;
-			this.gameId = gameId;
+			mCreateGameCallback = callback;
+			mCategoryId = categoryId;
+			mDescription = description;
+			mDate = date;
+			mTime = time;
+			mLocation = location;
+			mCoordinates = coordinates;
+			mMaxPeopleQuantity = maxPeopleQuantity;
+			mGameId = gameId;
 		}
 		
 		@Override
-		protected Void doInBackground(Void... voids) {
+		protected Void doInBackground(final Void... voids) {
 			
-			Call<ResponseBody> call = AppBase.getBaseService().updateGame(
-				categoryId,
-				description,
-				date,
-				time,
-				location,
-				coordinates,
-				maxPeopleQuantity,
-				gameId);
+			final Call<ResponseBody> call = AppBase.getBaseService().updateGame(
+				mCategoryId,
+				mDescription,
+				mDate,
+				mTime,
+				mLocation,
+				mCoordinates,
+				mMaxPeopleQuantity,
+				mGameId);
 			call.enqueue(new Callback<ResponseBody>() {
 				
 				@Override
 				public void onResponse(
-					@NonNull Call<ResponseBody> call,
-					@NonNull Response<ResponseBody> response
+					@NonNull final Call<ResponseBody> call,
+					@NonNull final Response<ResponseBody> response
 				) {
-					if (callback != null) {
-						callback.onGameCreated(String.valueOf(response.message()));
+					if (mCreateGameCallback != null) {
+						mCreateGameCallback.onGameCreated(String.valueOf(response.message()));
 					}
 				}
 				
 				@Override
-				public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+				public void onFailure(
+					@NonNull final Call<ResponseBody> call,
+					@NonNull final Throwable t
+				) {
 					t.printStackTrace();
 					Log.e("ex", "ошибка");
 				}
@@ -286,31 +292,33 @@ class CreateGameModel {
 		}
 	}
 	
-	class GetLocationTask extends AsyncTask<Void, Void, Void> {
+	static class GetLocationTask extends AsyncTask<Void, Void, Void> {
 		
-		private String geocode;
-		private LocationCallback callback;
+		private final String mGeocode;
+		private final LocationCallback mLocationCallback;
 		
-		GetLocationTask(LocationCallback callback, String geocode) {
-			this.geocode = geocode;
-			this.callback = callback;
+		private GetLocationTask(final LocationCallback callback, final String geocode) {
+			mGeocode = geocode;
+			mLocationCallback = callback;
 		}
 		
 		@Override
-		protected Void doInBackground(Void... voids) {
-			callCancelGameApi(geocode).enqueue(new Callback<LocationData>() {
+		protected Void doInBackground(final Void... voids) {
+			callCancelGameApi(mGeocode).enqueue(new Callback<LocationData>() {
 				
 				@Override
 				public void onResponse(
-					@NonNull Call<LocationData> call,
-					@NonNull Response<LocationData> response
+					@NonNull final Call<LocationData> call,
+					@NonNull final Response<LocationData> response
 				) {
-					callback.onLocationReceived(Objects.requireNonNull(response.body()).getLocation());
-//                    Log.e("loc", Objects.requireNonNull(response.body()).getLocation());
+					mLocationCallback.onLocationReceived(Objects.requireNonNull(response.body()).getLocation());
 				}
 				
 				@Override
-				public void onFailure(@NonNull Call<LocationData> call, @NonNull Throwable t) {
+				public void onFailure(
+					@NonNull final Call<LocationData> call,
+					@NonNull final Throwable t
+				) {
 				
 				}
 			});

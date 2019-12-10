@@ -407,14 +407,14 @@ class CreateGamePresenter extends MvpBasePresenter<CreateGameView> {
 		
 		
 		if (!hasErrors) {
-			createGameModel.getLocation(coordinates -> {
+			CreateGameModel.getLocation(coordinates -> {
 				location = trimLocation();
 				ifViewAttached(view -> view.showProgressDialog(
 					progressDialog = new ProgressDialog(),
 					PROGRESS_DIALOG_FRAGMENT));
 				new android.os.Handler().postDelayed(() -> {
 					if (!isChanging) {
-						createGameModel.createGame(
+						CreateGameModel.createGame(
 							response -> ifViewAttached(view -> {
 								view.hideProgressDialog(progressDialog);
 								view.finishActivity();
@@ -430,7 +430,7 @@ class CreateGamePresenter extends MvpBasePresenter<CreateGameView> {
 							maxPeopleQuantity,
 							"1");
 					} else {
-						createGameModel.updateGame(
+						CreateGameModel.updateGame(
 							response -> ifViewAttached(view -> {
 								view.hideProgressDialog(progressDialog);
 								view.finishActivity();
