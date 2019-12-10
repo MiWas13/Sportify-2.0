@@ -11,95 +11,93 @@ import static com.example.user.sportify.ui.utils.Constants.PROGRESS_DIALOG_FRAGM
 
 class ProfilePresenter extends MvpBasePresenter<ProfileView> {
 	
-	private ProfileModel profileModel;
-	private Boolean passwordIsValid = false;
-	private Boolean newPasswordIsValid = false;
-	private String password = null;
-	private Boolean nameIsValid = true;
-	private String name = null;
-	private Boolean phoneIsValid = true;
-	private String phone = null;
-	private Boolean hasErrors = false;
-	private Boolean isPhoneChecked = false;
-	private ProgressDialog progressDialog;
+	private final ProfileModel mProfileModel;
+	private Boolean mPasswordIsValid = false;
+	private Boolean mNewPasswordIsValid = false;
+	private String mPassword = null;
+	private Boolean mNameIsValid = true;
+	private String mName = null;
+	private Boolean mPhoneIsValid = true;
+	private String mPhone = null;
+	private Boolean mHasErrors = false;
+	private Boolean mIsPhoneChecked = false;
+	private ProgressDialog mProgressDialog;
 	
-	ProfilePresenter(ProfileModel profileModel) {
-		this.profileModel = profileModel;
+	ProfilePresenter(final ProfileModel profileModel) {
+		this.mProfileModel = profileModel;
 	}
 	
 	public void onViewCreated() {
 		ifViewAttached(view -> view.setFieldsContent(
-			profileModel.getSessionData().name,
-			profileModel.getSessionData().phone));
-		isPhoneChecked = true;
-		nameIsValid = true;
-		phone = profileModel.getSessionData().phone;
-		name = profileModel.getSessionData().name;
-		phoneIsValid = true;
-		nameIsValid = true;
+			mProfileModel.getSessionData().name,
+			mProfileModel.getSessionData().phone));
+		mIsPhoneChecked = true;
+		mNameIsValid = true;
+		mPhone = mProfileModel.getSessionData().phone;
+		mName = mProfileModel.getSessionData().name;
+		mPhoneIsValid = true;
+		mNameIsValid = true;
 	}
 	
-	void fieldChanged(String inputText, int fieldType) {
+	void fieldChanged(final String inputText, final int fieldType) {
 		switch (fieldType) {
 			case PASSWORD_EDIT_TEXT:
-				passwordIsValid = inputText.length() >= 6;
+				mPasswordIsValid = inputText.length() >= 6;
 				break;
 			case NEW_PASSWORD_EDIT_TEXT:
-				newPasswordIsValid = inputText.length() >= 6;
-				password = inputText;
+				mNewPasswordIsValid = inputText.length() >= 6;
+				mPassword = inputText;
 				break;
 			case NAME_EDIT_TEXT:
-				nameIsValid = inputText.length() > 0;
-				name = inputText;
+				mNameIsValid = inputText.length() > 0;
+				mName = inputText;
 				break;
 			case PHONE_EDIT_TEXT:
-				isPhoneChecked = false;
-				phoneIsValid = inputText.length() >= 18;
-				phone = inputText;
+				mIsPhoneChecked = false;
+				mPhoneIsValid = inputText.length() >= 18;
+				mPhone = inputText;
 				break;
 		}
 		ifViewAttached(ProfileView::showConfirmButton);
 	}
 	
 	void onConfirmButtonClicked() {
-		if (!passwordIsValid) {
-			hasErrors = true;
+		if (!mPasswordIsValid) {
+			mHasErrors = true;
 			ifViewAttached(ProfileView::setPasswordError);
 		}
 		
-		if (!newPasswordIsValid) {
-			hasErrors = true;
+		if (!mNewPasswordIsValid) {
+			mHasErrors = true;
 			ifViewAttached(ProfileView::setNewPasswordError);
 		}
 		
-		if (!nameIsValid) {
-			hasErrors = true;
+		if (!mNameIsValid) {
+			mHasErrors = true;
 			ifViewAttached(ProfileView::setNameError);
 		}
 		
-		if (!phoneIsValid) {
-			hasErrors = true;
+		if (!mPhoneIsValid) {
+			mHasErrors = true;
 			ifViewAttached(ProfileView::setPhoneError);
 		}
 		
-		if (!hasErrors && checkPhone()) {
+		if (!mHasErrors && checkPhone()) {
 			ifViewAttached(view -> view.showProgressBar(
-				progressDialog = new ProgressDialog(),
+				mProgressDialog = new ProgressDialog(),
 				PROGRESS_DIALOG_FRAGMENT));
-			profileModel.updateProfile(response -> {
+			ProfileModel.updateProfile(response -> {
 				ifViewAttached(view -> {
-					view.hideProgressBar(progressDialog);
+					view.hideProgressBar(mProgressDialog);
 					view.clearPasswordFields();
 				});
-			}, profileModel.getSessionData().authToken, name, phone, password);
+			}, mProfileModel.getSessionData().authToken, mName, mPhone, mPassword);
 		}
 	}
 	
 	private Boolean checkPhone() {
-		if (isPhoneChecked) {
-			return true;
-		} else {
-			StringBuilder sb = new StringBuilder(phone);
+		if (!mIsPhoneChecked) {
+			final StringBuilder sb = new StringBuilder(mPhone);
 			sb.delete(0, 4);
 			sb.delete(3, 5);
 			
@@ -109,10 +107,10 @@ class ProfilePresenter extends MvpBasePresenter<ProfileView> {
 			if (!(sb.length() == 10)) {
 				sb.deleteCharAt(10);
 			}
-			phone = sb.toString();
-			isPhoneChecked = true;
-			return true;
+			mPhone = sb.toString();
+			mIsPhoneChecked = true;
 		}
+		return true;
 	}
 	
 }

@@ -74,11 +74,11 @@ public class ProfileFragment extends MvpFragment<ProfileView, ProfilePresenter> 
 	@Nullable
 	@Override
 	public View onCreateView(
-		@NonNull LayoutInflater inflater,
-		@Nullable ViewGroup container,
-		@Nullable Bundle savedInstanceState
+		@NonNull final LayoutInflater inflater,
+		@Nullable final ViewGroup container,
+		@Nullable final Bundle savedInstanceState
 	) {
-		View view = inflater.inflate(R.layout.profile_layout, null);
+		final View view = inflater.inflate(R.layout.profile_layout, null);
 		ButterKnife.bind(this, view);
 		profileName.addTextChangedListener(new CustomTextWatcher(presenter, NAME_EDIT_TEXT));
 		profilePhone.addTextChangedListener(new CustomTextWatcher(presenter, PHONE_EDIT_TEXT));
@@ -93,13 +93,13 @@ public class ProfileFragment extends MvpFragment<ProfileView, ProfilePresenter> 
 	}
 	
 	@Override
-	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+	public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		getPresenter().onViewCreated();
 	}
 	
 	@Override
-	public void setFieldsContent(String name, String phone) {
+	public void setFieldsContent(final String name, final String phone) {
 		profileName.setText(name, TextView.BufferType.EDITABLE);
 		profilePhone.setText(phone, TextView.BufferType.EDITABLE);
 		changeProfileButton.setVisibility(View.INVISIBLE);
@@ -145,57 +145,67 @@ public class ProfileFragment extends MvpFragment<ProfileView, ProfilePresenter> 
 	}
 	
 	@Override
-	public void showProgressBar(ProgressDialog progressDialog, String tag) {
-		FragmentManager manager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-		FragmentTransaction transaction = manager.beginTransaction();
+	public void showProgressBar(final ProgressDialog progressDialog, final String tag) {
+		final FragmentManager manager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+		final FragmentTransaction transaction = manager.beginTransaction();
 		progressDialog.show(transaction, tag);
 	}
 	
 	@Override
-	public void hideProgressBar(ProgressDialog progressDialog) {
+	public void hideProgressBar(final ProgressDialog progressDialog) {
 		progressDialog.dismiss();
 	}
 }
 
 class CustomTextWatcher implements TextWatcher {
 	
-	private ProfilePresenter presenter;
-	private int editTextType;
+	private final ProfilePresenter mProfilePresenter;
+	private final int mEditTextType;
 	
 	
-	CustomTextWatcher(ProfilePresenter presenter, int editTextType) {
-		this.presenter = presenter;
-		this.editTextType = editTextType;
+	CustomTextWatcher(final ProfilePresenter presenter, final int editTextType) {
+		mProfilePresenter = presenter;
+		mEditTextType = editTextType;
 	}
 	
 	@Override
-	public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+	public void beforeTextChanged(
+		final CharSequence charSequence,
+		final int i,
+		final int i1,
+		final int i2
+	) {
 	
 	}
 	
 	@Override
-	public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+	public void onTextChanged(
+		final CharSequence charSequence,
+		final int i,
+		final int i1,
+		final int i2
+	) {
 	
 	}
 	
 	
 	@Override
-	public void afterTextChanged(Editable editable) {
-		presenter.fieldChanged(editable.toString(), editTextType);
+	public void afterTextChanged(final Editable editable) {
+		mProfilePresenter.fieldChanged(editable.toString(), mEditTextType);
 	}
 	
 }
 
 class ConfirmButtonListener implements Button.OnClickListener {
 	
-	private ProfilePresenter presenter;
+	private final ProfilePresenter mProfilePresenter;
 	
 	@Override
-	public void onClick(View view) {
-		presenter.onConfirmButtonClicked();
+	public void onClick(final View view) {
+		mProfilePresenter.onConfirmButtonClicked();
 	}
 	
-	ConfirmButtonListener(ProfilePresenter presenter) {
-		this.presenter = presenter;
+	ConfirmButtonListener(final ProfilePresenter presenter) {
+		mProfilePresenter = presenter;
 	}
 }
