@@ -67,9 +67,9 @@ public class RegistrationPresenter extends MvpBasePresenter<RegistrationView> {
 			ifViewAttached(view -> view.showProgressBar(
 				progressDialog = new ProgressDialog(),
 				PROGRESS_DIALOG_FRAGMENT));
-			new android.os.Handler().postDelayed(() -> registrationModel.signUp(token -> {
+			new android.os.Handler().postDelayed(() -> RegistrationModel.signUp(token -> {
 				if (token.equals(REGISTRATION_ERROR)) {
-					ifViewAttached(view -> registrationModel.signIn(authToken -> {
+					ifViewAttached(view -> RegistrationModel.signIn(authToken -> {
 						if (authToken.equals(AUTH_ERROR)) {
 							view.hideProgressBar(progressDialog);
 							view.showAuthError("Неверный пароль :(");
@@ -86,7 +86,7 @@ public class RegistrationPresenter extends MvpBasePresenter<RegistrationView> {
 	}
 	
 	private void onSuccess(String token) {
-		registrationModel.getProfileInfo(profileData -> {
+		RegistrationModel.getProfileInfo(profileData -> {
 			registrationModel.saveSessionData(
 				profileData.getToken(),
 				profileData.getPhone(),

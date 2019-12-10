@@ -26,84 +26,86 @@ import static com.example.user.sportify.ui.utils.Constants.PHONE_EDIT_TEXT;
 @SuppressLint("ValidFragment")
 public class AlertRegistrationDialog {
 	
-	private Context context;
-	private AlertDialog firstDialog;
-	private AlertDialog secondDialog;
-	private LayoutInflater inflater;
-	private AlertDialog.Builder mBuilder;
-	private TextInputLayout popRegPhoneInput;
-	private TextInputLayout popRegPasswordInput;
-	private TextInputLayout popRegNameInput;
-	private FeedPresenter presenter;
+	private final Context mContext;
+	private AlertDialog mFirstDialog;
+	private AlertDialog mSecondDialog;
+	private final LayoutInflater mInflater;
+	private final AlertDialog.Builder mBuilder;
+	private TextInputLayout mPopRegPhoneInput;
+	private TextInputLayout mPopRegPasswordInput;
+	private TextInputLayout mPopRegNameInput;
+	private final FeedPresenter mFeedPresenter;
 	
 	
-	public AlertRegistrationDialog(Context context, FeedPresenter presenter) {
-		this.context = context;
-		this.presenter = presenter;
+	public AlertRegistrationDialog(final Context context, final FeedPresenter feedPresenter) {
+		this.mContext = context;
+		this.mFeedPresenter = feedPresenter;
 		
-		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mBuilder = new AlertDialog.Builder(context);
 	}
 	
 	public void showFirstDialog() {
 		
-		assert inflater != null;
-		View view = inflater.inflate(R.layout.authorization_first_layout, null);
-		Button firstReadyButton = view.findViewById(R.id.first_ready_button);
+		assert mInflater != null;
+		final View view = mInflater.inflate(R.layout.authorization_first_layout, null);
+		final Button firstReadyButton = view.findViewById(R.id.first_ready_button);
 		
-		EditText phone = view.findViewById(R.id.pop_reg_phone);
-		EditText name = view.findViewById(R.id.pop_reg_name);
-		phone.addTextChangedListener(new CustomDialogTextWatcher(presenter, PHONE_EDIT_TEXT));
-		name.addTextChangedListener(new CustomDialogTextWatcher(presenter, NAME_EDIT_TEXT));
+		final EditText phone = view.findViewById(R.id.pop_reg_phone);
+		final EditText name = view.findViewById(R.id.pop_reg_name);
+		phone.addTextChangedListener(new CustomDialogTextWatcher(mFeedPresenter, PHONE_EDIT_TEXT));
+		name.addTextChangedListener(new CustomDialogTextWatcher(mFeedPresenter, NAME_EDIT_TEXT));
 		
-		popRegPhoneInput = view.findViewById(R.id.pop_reg_phone_input);
-		popRegNameInput = view.findViewById(R.id.pop_reg_name_input);
+		mPopRegPhoneInput = view.findViewById(R.id.pop_reg_phone_input);
+		mPopRegNameInput = view.findViewById(R.id.pop_reg_name_input);
 		
 		ButterKnife.bind(this, view);
-		firstReadyButton.setOnClickListener(new FirstReadyButtonClickListener(presenter));
+		firstReadyButton.setOnClickListener(new FirstReadyButtonClickListener(mFeedPresenter));
 		mBuilder.setView(view);
-		firstDialog = mBuilder.create();
-		firstDialog.show();
+		mFirstDialog = mBuilder.create();
+		mFirstDialog.show();
 	}
 	
 	public void finishFirstDialog() {
-		firstDialog.dismiss();
+		mFirstDialog.dismiss();
 	}
 	
 	
 	public void showSecondDialog() {
-		assert inflater != null;
-		View view = inflater.inflate(R.layout.authorization_second_layout, null);
-		popRegPasswordInput = view.findViewById(R.id.pop_reg_password_input);
-		EditText password = view.findViewById(R.id.pop_reg_password);
-		password.addTextChangedListener(new CustomDialogTextWatcher(presenter, PASSWORD_EDIT_TEXT));
+		assert mInflater != null;
+		final View view = mInflater.inflate(R.layout.authorization_second_layout, null);
+		mPopRegPasswordInput = view.findViewById(R.id.pop_reg_password_input);
+		final EditText password = view.findViewById(R.id.pop_reg_password);
+		password.addTextChangedListener(new CustomDialogTextWatcher(
+			mFeedPresenter,
+			PASSWORD_EDIT_TEXT));
 		
-		Button secondReadyButton = view.findViewById(R.id.second_ready_button);
-		secondReadyButton.setOnClickListener(new SecondReadyButtonClickListener(presenter));
+		final Button secondReadyButton = view.findViewById(R.id.second_ready_button);
+		secondReadyButton.setOnClickListener(new SecondReadyButtonClickListener(mFeedPresenter));
 		mBuilder.setView(view);
-		secondDialog = mBuilder.create();
-		secondDialog.show();
+		mSecondDialog = mBuilder.create();
+		mSecondDialog.show();
 	}
 	
 	public void finishSecondDialog() {
-		secondDialog.dismiss();
+		mSecondDialog.dismiss();
 	}
 	
 	
 	public void setPasswordError() {
-		popRegPasswordInput.setErrorEnabled(true);
-		popRegPasswordInput.setError(context.getResources().getString(R.string.password_validation_error));
+		mPopRegPasswordInput.setErrorEnabled(true);
+		mPopRegPasswordInput.setError(mContext.getResources().getString(R.string.password_validation_error));
 	}
 	
 	public void setNameError() {
-		popRegNameInput.setErrorEnabled(true);
-		popRegNameInput.setError(context.getResources().getString(R.string.name_validation_error));
+		mPopRegNameInput.setErrorEnabled(true);
+		mPopRegNameInput.setError(mContext.getResources().getString(R.string.name_validation_error));
 		
 	}
 	
 	public void setPhoneError() {
-		popRegPhoneInput.setErrorEnabled(true);
-		popRegPhoneInput.setError(context.getResources().getString(R.string.phone_validation_error));
+		mPopRegPhoneInput.setErrorEnabled(true);
+		mPopRegPhoneInput.setError(mContext.getResources().getString(R.string.phone_validation_error));
 	}
 	
 	
@@ -111,57 +113,67 @@ public class AlertRegistrationDialog {
 
 class FirstReadyButtonClickListener implements View.OnClickListener {
 	
-	private FeedPresenter presenter;
+	private final FeedPresenter mFeedPresenter;
 	
-	FirstReadyButtonClickListener(FeedPresenter presenter) {
-		this.presenter = presenter;
+	FirstReadyButtonClickListener(final FeedPresenter presenter) {
+		mFeedPresenter = presenter;
 	}
 	
 	@Override
-	public void onClick(View view) {
-		presenter.onFirstReadyButtonClicked();
+	public void onClick(final View view) {
+		mFeedPresenter.onFirstReadyButtonClicked();
 	}
 }
 
 class SecondReadyButtonClickListener implements View.OnClickListener {
 	
-	private FeedPresenter presenter;
+	private final FeedPresenter mFeedPresenter;
 	
-	SecondReadyButtonClickListener(FeedPresenter presenter) {
-		this.presenter = presenter;
+	SecondReadyButtonClickListener(final FeedPresenter presenter) {
+		mFeedPresenter = presenter;
 	}
 	
 	@Override
-	public void onClick(View view) {
-		presenter.onSecondReadyButtonClicked();
+	public void onClick(final View view) {
+		mFeedPresenter.onSecondReadyButtonClicked();
 	}
 }
 
 class CustomDialogTextWatcher implements TextWatcher {
 	
-	private FeedPresenter presenter;
-	private int editTextType;
+	private final FeedPresenter mFeedPresenter;
+	private final int mEditTextType;
 	
 	
-	CustomDialogTextWatcher(FeedPresenter presenter, int editTextType) {
-		this.presenter = presenter;
-		this.editTextType = editTextType;
+	CustomDialogTextWatcher(final FeedPresenter presenter, final int editTextType) {
+		mFeedPresenter = presenter;
+		mEditTextType = editTextType;
 	}
 	
 	@Override
-	public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+	public void beforeTextChanged(
+		final CharSequence charSequence,
+		final int i,
+		final int i1,
+		final int i2
+	) {
 	
 	}
 	
 	@Override
-	public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+	public void onTextChanged(
+		final CharSequence charSequence,
+		final int i,
+		final int i1,
+		final int i2
+	) {
 	
 	}
 	
 	
 	@Override
-	public void afterTextChanged(Editable editable) {
-		presenter.fieldChanged(editable.toString(), editTextType);
+	public void afterTextChanged(final Editable editable) {
+		mFeedPresenter.fieldChanged(editable.toString(), mEditTextType);
 	}
 	
 }

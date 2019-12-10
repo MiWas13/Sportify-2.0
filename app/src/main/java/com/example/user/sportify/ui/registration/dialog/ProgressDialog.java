@@ -22,9 +22,9 @@ public class ProgressDialog extends DialogFragment {
 	@Nullable
 	@Override
 	public View onCreateView(
-		@NonNull LayoutInflater inflater,
-		@Nullable ViewGroup container,
-		@Nullable Bundle savedInstanceState
+		@NonNull final LayoutInflater inflater,
+		@Nullable final ViewGroup container,
+		@Nullable final Bundle savedInstanceState
 	) {
 		Objects.requireNonNull(getDialog().getWindow()).setBackgroundDrawable(new ColorDrawable(
 			Color.TRANSPARENT));

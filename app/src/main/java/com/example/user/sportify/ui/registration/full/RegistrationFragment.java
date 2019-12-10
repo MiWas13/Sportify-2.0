@@ -71,11 +71,11 @@ public class RegistrationFragment extends MvpFragment<RegistrationView, Registra
 	@Nullable
 	@Override
 	public View onCreateView(
-		@NonNull LayoutInflater inflater,
-		@Nullable ViewGroup container,
-		@Nullable Bundle savedInstanceState
+		@NonNull final LayoutInflater inflater,
+		@Nullable final ViewGroup container,
+		@Nullable final Bundle savedInstanceState
 	) {
-		View view = inflater.inflate(R.layout.registration_layout, null);
+		final View view = inflater.inflate(R.layout.registration_layout, null);
 		ButterKnife.bind(this, view);
 		profileName.addTextChangedListener(new CustomTextWatcher(presenter, NAME_EDIT_TEXT));
 		profilePassword.addTextChangedListener(new CustomTextWatcher(
@@ -112,30 +112,30 @@ public class RegistrationFragment extends MvpFragment<RegistrationView, Registra
 	}
 	
 	@Override
-	public void showProgressBar(ProgressDialog progressDialog, String tag) {
-		FragmentManager manager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-		FragmentTransaction transaction = manager.beginTransaction();
+	public void showProgressBar(final ProgressDialog progressDialog, final String tag) {
+		final FragmentManager manager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+		final FragmentTransaction transaction = manager.beginTransaction();
 		progressDialog.show(transaction, tag);
 	}
 	
 	@Override
-	public void hideProgressBar(ProgressDialog progressDialog) {
+	public void hideProgressBar(final ProgressDialog progressDialog) {
 		progressDialog.dismiss();
 	}
 	
 	@Override
-	public void changeScreen(Fragment fragment) {
+	public void changeScreen(final Fragment fragment) {
 		Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().setCustomAnimations(
 			R.animator.slide_in_left,
 			R.animator.slide_in_right).replace(R.id.main_frame_layout, fragment).commit();
 	}
 	
 	@Override
-	public void showAuthError(String message) {
-		ConstraintLayout constraintLayout = Objects.requireNonNull(getActivity()).findViewById(R.id.reg_layout);
-		TSnackbar snackbar = TSnackbar.make(constraintLayout, message, Snackbar.LENGTH_LONG);
-		View snackbarView = snackbar.getView();
-		TextView textView = snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
+	public void showAuthError(final String message) {
+		final ConstraintLayout constraintLayout = Objects.requireNonNull(getActivity()).findViewById(R.id.reg_layout);
+		final TSnackbar snackbar = TSnackbar.make(constraintLayout, message, TSnackbar.LENGTH_LONG);
+		final View snackbarView = snackbar.getView();
+		final TextView textView = snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
 		textView.setTextColor(getResources().getColor(R.color.colorPrimary));
 		snackbar.show();
 	}
@@ -143,29 +143,29 @@ public class RegistrationFragment extends MvpFragment<RegistrationView, Registra
 
 class CustomTextWatcher implements TextWatcher {
 	
-	private RegistrationPresenter presenter;
-	private int editTextType;
+	private final RegistrationPresenter mRegistrationPresenter;
+	private final int mEditTextType;
 	
 	
-	CustomTextWatcher(RegistrationPresenter presenter, int editTextType) {
-		this.presenter = presenter;
-		this.editTextType = editTextType;
+	CustomTextWatcher(final RegistrationPresenter presenter, final int editTextType) {
+		mRegistrationPresenter = presenter;
+		mEditTextType = editTextType;
 	}
 	
 	@Override
-	public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+	public void beforeTextChanged(final CharSequence charSequence, final int i, final int i1, final int i2) {
 	
 	}
 	
 	@Override
-	public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+	public void onTextChanged(final CharSequence charSequence, final int i, final int i1, final int i2) {
 	
 	}
 	
 	
 	@Override
-	public void afterTextChanged(Editable editable) {
-		presenter.fieldChanged(editable.toString(), editTextType);
+	public void afterTextChanged(final Editable editable) {
+		mRegistrationPresenter.fieldChanged(editable.toString(), mEditTextType);
 	}
 	
 }
@@ -173,15 +173,15 @@ class CustomTextWatcher implements TextWatcher {
 
 class ConfirmButtonListener implements Button.OnClickListener {
 	
-	private RegistrationPresenter presenter;
+	private final RegistrationPresenter mRegistrationPresenter;
 	
 	@Override
-	public void onClick(View view) {
-		presenter.onConfirmButtonClicked();
+	public void onClick(final View view) {
+		mRegistrationPresenter.onConfirmButtonClicked();
 	}
 	
-	ConfirmButtonListener(RegistrationPresenter presenter) {
-		this.presenter = presenter;
+	ConfirmButtonListener(final RegistrationPresenter presenter) {
+		mRegistrationPresenter = presenter;
 	}
 }
 

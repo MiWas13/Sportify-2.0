@@ -24,25 +24,25 @@ import static com.example.user.sportify.ui.utils.Constants.REGISTRATION_ERROR;
 public class RegistrationModel {
 	
 	private AuthSessionManager authSessionManager;
-	private SessionComponent daggerSessionComponent;
+	private final SessionComponent mDaggerSessionComponent;
 	
 	
 	private void initDatabase() {
-		authSessionManager = daggerSessionComponent.getAuthSessionManager();
+		authSessionManager = mDaggerSessionComponent.getAuthSessionManager();
 	}
 	
 	public void saveSessionData(
-		String authToken,
-		String phone,
-		String password,
-		String userId,
-		String name
+		final String authToken,
+		final String phone,
+		final String password,
+		final String userId,
+		final String name
 	) {
 		authSessionManager.saveSessionData(authToken, phone, password, userId, name);
 	}
 	
-	public RegistrationModel(SessionComponent daggerSessionComponent) {
-		this.daggerSessionComponent = daggerSessionComponent;
+	public RegistrationModel(final SessionComponent daggerSessionComponent) {
+		mDaggerSessionComponent = daggerSessionComponent;
 		initDatabase();
 	}
 	
@@ -50,52 +50,59 @@ public class RegistrationModel {
 		return authSessionManager.getSessionData();
 	}
 	
-	public void signUp(
-		SingCallback callback,
-		String name,
-		String age,
-		String phone,
-		String password
+	public static void signUp(
+		final SingCallback callback,
+		final String name,
+		final String age,
+		final String phone,
+		final String password
 	) {
-		SignUpTask signUpTask = new SignUpTask(callback, name, age, phone, password);
+		final SignUpTask signUpTask = new SignUpTask(callback, name, age, phone, password);
 		signUpTask.execute();
 	}
 	
-	public void signIn(SingCallback callback, String phone, String password) {
-		TryToSignIn tryToSignIn = new TryToSignIn(callback, phone, password);
+	public static void signIn(
+		final SingCallback callback,
+		final String phone,
+		final String password
+	) {
+		final TryToSignIn tryToSignIn = new TryToSignIn(callback, phone, password);
 		tryToSignIn.execute();
 	}
 	
-	public void getProfileInfo(ProfileDataCallback callback, String token) {
-		ProfileTask profileTask = new ProfileTask(callback, token);
+	public static void getProfileInfo(final ProfileDataCallback callback, final String token) {
+		final ProfileTask profileTask = new ProfileTask(callback, token);
 		profileTask.execute();
 	}
 	
-	private Call<BaseServerAnswer<DataUserToken>> callBaseDataUserTokenApi(
-		String name,
-		String age,
-		String phone,
-		String password
+	private static Call<BaseServerAnswer<DataUserToken>> callBaseDataUserTokenApi(
+		final String name,
+		final String age,
+		final String phone,
+		final String password
 	) {
 		return AppBase.getBaseService().signUp(name, age, phone, password);
 	}
 	
-	private Call<BaseServerAnswer<DataUserToken>> callBaseSingInApi(String phone, String password) {
+	private static Call<BaseServerAnswer<DataUserToken>> callBaseSingInApi(
+		final String phone,
+		final String password
+	) {
 		return AppBase.getBaseService().signIn(phone, password);
 	}
 	
-	private Call<BaseServerAnswer<ProfileData>> callBaseDataProfileApi(String token) {
+	private static Call<BaseServerAnswer<ProfileData>> callBaseDataProfileApi(final String token) {
 		return AppBase.getBaseService().getProfile(token);
 	}
 	
-	private DataUserToken fetchDataUserTokenResults(Response<BaseServerAnswer<DataUserToken>> response) {
-		BaseServerAnswer<DataUserToken> baseDataUserTokenApi = response.body();
+	private static DataUserToken fetchDataUserTokenResults(final Response<BaseServerAnswer<DataUserToken>> response) {
+		final BaseServerAnswer<DataUserToken> baseDataUserTokenApi = response.body();
 		assert baseDataUserTokenApi != null;
 		return baseDataUserTokenApi.getMessage();
 	}
 	
-	private ProfileData fetchProfileDataResults(Response<BaseServerAnswer<ProfileData>> response) {
-		BaseServerAnswer<ProfileData> baseProfileDataApi = response.body();
+	private static ProfileData fetchProfileDataResults(final Response<BaseServerAnswer<ProfileData>> response) {
+		final BaseServerAnswer<ProfileData> baseProfileDataApi = response.body();
 		if (baseProfileDataApi != null) {
 			return baseProfileDataApi.getMessage();
 		} else {
@@ -114,48 +121,57 @@ public class RegistrationModel {
 		void onSendProfileData(ProfileData profileData);
 	}
 	
-	class SignUpTask extends AsyncTask<Void, Void, Void> {
+	static class SignUpTask extends AsyncTask<Void, Void, Void> {
 		
-		private final SingCallback callback;
-		private String name, age, phone, password;
+		private final SingCallback mSingCallback;
+		private final String mName;
+		private final String mAge;
+		private final String mPhone;
+		private final String mPassword;
 		
-		SignUpTask(SingCallback callback, String name, String age, String phone, String password) {
-			this.callback = callback;
-			this.name = name;
-			this.age = age;
-			this.phone = phone;
-			this.password = password;
+		private SignUpTask(
+			final SingCallback callback,
+			final String name,
+			final String age,
+			final String phone,
+			final String password
+		) {
+			mSingCallback = callback;
+			mName = name;
+			mAge = age;
+			mPhone = phone;
+			mPassword = password;
 		}
 		
 		@Override
-		protected Void doInBackground(Void... params) {
+		protected Void doInBackground(final Void... params) {
 			callBaseDataUserTokenApi(
-				name,
-				age,
-				phone,
-				password).enqueue(new Callback<BaseServerAnswer<DataUserToken>>() {
+				mName,
+				mAge,
+				mPhone,
+				mPassword).enqueue(new Callback<BaseServerAnswer<DataUserToken>>() {
 				
 				@Override
 				public void onResponse(
-					@NonNull Call<BaseServerAnswer<DataUserToken>> call,
-					@NonNull Response<BaseServerAnswer<DataUserToken>> response
+					@NonNull final Call<BaseServerAnswer<DataUserToken>> call,
+					@NonNull final Response<BaseServerAnswer<DataUserToken>> response
 				) {
 					if (response.isSuccessful()) {
-						String token = fetchDataUserTokenResults(response).getToken();
-						if (callback != null) {
-							callback.onSendToken(token);
+						final String token = fetchDataUserTokenResults(response).getToken();
+						if (mSingCallback != null) {
+							mSingCallback.onSendToken(token);
 						}
 					} else {
-						if (callback != null) {
-							callback.onSendToken(REGISTRATION_ERROR);
+						if (mSingCallback != null) {
+							mSingCallback.onSendToken(REGISTRATION_ERROR);
 						}
 					}
 				}
 				
 				@Override
 				public void onFailure(
-					@NonNull Call<BaseServerAnswer<DataUserToken>> call,
-					@NonNull Throwable t
+					@NonNull final Call<BaseServerAnswer<DataUserToken>> call,
+					@NonNull final Throwable t
 				) {
 				
 				}
@@ -164,41 +180,41 @@ public class RegistrationModel {
 		}
 		
 		@Override
-		protected void onPostExecute(Void aVoid) {
+		protected void onPostExecute(final Void aVoid) {
 			super.onPostExecute(aVoid);
 		}
 	}
 	
 	
-	class ProfileTask extends AsyncTask<Void, Void, Void> {
+	static class ProfileTask extends AsyncTask<Void, Void, Void> {
 		
-		private final ProfileDataCallback callback;
-		private String token;
+		private final ProfileDataCallback mProfileDataCallback;
+		private final String mToken;
 		
-		ProfileTask(ProfileDataCallback callback, String token) {
-			this.callback = callback;
-			this.token = token;
+		private ProfileTask(final ProfileDataCallback callback, final String token) {
+			mProfileDataCallback = callback;
+			mToken = token;
 		}
 		
 		@Override
-		protected Void doInBackground(Void... params) {
-			callBaseDataProfileApi(token).enqueue(new Callback<BaseServerAnswer<ProfileData>>() {
+		protected Void doInBackground(final Void... params) {
+			callBaseDataProfileApi(mToken).enqueue(new Callback<BaseServerAnswer<ProfileData>>() {
 				
 				@Override
 				public void onResponse(
-					@NonNull Call<BaseServerAnswer<ProfileData>> call,
-					@NonNull Response<BaseServerAnswer<ProfileData>> response
+					@NonNull final Call<BaseServerAnswer<ProfileData>> call,
+					@NonNull final Response<BaseServerAnswer<ProfileData>> response
 				) {
-					ProfileData profileData = fetchProfileDataResults(response);
-					if (callback != null) {
-						callback.onSendProfileData(profileData);
+					final ProfileData profileData = fetchProfileDataResults(response);
+					if (mProfileDataCallback != null) {
+						mProfileDataCallback.onSendProfileData(profileData);
 					}
 				}
 				
 				@Override
 				public void onFailure(
-					@NonNull Call<BaseServerAnswer<ProfileData>> call,
-					@NonNull Throwable t
+					@NonNull final Call<BaseServerAnswer<ProfileData>> call,
+					@NonNull final Throwable t
 				) {
 				
 				}
@@ -207,55 +223,59 @@ public class RegistrationModel {
 		}
 		
 		@Override
-		protected void onPostExecute(Void aVoid) {
+		protected void onPostExecute(final Void aVoid) {
 			super.onPostExecute(aVoid);
 		}
 	}
 	
-	class TryToSignIn extends AsyncTask<Void, Void, Void> {
+	static class TryToSignIn extends AsyncTask<Void, Void, Void> {
 		
-		private String phone;
-		private String password;
-		private SingCallback callback;
+		private final String mPhone;
+		private final String mPassword;
+		private final SingCallback mSingCallback;
 		
-		TryToSignIn(SingCallback callback, String phone, String password) {
-			this.phone = phone;
-			this.password = password;
-			this.callback = callback;
+		private TryToSignIn(
+			final SingCallback callback,
+			final String phone,
+			final String password
+		) {
+			mPhone = phone;
+			mPassword = password;
+			mSingCallback = callback;
 		}
 		
 		
 		@Override
-		protected Void doInBackground(Void... voids) {
+		protected Void doInBackground(final Void... voids) {
 			
 			callBaseSingInApi(
-				phone,
-				password).enqueue(new Callback<BaseServerAnswer<DataUserToken>>() {
+				mPhone,
+				mPassword).enqueue(new Callback<BaseServerAnswer<DataUserToken>>() {
 				
 				@Override
 				public void onResponse(
-					@NonNull Call<BaseServerAnswer<DataUserToken>> call,
-					@NonNull Response<BaseServerAnswer<DataUserToken>> response
+					@NonNull final Call<BaseServerAnswer<DataUserToken>> call,
+					@NonNull final Response<BaseServerAnswer<DataUserToken>> response
 				) {
 					if (response.isSuccessful()) {
-						String token = fetchDataUserTokenResults(response).getToken();
+						final String token = fetchDataUserTokenResults(response).getToken();
 						if (token != null) {
-							callback.onSendToken(token);
+							mSingCallback.onSendToken(token);
 						} else {
-							callback.onSendToken(AUTH_ERROR);
+							mSingCallback.onSendToken(AUTH_ERROR);
 						}
 						
 					} else {
-						callback.onSendToken(AUTH_ERROR);
+						mSingCallback.onSendToken(AUTH_ERROR);
 					}
 				}
 				
 				@Override
 				public void onFailure(
-					@NonNull Call<BaseServerAnswer<DataUserToken>> call,
-					@NonNull Throwable t
+					@NonNull final Call<BaseServerAnswer<DataUserToken>> call,
+					@NonNull final Throwable t
 				) {
-					callback.onSendToken(AUTH_ERROR);
+					mSingCallback.onSendToken(AUTH_ERROR);
 				}
 			});
 			return null;

@@ -278,7 +278,7 @@ public class FeedPresenter extends MvpBasePresenter<FeedView> {
 	}
 	
 	private void onSuccess(final String token) {
-		mRegistrationModel.getProfileInfo(profileData -> {
+		RegistrationModel.getProfileInfo(profileData -> {
 			mRegistrationModel.saveSessionData(
 				profileData.getToken(),
 				profileData.getPhone(),
@@ -315,12 +315,12 @@ public class FeedPresenter extends MvpBasePresenter<FeedView> {
 		}
 		
 		if (!mHasErrors && checkPhone()) {
-			mRegistrationModel.signUp(token -> {
+			RegistrationModel.signUp(token -> {
 				ifViewAttached(view -> view.showProgressBar(
 					mProgressDialog = new ProgressDialog(),
 					PROGRESS_DIALOG_FRAGMENT));
 				if (token.equals(REGISTRATION_ERROR)) {
-					ifViewAttached(view -> mRegistrationModel.signIn(authToken -> {
+					ifViewAttached(view -> RegistrationModel.signIn(authToken -> {
 						if (authToken.equals(AUTH_ERROR)) {
 							view.hideProgressBar(mProgressDialog);
 							view.showAuthError("Неверный пароль :(");
